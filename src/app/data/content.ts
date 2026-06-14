@@ -33,6 +33,13 @@ export const journeyMilestones = [
     note: "Ranked 2nd",
     discipline: "security",
   },
+    {
+    id: "m3",
+    year: "2025",
+    title: "HackerTroupe",
+    note: "Team founded",
+    discipline: "security",
+  },
 ];
 
 export const currentFocus = [

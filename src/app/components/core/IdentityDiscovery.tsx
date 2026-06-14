@@ -28,7 +28,7 @@ const identities = [
   },
   {
     id: "spy",
-    path: "/spyd-veloper",
+    path: "/spy",
     name: "Spy D. Veloper",
     archetype: "The Builder",
     motto: "Creating systems that move the future forward.",
@@ -47,7 +47,7 @@ const identities = [
   },
   {
     id: "cyb3r",
-    path: "/cyb3r-bo1",
+    path: "/cyb3r",
     name: "CYB3R-BO1",
     archetype: "The Researcher",
     motto: "Security begins with understanding.",
