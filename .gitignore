@@ -31,3 +31,6 @@ pnpm-debug.log*
 # Misc
 .cache/
 *.log
+
+docs/superpowers
+CLAUDE.md

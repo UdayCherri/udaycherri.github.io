@@ -35,7 +35,7 @@ function CategoryCover({ category, coverColor }: { category: string; coverColor:
     return (
       <div style={baseStyle} className="yk-card-cover">
         <img
-          src="/assets/images/nyxbureau-logo.png"
+          src="/images/nyxbureau-logo.png"
           alt="NYX Bureau"
           style={{ maxWidth: "55%", maxHeight: "55%", objectFit: "contain", position: "relative", zIndex: 1 }}
         />

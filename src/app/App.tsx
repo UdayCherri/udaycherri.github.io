@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Outlet, useLocation } from "react-router";
+import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation, useParams } from "react-router";
 import { useEffect, useState } from "react";
 
 // Theme
@@ -28,6 +28,7 @@ import SpyProjects from "./pages/spy/SpyProjects";
 import SpySystems from "./pages/spy/SpySystems";
 import SpyExperiments from "./pages/spy/SpyExperiments";
 import SpyOpenSource from "./pages/spy/SpyOpenSource";
+import SpyBlog from "./pages/spy/SpyBlog";
 import SpyContact from "./pages/spy/SpyContact";
 
 // CYB3R-BO1
@@ -41,6 +42,14 @@ import CyberContact from "./pages/cyb3r/CyberContact";
 
 // Shared
 import ProjectPage from "./pages/project/ProjectPage";
+import BlogPostPage from "./pages/blog/BlogPostPage";
+
+// Redirects legacy persona paths to their discipline path, preserving any subpath.
+// Child slugs are unchanged between old and new, so /spy/projects → /development/projects.
+function LegacyRedirect({ to }: { to: string }) {
+  const { "*": rest } = useParams();
+  return <Navigate to={rest ? `${to}/${rest}` : to} replace />;
+}
 
 // Core layout wrapper — provides ThemeContext for all Core routes
 function CoreLayout() {
@@ -90,8 +99,8 @@ function AppRoutes() {
         <Route path="/contact" element={<CoreContact />} />
       </Route>
 
-      {/* YuuKayCee */}
-      <Route path="/yuukaycee" element={<YuuKayCeeLayout />}>
+      {/* Design — YuuKayCee */}
+      <Route path="/design" element={<YuuKayCeeLayout />}>
         <Route index element={<YuuKayCeeHome />} />
         <Route path="work" element={<YuuKayCeeWork />} />
         <Route path="case-studies" element={<YuuKayCeeCaseStudies />} />
@@ -100,25 +109,33 @@ function AppRoutes() {
         <Route path="contact" element={<YuuKayCeeContact />} />
       </Route>
 
-      {/* Spy D. Veloper */}
-      <Route path="/spy" element={<SpyLayout />}>
+      {/* Development — Spy D. Veloper */}
+      <Route path="/development" element={<SpyLayout />}>
         <Route index element={<SpyHome />} />
         <Route path="projects" element={<SpyProjects />} />
         <Route path="systems" element={<SpySystems />} />
         <Route path="experiments" element={<SpyExperiments />} />
         <Route path="open-source" element={<SpyOpenSource />} />
+        <Route path="blog" element={<SpyBlog />} />
+        <Route path="blog/:slug" element={<BlogPostPage section="development" />} />
         <Route path="contact" element={<SpyContact />} />
       </Route>
 
-      {/* CYB3R-BO1 */}
-      <Route path="/cyb3r" element={<CyberLayout />}>
+      {/* Security — CYB3R-BO1 */}
+      <Route path="/security" element={<CyberLayout />}>
         <Route index element={<CyberHome />} />
         <Route path="research" element={<CyberResearch />} />
         <Route path="security-projects" element={<CyberSecurityProjects />} />
         <Route path="ctf-archive" element={<CyberCTF />} />
         <Route path="blog" element={<CyberBlog />} />
+        <Route path="blog/:slug" element={<BlogPostPage section="security" />} />
         <Route path="contact" element={<CyberContact />} />
       </Route>
+
+      {/* Legacy persona paths → discipline paths (subpaths preserved) */}
+      <Route path="/yuukaycee/*" element={<LegacyRedirect to="/design" />} />
+      <Route path="/spy/*" element={<LegacyRedirect to="/development" />} />
+      <Route path="/cyb3r/*" element={<LegacyRedirect to="/security" />} />
 
       {/* Project deep-dive */}
       <Route path="/project/:id" element={<ProjectPage />} />

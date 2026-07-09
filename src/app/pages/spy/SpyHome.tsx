@@ -63,7 +63,7 @@ function ProfileArea({ theme, mode }: { theme: ReturnType<typeof getIdentityThem
     >
       {/* Workspace photograph */}
       <motion.img
-        src="assets/images/spy-profile.png"
+        src="/images/spy-profile.png"
         alt="Engineering workspace"
         variants={{ hover: { scale: 1.04 } }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
@@ -260,7 +260,7 @@ export default function SpyHome() {
               style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}
             >
               <button
-                onClick={() => navigate("/spy/projects")}
+                onClick={() => navigate("/development/projects")}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -284,7 +284,7 @@ export default function SpyHome() {
                 <ArrowRight size={12} strokeWidth={2} />
               </button>
               <button
-                onClick={() => navigate("/spy/open-source")}
+                onClick={() => navigate("/development/open-source")}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -374,7 +374,7 @@ export default function SpyHome() {
               </h2>
             </div>
             <button
-              onClick={() => navigate("/spy/projects")}
+              onClick={() => navigate("/development/projects")}
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
                 fontSize: "0.65rem",

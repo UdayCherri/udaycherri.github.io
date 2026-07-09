@@ -8,12 +8,13 @@ import { getIdentityTheme } from "../../data/identityThemes";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { to: "/spy", label: "Home" },
-  { to: "/spy/projects", label: "Projects" },
-  { to: "/spy/systems", label: "Systems" },
-  { to: "/spy/experiments", label: "Experiments" },
-  { to: "/spy/open-source", label: "Open Source" },
-  { to: "/spy/contact", label: "Contact" },
+  { to: "/development", label: "Home" },
+  { to: "/development/projects", label: "Projects" },
+  { to: "/development/systems", label: "Systems" },
+  { to: "/development/experiments", label: "Experiments" },
+  { to: "/development/open-source", label: "Open Source" },
+  { to: "/development/blog", label: "Blog" },
+  { to: "/development/contact", label: "Contact" },
 ];
 
 function SpyLayoutInner() {
@@ -77,7 +78,7 @@ function SpyLayoutInner() {
         }}
       >
         <Link
-          to="/spy"
+          to="/development"
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
             fontSize: "0.95rem",

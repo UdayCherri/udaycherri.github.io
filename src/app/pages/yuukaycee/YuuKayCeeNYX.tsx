@@ -48,7 +48,7 @@ export default function YuuKayCeeNYX() {
             Creative Studio
           </motion.p>
           <motion.img
-            src="/assets/images/nyxbureau-logo.png"
+            src="/images/nyxbureau-logo.png"
             alt="NYX Bureau"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -108,7 +108,9 @@ export default function YuuKayCeeNYX() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: isMd ? "repeat(2, 1fr)" : "1fr",
+              gridTemplateColumns: isMd
+                ? `repeat(${Math.min(nyxBureau.services.length, 2)}, 1fr)`
+                : "1fr",
               gap: "1px",
               background: theme.borderSubtle,
             }}

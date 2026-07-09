@@ -137,7 +137,7 @@ export default function CoreHome() {
               }}
             >
               <img
-                src="assets/images/core-profile.jpg"
+                src="/images/core-profile.jpg"
                 alt="Professional founder portrait"
                 style={{
                   width: "100%",
@@ -174,7 +174,7 @@ export default function CoreHome() {
               {/* Name label */}
               <div style={{ position: "absolute", bottom: "1.25rem", left: "1.25rem" }}>
                 <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", color: theme.accent, marginBottom: "0.25rem", opacity: 0.8 }}>
-                  The Nexus
+                  The Core
                 </p>
                 <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", fontWeight: 400, color: mode === "dark" ? "rgba(237,232,222,0.95)" : "rgba(28,28,28,0.9)" }}>
                   Uday Cherri

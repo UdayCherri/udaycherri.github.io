@@ -8,12 +8,12 @@ import { getIdentityTheme } from "../../data/identityThemes";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { to: "/cyb3r", label: "Home" },
-  { to: "/cyb3r/research", label: "Research" },
-  { to: "/cyb3r/security-projects", label: "Projects" },
-  { to: "/cyb3r/ctf-archive", label: "CTF" },
-  { to: "/cyb3r/blog", label: "Blog" },
-  { to: "/cyb3r/contact", label: "Contact" },
+  { to: "/security", label: "Home" },
+  { to: "/security/research", label: "Research" },
+  { to: "/security/security-projects", label: "Projects" },
+  { to: "/security/ctf-archive", label: "CTF" },
+  { to: "/security/blog", label: "Blog" },
+  { to: "/security/contact", label: "Contact" },
 ];
 
 function CyberLayoutInner() {
@@ -112,7 +112,7 @@ function CyberLayoutInner() {
           }}
         >
           <Link
-            to="/cyb3r"
+            to="/security"
             style={{
               fontFamily: "'IBM Plex Mono', monospace",
               fontSize: "0.9rem",

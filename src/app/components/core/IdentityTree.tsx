@@ -5,7 +5,7 @@ import { useIsMd } from "../shared/useMediaQuery";
 const identities = [
   {
     id: "yuukaycee",
-    path: "/yuukaycee",
+    path: "/design",
     name: "YuuKayCee",
     role: "The Prism",
     discipline: "Design",
@@ -14,7 +14,7 @@ const identities = [
   },
   {
     id: "spy",
-    path: "/spy",
+    path: "/development",
     name: "Spy D. Veloper",
     role: "The Builder",
     discipline: "Development",
@@ -23,7 +23,7 @@ const identities = [
   },
   {
     id: "cyb3r",
-    path: "/cyb3r",
+    path: "/security",
     name: "CYB3R-BO1",
     role: "The Researcher",
     discipline: "Security",

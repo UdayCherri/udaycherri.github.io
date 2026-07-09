@@ -52,10 +52,10 @@ export function PhilosophySection() {
               letterSpacing: "-0.01em",
             }}
           >
-            Carpe diem. 
+            Carpe diem.
             <br />
             <span style={{ color: theme.fgMuted, fontStyle: "italic" }}>
-               Seize the day.
+              Seize the day.
             </span>
           </motion.p>
         </div>

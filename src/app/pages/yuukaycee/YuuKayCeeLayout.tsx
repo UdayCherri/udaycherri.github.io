@@ -9,12 +9,12 @@ import { getIdentityTheme } from "../../data/identityThemes";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { to: "/yuukaycee", label: "Home" },
-  { to: "/yuukaycee/work", label: "Work" },
-  { to: "/yuukaycee/case-studies", label: "Case Studies" },
-  { to: "/yuukaycee/nyx-bureau", label: "NYX Bureau" },
-  { to: "/yuukaycee/archive", label: "Archive" },
-  { to: "/yuukaycee/contact", label: "Contact" },
+  { to: "/design", label: "Home" },
+  { to: "/design/work", label: "Work" },
+  { to: "/design/case-studies", label: "Case Studies" },
+  { to: "/design/nyx-bureau", label: "NYX Bureau" },
+  { to: "/design/archive", label: "Archive" },
+  { to: "/design/contact", label: "Contact" },
 ];
 
 function YuuKayCeeLayoutInner() {
@@ -106,7 +106,7 @@ function YuuKayCeeLayoutInner() {
         }}
       >
         <Link
-          to="/yuukaycee"
+          to="/design"
           style={{
             fontFamily: "'Playfair Display', serif",
             fontSize: "1.1rem",

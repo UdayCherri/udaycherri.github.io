@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router";
 import { motion } from "motion/react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { yuukayceeProjects, spyProjects, cyberResearch, securityProjects } from "../../data/content";
 import type { Project } from "../../data/content";
 import { useIsDesktop } from "../../components/shared/useMediaQuery";
@@ -17,10 +17,10 @@ const allProjects: Project[] = [
     year: r.year,
     tags: r.tags,
     overview: r.summary,
-    problem: r.findings[0] || "",
-    approach: r.findings[1] || "",
+    problem: "",
+    approach: "",
     process: r.findings,
-    outcome: r.findings[r.findings.length - 1] || "",
+    outcome: "",
     lessons: "",
     featured: false,
     coverColor: r.coverColor,
@@ -34,10 +34,10 @@ const allProjects: Project[] = [
     year: p.year,
     tags: p.tags,
     overview: p.description,
-    problem: p.description,
-    approach: p.description,
-    process: [p.description],
-    outcome: p.description,
+    problem: "",
+    approach: "",
+    process: [],
+    outcome: "",
     lessons: "",
     featured: false,
     coverColor: p.coverColor,
@@ -55,7 +55,7 @@ const identityThemes = {
     bodyFont: "'DM Sans', sans-serif",
     monoFont: "'DM Sans', sans-serif",
     label: "YuuKayCee",
-    backPath: "/yuukaycee",
+    backPath: "/design",
   },
   spy: {
     bg: "#080C18",
@@ -67,7 +67,7 @@ const identityThemes = {
     bodyFont: "'Space Grotesk', sans-serif",
     monoFont: "'JetBrains Mono', monospace",
     label: "Spy D. Veloper",
-    backPath: "/spy",
+    backPath: "/development",
   },
   cyb3r: {
     bg: "#0F1318",
@@ -79,7 +79,7 @@ const identityThemes = {
     bodyFont: "'IBM Plex Sans', sans-serif",
     monoFont: "'IBM Plex Mono', monospace",
     label: "CYB3R-BO1",
-    backPath: "/cyb3r",
+    backPath: "/security",
   },
   core: {
     bg: "#F7F4EE",
@@ -214,11 +214,20 @@ export default function ProjectPage() {
           overflow: "hidden",
         }}
       >
+        {project.cover && (
+          <img
+            src={project.cover}
+            alt=""
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.55 }}
+          />
+        )}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: `radial-gradient(ellipse at 30% 40%, ${project.coverColor}20 0%, transparent 60%)`,
+            background: project.cover
+              ? `linear-gradient(to top, ${theme.bg} 0%, ${theme.bg}99 35%, transparent 100%)`
+              : `radial-gradient(ellipse at 30% 40%, ${project.coverColor}20 0%, transparent 60%)`,
           }}
         />
         <div style={{ maxWidth: "900px", position: "relative", zIndex: 1 }}>
@@ -293,6 +302,62 @@ export default function ProjectPage() {
               </span>
             ))}
           </motion.div>
+
+          {/* External links */}
+          {(project.github || project.website) && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginTop: "2rem" }}
+            >
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    fontFamily: theme.monoFont,
+                    fontSize: "0.7rem",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: theme.fg,
+                    textDecoration: "none",
+                    padding: "0.6rem 1.1rem",
+                    border: `1px solid ${theme.accent}`,
+                  }}
+                >
+                  Source <ArrowUpRight size={13} strokeWidth={1.5} />
+                </a>
+              )}
+              {project.website && (
+                <a
+                  href={project.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    fontFamily: theme.monoFont,
+                    fontSize: "0.7rem",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: theme.bg,
+                    background: theme.accent,
+                    textDecoration: "none",
+                    padding: "0.6rem 1.1rem",
+                    border: `1px solid ${theme.accent}`,
+                  }}
+                >
+                  Live <ArrowUpRight size={13} strokeWidth={1.5} />
+                </a>
+              )}
+            </motion.div>
+          )}
         </div>
       </motion.div>
 
@@ -334,6 +399,7 @@ export default function ProjectPage() {
         </section>
 
         {/* Problem */}
+        {project.problem && (
         <section style={{ padding: "6rem 0", borderBottom: `1px solid ${theme.border}` }}>
           <div
             style={{
@@ -371,8 +437,10 @@ export default function ProjectPage() {
             </motion.p>
           </div>
         </section>
+        )}
 
         {/* Approach */}
+        {project.approach && (
         <section style={{ padding: "6rem 0", borderBottom: `1px solid ${theme.border}` }}>
           <div
             style={{
@@ -410,8 +478,10 @@ export default function ProjectPage() {
             </motion.p>
           </div>
         </section>
+        )}
 
         {/* Process */}
+        {project.process.length > 0 && (
         <section style={{ padding: "6rem 0", borderBottom: `1px solid ${theme.border}` }}>
           <motion.p
             initial={{ opacity: 0 }}
@@ -502,8 +572,10 @@ export default function ProjectPage() {
             ))}
           </div>
         </section>
+        )}
 
         {/* Outcome */}
+        {project.outcome && (
         <section style={{ padding: "6rem 0", borderBottom: `1px solid ${theme.border}` }}>
           <div
             style={{
@@ -543,6 +615,7 @@ export default function ProjectPage() {
             </motion.p>
           </div>
         </section>
+        )}
 
         {/* Lessons */}
         {project.lessons && (

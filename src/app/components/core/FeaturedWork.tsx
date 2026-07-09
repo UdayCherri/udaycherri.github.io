@@ -22,7 +22,7 @@ function YuuKayCeeCover() {
       }}
     >
       <img
-        src="/assets/images/nyxbureau-logo.png"
+        src="/images/nyxbureau-logo.png"
         alt="NYX Bureau"
         style={{ maxWidth: "55%", maxHeight: "55%", objectFit: "contain", position: "relative", zIndex: 1 }}
       />

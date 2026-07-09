@@ -47,8 +47,8 @@ export default function SpyOpenSource() {
           {openSourceRepos.map((repo, i) => (
             <motion.a
               key={repo.name}
-              href={repo.url}
-              target="_blank"
+              href={repo.url === "#" ? undefined : repo.url}
+              target={repo.url === "#" ? undefined : "_blank"}
               rel="noopener noreferrer"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

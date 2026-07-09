@@ -95,7 +95,7 @@ export default function YuuKayCeeCaseStudies() {
                   }}
                 >
                   <img
-                    src="/assets/images/nyxbureau-logo.png"
+                    src="/images/nyxbureau-logo.png"
                     alt={project.title}
                     style={{ maxWidth: "70%", maxHeight: "70%", objectFit: "contain" }}
                   />

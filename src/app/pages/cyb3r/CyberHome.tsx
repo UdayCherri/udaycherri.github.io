@@ -49,7 +49,7 @@ function ProfileArea({ theme, mode }: { theme: ReturnType<typeof getIdentityThem
     >
       {/* Security researcher photograph */}
       <motion.img
-        src="assets/images/cyb3r-profile.png"
+        src="/images/cyb3r-profile.png"
         alt="Security researcher portrait"
         variants={{ hover: { scale: 1.04 } }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
@@ -201,7 +201,7 @@ export default function CyberHome() {
               style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}
             >
               <button
-                onClick={() => navigate("/cyb3r/research")}
+                onClick={() => navigate("/security/research")}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -223,7 +223,7 @@ export default function CyberHome() {
                 <ArrowRight size={12} strokeWidth={2} />
               </button>
               <button
-                onClick={() => navigate("/cyb3r/ctf-archive")}
+                onClick={() => navigate("/security/ctf-archive")}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -288,7 +288,9 @@ export default function CyberHome() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: isMd ? "repeat(3, 1fr)" : "1fr",
+              gridTemplateColumns: isMd
+                ? `repeat(${Math.min(cyberResearch.length, 3)}, 1fr)`
+                : "1fr",
               gap: "1px",
               background: `${theme.accent}0F`,
             }}
@@ -300,7 +302,7 @@ export default function CyberHome() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: i * 0.07 }}
-                onClick={() => navigate("/cyb3r/research")}
+                onClick={() => navigate("/security/research")}
                 style={{
                   padding: "2.5rem",
                   background: theme.bg,
@@ -443,7 +445,7 @@ export default function CyberHome() {
               SECURITY_TOOLS
             </p>
             <button
-              onClick={() => navigate("/cyb3r/security-projects")}
+              onClick={() => navigate("/security/security-projects")}
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontSize: "0.6rem",
@@ -466,7 +468,9 @@ export default function CyberHome() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: isMd ? "repeat(2, 1fr)" : "1fr",
+              gridTemplateColumns: isMd
+                ? `repeat(${Math.min(securityProjects.slice(0, 2).length, 2)}, 1fr)`
+                : "1fr",
               gap: "1px",
               background: `${theme.accent}0D`,
             }}
@@ -478,7 +482,7 @@ export default function CyberHome() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.08 }}
-                onClick={() => navigate("/cyb3r/security-projects")}
+                onClick={() => navigate("/security/security-projects")}
                 style={{
                   padding: "2.5rem",
                   background: theme.bg,

@@ -25,7 +25,7 @@ function PortraitHero({ theme, mode }: { theme: ReturnType<typeof getIdentityThe
     >
       {/* Portrait photograph */}
       <motion.img
-        src="assets/images/yuukaycee-profile.png"
+        src="/images/yuukaycee-profile.png"
         alt="YuuKayCee"
         variants={{ hover: { scale: 1.04 } }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
@@ -197,7 +197,7 @@ export default function YuuKayCeeHome() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              onClick={() => navigate("/yuukaycee/work")}
+              onClick={() => navigate("/design/work")}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -284,7 +284,7 @@ export default function YuuKayCeeHome() {
               </h2>
             </div>
             <button
-              onClick={() => navigate("/yuukaycee/work")}
+              onClick={() => navigate("/design/work")}
               style={{
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: "0.7rem",
@@ -348,7 +348,7 @@ export default function YuuKayCeeHome() {
                   }}
                 >
                   <img
-                    src="/assets/images/nyxbureau-logo.png"
+                    src="/images/nyxbureau-logo.png"
                     alt={project.title}
                     style={{ maxWidth: "55%", maxHeight: "55%", objectFit: "contain", position: "relative", zIndex: 1 }}
                   />

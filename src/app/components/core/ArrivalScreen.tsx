@@ -88,7 +88,7 @@ export function ArrivalScreen({ onComplete }: ArrivalScreenProps) {
                 textTransform: "uppercase",
               }}
             >
-              The Architect
+              The INFJ
             </motion.p>
 
             {/* Motto */}

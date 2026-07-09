@@ -9,7 +9,7 @@ import { getIdentityTheme } from "../../data/identityThemes";
 const identities = [
   {
     id: "yuukaycee",
-    path: "/yuukaycee",
+    path: "/design",
     name: "YuuKayCee",
     archetype: "The Architect",
     motto: "Designing connections between people, ideas, and worlds.",
@@ -28,7 +28,7 @@ const identities = [
   },
   {
     id: "spy",
-    path: "/spy",
+    path: "/development",
     name: "Spy D. Veloper",
     archetype: "The Builder",
     motto: "Creating systems that move the future forward.",
@@ -47,7 +47,7 @@ const identities = [
   },
   {
     id: "cyb3r",
-    path: "/cyb3r",
+    path: "/security",
     name: "CYB3R-BO1",
     archetype: "The Researcher",
     motto: "Security begins with understanding.",

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
+import { Link } from "react-router";
 import { ArrowUpRight } from "lucide-react";
 import { cyberBlogPosts } from "../../data/content";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -191,11 +192,9 @@ export default function CyberBlog() {
                   </p>
                 </div>
 
-                {/* External link */}
-                <a
-                  href={post.externalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                {/* Read post */}
+                <Link
+                  to={`/security/blog/${post.slug}`}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -224,7 +223,7 @@ export default function CyberBlog() {
                 >
                   Read
                   <ArrowUpRight size={11} strokeWidth={1.5} />
-                </a>
+                </Link>
               </div>
             </motion.div>
           ))}

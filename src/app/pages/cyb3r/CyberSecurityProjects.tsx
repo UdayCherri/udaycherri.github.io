@@ -46,7 +46,9 @@ export default function CyberSecurityProjects() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isMd ? "repeat(2, 1fr)" : "1fr",
+            gridTemplateColumns: isMd
+              ? `repeat(${Math.min(securityProjects.length, 2)}, 1fr)`
+              : "1fr",
             gap: "1px",
             background: theme.borderSubtle,
           }}
