@@ -7,7 +7,7 @@ up automatically once you add a matching entry to `devBlogPosts` in
 
 You can write **bold**, _italic_, `inline code`, and lists:
 
-- Fenced code blocks are syntax-highlighted
+- Fenced code blocks render in a clean, plain monospace style
 - Links, quotes, and tables render in the site's style
 - Images go in `public/images/` and are referenced as `/images/name.png`
 

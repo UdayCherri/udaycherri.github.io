@@ -132,11 +132,10 @@ export default function SpyExperiments() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
-            onClick={() => navigate("/project/prism-lang")}
             style={{
               padding: "3rem",
               border: `1px solid ${theme.borderSubtle}`,
-              cursor: "pointer",
+              cursor: "default",
             }}
           >
             <p

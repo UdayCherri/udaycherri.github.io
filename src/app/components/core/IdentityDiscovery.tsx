@@ -11,8 +11,8 @@ const identities = [
     id: "yuukaycee",
     path: "/design",
     name: "YuuKayCee",
-    archetype: "The Architect",
-    motto: "Designing connections between people, ideas, and worlds.",
+    archetype: "The Designer",
+    motto: "Art washes away from the soul the dust of everyday life.",
     discipline: "Design",
     bg: "#080A12",
     accent: "#67E8F9",
@@ -30,8 +30,8 @@ const identities = [
     id: "spy",
     path: "/development",
     name: "Spy D. Veloper",
-    archetype: "The Builder",
-    motto: "Creating systems that move the future forward.",
+    archetype: "The Developer",
+    motto: "First, solve the problem. Then, write the code.",
     discipline: "Development",
     bg: "#080C18",
     accent: "#CC1234",
@@ -47,9 +47,9 @@ const identities = [
   },
   {
     id: "cyb3r",
-    path: "/security",
+    path: "/security",  
     name: "CYB3R-BO1",
-    archetype: "The Researcher",
+    archetype: "The Hacker",
     motto: "Security begins with understanding.",
     discipline: "Security",
     bg: "#0F1318",
@@ -143,7 +143,7 @@ export function IdentityDiscovery() {
                 maxWidth: "440px",
               }}
             >
-              Each identity is a complete world — its own aesthetic, its own discipline, its own body of work. Enter the one that speaks to you.
+              Each identity is a complete world, its own aesthetic, its own discipline, its own body of work. Enter the one that speaks to you.
             </motion.p>
           </div>
         </div>

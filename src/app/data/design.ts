@@ -4,7 +4,7 @@ import type { Project } from "./types";
 
 export const yuukayceeProjects: Project[] = [
   {
-    id: "nyx-rebrand",
+    id: "nyx-bureau",
     identity: "yuukaycee",
     title: "NYX Bureau",
     subtitle: "Brand Identity System",
@@ -31,13 +31,13 @@ export const yuukayceeProjects: Project[] = [
     coverColor: "#67E8F9",
   },
   {
-    id: "archive-placeholder",
+    id: "axon",
     identity: "yuukaycee",
-    title: "Project Title",
-    subtitle: "Project Subtitle",
+    title: "AXON",
+    subtitle: "A SaaS Platform",
     category: "Branding",
-    year: "2024",
-    tags: ["Tag One", "Tag Two"],
+    year: "2026",
+    tags: ["Brand Identity", "Typography", "Visual System"],
     overview: "A short overview of the project and what it set out to accomplish.",
     problem: "The problem this project was trying to solve.",
     approach: "The approach taken to solve it.",

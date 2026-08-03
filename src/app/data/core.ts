@@ -13,20 +13,6 @@ export const udayProfile = {
 
 export const journeyMilestones = [
   {
-    id: "m1",
-    year: "2026",
-    title: "NYX BUREAU",
-    note: "Studio founded",
-    discipline: "design",
-  },
-  {
-    id: "m2",
-    year: "2026",
-    title: "TryHackMe",
-    note: "Top 6%",
-    discipline: "security",
-  },
-  {
     id: "m3",
     year: "2024",
     title: "Crack-In CTF 1.0",
@@ -38,6 +24,20 @@ export const journeyMilestones = [
     year: "2025",
     title: "HackerTroupe",
     note: "Team founded",
+    discipline: "security",
+  },
+  {
+    id: "m1",
+    year: "2026",
+    title: "NYX BUREAU",
+    note: "Studio founded",
+    discipline: "design",
+  },
+  {
+    id: "m2",
+    year: "2026",
+    title: "TryHackMe",
+    note: "Top 6%",
     discipline: "security",
   },
 ];

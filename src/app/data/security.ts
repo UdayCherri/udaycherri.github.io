@@ -45,7 +45,7 @@ export const ctfArchive = [
 ];
 
 // Blog post metadata. The rendered body for each post lives in a matching Markdown
-// file under src/content/blog/security/<slug>.md (see docs/AUTHORING.md).
+// file under src/app/content/blog/security/<slug>.md (see docs/AUTHORING.md).
 export const cyberBlogPosts = [
   {
     id: "blog-1",

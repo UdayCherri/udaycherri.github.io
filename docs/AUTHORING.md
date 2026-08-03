@@ -102,8 +102,9 @@ Two small steps — a metadata entry and a Markdown file.
 - Development: `src/app/content/blog/development/my-post.md`
 
 Write normal Markdown — headings, **bold**, lists, links, blockquotes, tables, and
-fenced code blocks (```` ```go ````) all render in the section's fonts and colors,
-with syntax highlighting. Images go in `public/images/` and are referenced as
+fenced code blocks (```` ```go ````) all render in the section's fonts and colors.
+Code blocks are intentionally plain (no syntax highlighting, to keep the bundle
+small). Images go in `public/images/` and are referenced as
 `![alt](/images/name.png)`.
 
 The post is live at `/security/blog/my-post` (or `/development/blog/my-post`) and
