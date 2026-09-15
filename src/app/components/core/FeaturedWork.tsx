@@ -1,18 +1,21 @@
+import { useState } from "react";
 import { motion } from "motion/react";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 import { featuredWork } from "../../data/content";
-import { useIsDesktop } from "../shared/useMediaQuery";
+import { useIsDesktop, usePrefersReducedMotion } from "../shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { CORE_EYEBROW, CORE_FONTS, CORE_LAYOUT } from "./coreDesign";
 
-// YuuKayCee editorial cover — NYX Bureau logo
+// YuuKayCee editorial cover — type specimen. The design discipline
+// represented the honest way: letterforms, not a placeholder logo.
 function YuuKayCeeCover() {
   return (
     <div
       style={{
         width: "100%",
-        height: "320px",
+        height: "300px",
         background: "#080A12",
         position: "relative",
         overflow: "hidden",
@@ -21,12 +24,71 @@ function YuuKayCeeCover() {
         justifyContent: "center",
       }}
     >
-      <img
-        src="/images/nyxbureau-logo.png"
-        alt="NYX Bureau"
-        style={{ maxWidth: "55%", maxHeight: "55%", objectFit: "contain", position: "relative", zIndex: 1 }}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage:
+            "linear-gradient(rgba(103,232,249,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(103,232,249,0.025) 1px, transparent 1px)",
+          backgroundSize: "36px 36px",
+        }}
+      />
+      <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: "0 2rem" }}>
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "0.62rem",
+            fontWeight: 500,
+            letterSpacing: "0.3em",
+            textTransform: "uppercase",
+            color: "#67E8F9",
+            margin: "0 0 0.75rem",
+          }}
+        >
+          Type Specimen
+        </p>
+        <p
+          style={{
+            fontFamily: "'Playfair Display', serif",
+            fontStyle: "italic",
+            fontWeight: 500,
+            fontSize: "4.5rem",
+            lineHeight: 1,
+            color: "#F0EEF8",
+            margin: 0,
+          }}
+        >
+          Aa
+        </p>
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "0.65rem",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "rgba(240,238,248,0.5)",
+            margin: "0.75rem 0 0",
+          }}
+        >
+          Playfair Display · Design
+        </p>
+      </div>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "2px",
+          background:
+            "linear-gradient(90deg, rgba(103,232,249,0.6) 0%, rgba(45,212,191,0.4) 25%, rgba(196,181,253,0.4) 50%, rgba(244,114,182,0.4) 75%, rgba(251,191,36,0.4) 100%)",
+          opacity: 0.8,
+        }}
       />
       <div
+        aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
@@ -53,9 +115,10 @@ function SpyCover() {
 
   return (
     <div
+      aria-hidden="true"
       style={{
         width: "100%",
-        height: "320px",
+        height: "300px",
         background: "#080C18",
         position: "relative",
         overflow: "hidden",
@@ -64,7 +127,6 @@ function SpyCover() {
         justifyContent: "center",
       }}
     >
-      {/* Grid lines */}
       <div
         style={{
           position: "absolute",
@@ -74,7 +136,6 @@ function SpyCover() {
           backgroundSize: "40px 40px",
         }}
       />
-      {/* Code block */}
       <div
         style={{
           position: "relative",
@@ -83,7 +144,6 @@ function SpyCover() {
           maxWidth: "340px",
         }}
       >
-        {/* Top bar */}
         <div
           style={{
             display: "flex",
@@ -104,10 +164,10 @@ function SpyCover() {
             key={i}
             style={{
               fontFamily: "'JetBrains Mono', 'IBM Plex Mono', monospace",
-              fontSize: "0.6rem",
+              fontSize: "0.68rem",
               lineHeight: 1.7,
-              color: line.highlight ? "#CC1234" : "rgba(240,238,229,0.55)",
-              background: line.highlight ? "rgba(204,18,52,0.08)" : "transparent",
+              color: line.highlight ? "#E5485D" : "rgba(240,238,229,0.62)",
+              background: line.highlight ? "rgba(204,18,52,0.1)" : "transparent",
               padding: line.highlight ? "0 0.25rem" : "0",
               marginLeft: line.highlight ? "-0.25rem" : "0",
               whiteSpace: "pre",
@@ -118,7 +178,6 @@ function SpyCover() {
           </div>
         ))}
       </div>
-      {/* Fade top/bottom */}
       <div
         style={{
           position: "absolute",
@@ -134,7 +193,7 @@ function SpyCover() {
 // CYB3R-BO1 editorial cover — terminal window with vulnerability scan output
 function CyberCover() {
   const termLines = [
-    { text: "$ vuln-scan --target jwt-libs --depth full", dim: false },
+    { text: "$ vuln-scan -t jwt-libs -d full", dim: false },
     { text: "  scanning 8 libraries...", dim: true },
     { text: "  [CRITICAL] node-jsonwebtoken: alg confusion", dim: false, accent: true },
     { text: "  [HIGH]     pyjwt: missing alg validation", dim: false },
@@ -145,9 +204,10 @@ function CyberCover() {
 
   return (
     <div
+      aria-hidden="true"
       style={{
         width: "100%",
-        height: "320px",
+        height: "300px",
         background: "#0F1318",
         position: "relative",
         overflow: "hidden",
@@ -157,7 +217,6 @@ function CyberCover() {
         justifyContent: "center",
       }}
     >
-      {/* Scanlines */}
       <div
         style={{
           position: "absolute",
@@ -167,7 +226,6 @@ function CyberCover() {
           pointerEvents: "none",
         }}
       />
-      {/* Terminal window */}
       <div
         style={{
           width: "90%",
@@ -178,7 +236,6 @@ function CyberCover() {
           overflow: "hidden",
         }}
       >
-        {/* Title bar */}
         <div
           style={{
             background: "rgba(16,185,129,0.08)",
@@ -204,8 +261,8 @@ function CyberCover() {
           <span
             style={{
               fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.5rem",
-              color: "rgba(16,185,129,0.5)",
+              fontSize: "0.55rem",
+              color: "rgba(16,185,129,0.55)",
               marginLeft: "0.5rem",
               letterSpacing: "0.08em",
             }}
@@ -213,20 +270,19 @@ function CyberCover() {
             cyb3r-bo1 — zsh
           </span>
         </div>
-        {/* Content */}
         <div style={{ padding: "0.75rem 1rem 1rem" }}>
           {termLines.map((line, i) => (
             <div
               key={i}
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: "0.6rem",
+                fontSize: "0.65rem",
                 lineHeight: 1.75,
                 color: line.accent
-                  ? "#10B981"
+                  ? "#34D399"
                   : line.dim
-                  ? "rgba(16,185,129,0.35)"
-                  : "rgba(226,234,240,0.65)",
+                    ? "rgba(16,185,129,0.45)"
+                    : "rgba(226,234,240,0.72)",
                 letterSpacing: "0.02em",
                 whiteSpace: "pre",
               }}
@@ -236,7 +292,6 @@ function CyberCover() {
           ))}
         </div>
       </div>
-      {/* Glow at bottom */}
       <div
         style={{
           position: "absolute",
@@ -258,161 +313,205 @@ const coverComponents: Record<string, React.ReactNode> = {
 };
 
 export function FeaturedWork() {
-  const navigate = useNavigate();
   const isDesktop = useIsDesktop();
+  const reduceMotion = usePrefersReducedMotion();
   const { mode } = useTheme();
   const theme = getIdentityTheme("core", mode);
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   return (
     <section
+      aria-label="Selected work"
       style={{
-        padding: "10rem clamp(2rem, 8vw, 8rem)",
+        padding: `${CORE_LAYOUT.sectionY} ${CORE_LAYOUT.pad}`,
         background: theme.bg,
         borderTop: `1px solid ${theme.borderSubtle}`,
-        transition: "background 0.4s ease",
       }}
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-end",
-            marginBottom: "5rem",
-          }}
-        >
-          <div>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "clamp(0.6rem, 1.5vw, 0.65rem)",
-                letterSpacing: "0.3em",
-                textTransform: "uppercase",
-                color: theme.accent,
-                marginBottom: "1rem",
-              }}
-            >
-              Selected Work
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "clamp(2rem, 3.5vw, 3rem)",
-                fontWeight: 300,
-                color: theme.fg,
-                lineHeight: 1.15,
-              }}
-            >
-              Three disciplines.<br />One body of work.
-            </motion.h2>
-          </div>
+      <div style={{ maxWidth: CORE_LAYOUT.maxWidth, margin: "0 auto" }}>
+        <div style={{ marginBottom: "3.5rem", maxWidth: "38rem" }}>
+          <motion.p
+            {...(reduceMotion
+              ? {}
+              : {
+                  initial: { opacity: 0 },
+                  whileInView: { opacity: 1 },
+                  viewport: { once: true },
+                  transition: { duration: 0.45 },
+                })}
+            style={{ ...CORE_EYEBROW, color: theme.accent, margin: "0 0 0.9rem" }}
+          >
+            Selected Work
+          </motion.p>
+          <motion.h2
+            {...(reduceMotion
+              ? {}
+              : {
+                  initial: { opacity: 0, y: 12 },
+                  whileInView: { opacity: 1, y: 0 },
+                  viewport: { once: true },
+                  transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+                })}
+            style={{
+              fontFamily: CORE_FONTS.display,
+              fontSize: "clamp(2rem, 3.4vw, 2.9rem)",
+              fontWeight: 400,
+              color: theme.fg,
+              lineHeight: 1.12,
+              letterSpacing: "-0.01em",
+              margin: 0,
+              textWrap: "balance",
+            }}
+          >
+            Three disciplines. One body of work.
+          </motion.h2>
         </div>
 
         <div
           style={{
             display: "grid",
             gridTemplateColumns: isDesktop ? "repeat(3, 1fr)" : "1fr",
-            gap: "2px",
+            gap: isDesktop ? "2rem" : "3rem",
           }}
         >
-          {featuredWork.map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              onClick={() => navigate(item.path)}
-              style={{
-                cursor: "pointer",
-                overflow: "hidden",
-                position: "relative",
-              }}
-              whileHover={{ scale: 1.01 }}
-            >
-              {/* Editorial cover composition */}
-              {coverComponents[item.identity]}
-
-              {/* Meta */}
-              <div style={{ padding: "1.5rem 0 2rem" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "0.75rem",
-                  }}
-                >
-                  <p
+          {featuredWork.map((item, i) => {
+            const active = activeId === item.id;
+            return (
+              <motion.article
+                key={item.id}
+                {...(reduceMotion
+                  ? {}
+                  : {
+                      initial: { opacity: 0, y: 14 },
+                      whileInView: { opacity: 1, y: 0 },
+                      viewport: { once: true },
+                      transition: { duration: 0.55, delay: Math.min(i * 0.08, 0.16), ease: [0.22, 1, 0.36, 1] },
+                    })}
+                onMouseEnter={() => setActiveId(item.id)}
+                onMouseLeave={() => setActiveId(null)}
+                onFocus={() => setActiveId(item.id)}
+                onBlur={() => setActiveId(null)}
+                style={{
+                  position: "relative",
+                  border: `1px solid ${active ? theme.accentTertiary : theme.borderSubtle}`,
+                  background: theme.surface,
+                  boxShadow: theme.shadow,
+                  overflow: "hidden",
+                  transition: "border-color 0.3s ease, transform 0.3s ease",
+                  transform: active && !reduceMotion ? "translateY(-3px)" : "none",
+                }}
+              >
+                <div style={{ overflow: "hidden" }}>
+                  <div
                     style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: "0.6rem",
-                      letterSpacing: "0.25em",
-                      textTransform: "uppercase",
-                      color: item.coverColor,
+                      transition: reduceMotion ? "none" : "transform 0.5s ease",
+                      transform: active && !reduceMotion ? "scale(1.02)" : "none",
                     }}
                   >
-                    {item.discipline}
-                  </p>
-                  <p
-                    style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: "0.6rem",
-                      letterSpacing: "0.15em",
-                      color: theme.fgMuted,
-                    }}
-                  >
-                    {item.year}
-                  </p>
+                    {coverComponents[item.identity]}
+                  </div>
                 </div>
-                <h3
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "1.5rem",
-                    fontWeight: 400,
-                    color: theme.fg,
-                    marginBottom: "0.5rem",
-                  }}
-                >
-                  {item.title}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: "clamp(0.82rem, 2vw, 0.9rem)",
-                    lineHeight: 1.6,
-                    color: theme.fgMuted,
-                    marginBottom: "1.25rem",
-                  }}
-                >
-                  {item.description}
-                </p>
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: theme.fg,
-                  }}
-                >
-                  Explore
-                  <ArrowRight size={11} strokeWidth={1.5} />
-                </span>
-              </div>
-            </motion.div>
-          ))}
+
+                <div style={{ padding: "1.5rem 1.5rem 1.6rem" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "baseline",
+                      gap: "1rem",
+                      marginBottom: "0.7rem",
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontFamily: CORE_FONTS.body,
+                        fontSize: "0.68rem",
+                        fontWeight: 600,
+                        letterSpacing: "0.22em",
+                        textTransform: "uppercase",
+                        color: item.coverColor,
+                        margin: 0,
+                      }}
+                    >
+                      {item.discipline}
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: CORE_FONTS.body,
+                        fontVariantNumeric: "tabular-nums",
+                        fontSize: "0.72rem",
+                        letterSpacing: "0.1em",
+                        color: theme.fgMuted,
+                        margin: 0,
+                      }}
+                    >
+                      {item.year}
+                    </p>
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: CORE_FONTS.display,
+                      fontSize: "1.45rem",
+                      fontWeight: 400,
+                      color: theme.fg,
+                      margin: "0 0 0.6rem",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: CORE_FONTS.body,
+                      fontSize: "0.9rem",
+                      lineHeight: 1.65,
+                      color: theme.fgMuted,
+                      margin: "0 0 1.25rem",
+                    }}
+                  >
+                    {item.description}
+                  </p>
+                  {/* Stretched link — the whole card is keyboard-activatable */}
+                  <Link
+                    to={item.path}
+                    aria-label={`Explore ${item.title}`}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.55rem",
+                      fontFamily: CORE_FONTS.body,
+                      fontSize: "0.72rem",
+                      fontWeight: 600,
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      color: theme.fg,
+                      textDecoration: "none",
+                      borderBottom: `1px solid ${active ? theme.accent : "transparent"}`,
+                      paddingBottom: "3px",
+                    }}
+                  >
+                    Explore
+                    <ArrowRight
+                      size={13}
+                      strokeWidth={1.75}
+                      aria-hidden="true"
+                      style={{
+                        transform: active ? "translateX(3px)" : "none",
+                        transition: reduceMotion ? "none" : "transform 0.25s ease",
+                      }}
+                    />
+                  </Link>
+                  {/* Click target expansion */}
+                  <Link
+                    to={item.path}
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    style={{ position: "absolute", inset: 0 }}
+                  />
+                </div>
+              </motion.article>
+            );
+          })}
         </div>
       </div>
     </section>

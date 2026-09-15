@@ -1,67 +1,75 @@
 import { motion } from "motion/react";
-import { Mail, ArrowRight } from "lucide-react";
+import { Mail, ArrowUpRight } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { usePrefersReducedMotion } from "../../components/shared/useMediaQuery";
 
 export default function YuuKayCeeContact() {
   const { mode } = useTheme();
   const theme = getIdentityTheme("yuukaycee", mode);
+  const reduceMotion = usePrefersReducedMotion();
 
   return (
-    <div
+    /* Centered in the space below the fixed bar: the layout already
+       offsets for its 80px header, so no second offset here. */
+    <main
       style={{
-        minHeight: "100vh",
+        minHeight: "calc(100dvh - 80px)",
         background: "transparent",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        padding: "0 clamp(2rem, 6vw, 6rem)",
+        padding: "clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem)",
       }}
     >
-      <div style={{ maxWidth: "700px" }}>
+      <div style={{ maxWidth: "44rem", margin: "0 auto", width: "100%" }}>
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
+          {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.5 } })}
           style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: "0.65rem",
-            letterSpacing: "0.3em",
+            fontSize: "0.72rem",
+            fontWeight: 500,
+            letterSpacing: "0.28em",
             textTransform: "uppercase",
             color: theme.accent,
-            marginBottom: "2rem",
+            margin: "0 0 1.25rem",
           }}
         >
           Contact
         </motion.p>
 
         <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          {...(reduceMotion
+            ? {}
+            : {
+                initial: { opacity: 0, y: 14 },
+                animate: { opacity: 1, y: 0 },
+                transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+              })}
           style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
-            fontWeight: 400,
+            fontSize: "clamp(2.5rem, 5vw, 4.25rem)",
+            fontWeight: 500,
             color: theme.fg,
-            lineHeight: 1.1,
-            marginBottom: "2rem",
+            lineHeight: 1.08,
+            letterSpacing: "-0.01em",
+            margin: "0 0 1.5rem",
+            textWrap: "balance",
           }}
         >
-          Let's make<br />
+          Let&apos;s make<br />
           <em style={{ color: theme.accent }}>something together</em>
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.5, delay: 0.12 } })}
           style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: "clamp(0.875rem, 2vw, 0.95rem)",
-            lineHeight: 1.8,
+            fontSize: "1rem",
+            lineHeight: 1.75,
             color: theme.fgMuted,
-            marginBottom: "4rem",
+            margin: "0 0 2.5rem",
+            maxWidth: "36rem",
           }}
         >
           Brand identity, product design, typographic systems — if it involves creating visual experiences
@@ -69,74 +77,134 @@ export default function YuuKayCeeContact() {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          {...(reduceMotion
+            ? {}
+            : {
+                initial: { opacity: 0, y: 10 },
+                animate: { opacity: 1, y: 0 },
+                transition: { duration: 0.5, delay: 0.18 },
+              })}
+          style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
         >
           <a
             href="mailto:yuukaycee@nyxbureau.com"
+            aria-label="Email YuuKayCee at yuukaycee@nyxbureau.com"
             style={{
-              display: "inline-flex",
+              display: "flex",
               alignItems: "center",
               gap: "1rem",
               textDecoration: "none",
               color: theme.fg,
-              padding: "1.5rem 2rem",
+              padding: "1rem 1.25rem",
+              minHeight: "64px",
               border: `1px solid ${theme.borderSubtle}`,
-              transition: "all 0.3s ease",
+              background: theme.surface,
+              boxShadow: theme.shadow,
+              transition: "border-color 0.25s ease",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = theme.accent;
-              e.currentTarget.style.background = mode === "dark" ? "rgba(103,232,249,0.04)" : "rgba(8,145,178,0.04)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = theme.borderSubtle;
-              e.currentTarget.style.background = "transparent";
             }}
           >
-            <Mail size={16} strokeWidth={1.5} color={theme.accent} />
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(0.85rem, 1.8vw, 0.9rem)" }}>
-              yuukaycee@nyxbureau.com
+            <span
+              aria-hidden="true"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "40px",
+                height: "40px",
+                flexShrink: 0,
+                border: `1px solid ${theme.borderSubtle}`,
+                borderRadius: "50%",
+              }}
+            >
+              <Mail size={16} strokeWidth={1.75} color={theme.accent} />
             </span>
-            <ArrowRight size={14} strokeWidth={1.5} color={theme.fgMuted} style={{ marginLeft: "auto" }} />
-          </a>
-
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            {[
-              { label: "Twitter", url: "https://x.com/YuuKaycee" },
-            ].map(({ label, url }) => (
-              <a
-                key={label}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
+            <span style={{ minWidth: 0 }}>
+              <span
                 style={{
+                  display: "block",
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "0.65rem",
-                  letterSpacing: "0.15em",
+                  fontSize: "0.68rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.2em",
                   textTransform: "uppercase",
                   color: theme.fgMuted,
-                  textDecoration: "none",
-                  padding: "0.6rem 1.25rem",
-                  border: `1px solid ${theme.borderSubtle}`,
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = theme.accent;
-                  e.currentTarget.style.borderColor = theme.accent;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = theme.fgMuted;
-                  e.currentTarget.style.borderColor = theme.borderSubtle;
+                  marginBottom: "0.2rem",
                 }}
               >
-                {label}
-              </a>
+                Email
+              </span>
+              <span
+                style={{
+                  display: "block",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "1rem",
+                  overflowWrap: "anywhere",
+                }}
+              >
+                yuukaycee@nyxbureau.com
+              </span>
+            </span>
+            <ArrowUpRight size={16} strokeWidth={1.75} color={theme.fgMuted} style={{ marginLeft: "auto", flexShrink: 0 }} aria-hidden="true" />
+          </a>
+
+          <ul
+            aria-label="Social profiles"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+              gap: "0.75rem",
+              listStyle: "none",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            {[{ label: "Twitter", url: "https://x.com/YuuKaycee" }].map(({ label, url }) => (
+              <li key={label}>
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "0.72rem",
+                    fontWeight: 600,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    color: theme.fgMuted,
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.4rem",
+                    minHeight: "48px",
+                    width: "100%",
+                    padding: "0.65rem 1rem",
+                    border: `1px solid ${theme.borderSubtle}`,
+                    transition: "color 0.2s ease, border-color 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = theme.accent;
+                    e.currentTarget.style.borderColor = theme.accent;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = theme.fgMuted;
+                    e.currentTarget.style.borderColor = theme.borderSubtle;
+                  }}
+                >
+                  {label}
+                  <ArrowUpRight size={12} strokeWidth={1.75} aria-hidden="true" />
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         </motion.div>
       </div>
-    </div>
+    </main>
   );
 }

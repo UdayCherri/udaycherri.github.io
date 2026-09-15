@@ -23,3 +23,9 @@ export function useIsDesktop() {
 export function useIsMd() {
   return useMediaQuery("(min-width: 768px)");
 }
+
+/** True when the OS / browser requests reduced motion.
+ *  All Core intro + scroll animations consult this and render statically. */
+export function usePrefersReducedMotion(): boolean {
+  return useMediaQuery("(prefers-reduced-motion: reduce)");
+}

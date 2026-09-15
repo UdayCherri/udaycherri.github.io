@@ -9,7 +9,7 @@ export default function SpyOpenSource() {
   const theme = getIdentityTheme("spy", mode);
 
   return (
-    <div style={{ padding: "4rem clamp(2rem, 6vw, 6rem)", minHeight: "100vh", background: "transparent" }}>
+    <div style={{ padding: "4rem clamp(1.25rem, 5vw, 3rem)", minHeight: "100vh", background: "transparent" }}>
       <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, x: -12 }}
@@ -61,11 +61,11 @@ export default function SpyOpenSource() {
                 padding: "2rem 1.5rem",
                 border: `1px solid ${theme.borderSubtle}`,
                 textDecoration: "none",
-                transition: "all 0.2s ease",
+                transition: "color 0.2s ease",
               }}
               whileHover={{
-                backgroundColor: mode === "dark" ? "rgba(204,18,52,0.04)" : "rgba(204,18,52,0.03)",
-                borderColor: mode === "dark" ? "rgba(204,18,52,0.18)" : "rgba(204,18,52,0.2)",
+                backgroundColor: mode === "dark" ? "rgba(229,72,93,0.05)" : "rgba(204,18,52,0.03)",
+                borderColor: mode === "dark" ? "rgba(229,72,93,0.25)" : "rgba(204,18,52,0.2)",
               }}
             >
               <div>

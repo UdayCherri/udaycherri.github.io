@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { yuukayceeProjects, spyProjects, cyberResearch, securityProjects } from "../../data/content";
 import type { Project } from "../../data/content";
 import { useIsDesktop } from "../../components/shared/useMediaQuery";
+import { RouteTransition } from "../../components/shared/PageTransition";
 
 const allProjects: Project[] = [
   ...yuukayceeProjects,
@@ -82,12 +83,12 @@ const identityThemes = {
     backPath: "/security",
   },
   core: {
-    bg: "#F7F4EE",
-    fg: "#1C1C1C",
-    accent: "#B8A46A",
-    muted: "#6B6B6B",
-    border: "rgba(28,28,28,0.08)",
-    headlineFont: "'Cormorant Garamond', serif",
+    bg: "#F7F4ED",
+    fg: "#1B1A18",
+    accent: "#7A5F26",
+    muted: "rgba(27,26,24,0.72)",
+    border: "rgba(27,26,24,0.12)",
+    headlineFont: "'Fraunces', Georgia, serif",
     bodyFont: "'Inter', sans-serif",
     monoFont: "'Inter', sans-serif",
     label: "Uday Cherri",
@@ -117,9 +118,9 @@ export default function ProjectPage() {
       >
         <p
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: "'Fraunces', Georgia, serif",
             fontSize: "2rem",
-            color: "#1C1C1C",
+            color: "#1B1A18",
           }}
         >
           Project not found
@@ -144,6 +145,7 @@ export default function ProjectPage() {
   const theme = identityThemes[project.identity];
 
   return (
+    <RouteTransition persona={project.identity === "core" ? "core" : project.identity}>
     <div style={{ background: theme.bg, minHeight: "100vh", color: theme.fg }}>
       {/* Top bar */}
       <div
@@ -153,7 +155,7 @@ export default function ProjectPage() {
           left: 0,
           right: 0,
           zIndex: 40,
-          padding: "1.25rem 3rem",
+          padding: "1rem clamp(1.25rem, 4vw, 3rem)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -698,5 +700,6 @@ export default function ProjectPage() {
         </div>
       </div>
     </div>
+    </RouteTransition>
   );
 }

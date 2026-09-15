@@ -13,7 +13,7 @@ export default function SpyExperiments() {
   const theme = getIdentityTheme("spy", mode);
 
   return (
-    <div style={{ padding: "4rem clamp(2rem, 6vw, 6rem)", minHeight: "100vh", background: "transparent" }}>
+    <div style={{ padding: "4rem clamp(1.25rem, 5vw, 3rem)", minHeight: "100vh", background: "transparent" }}>
       <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, x: -12 }}
@@ -68,6 +68,15 @@ export default function SpyExperiments() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.25, delay: i * 0.07 }}
                 onClick={() => navigate(`/project/${exp.id}`)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    navigate(`/project/${exp.id}`);
+                  }
+                }}
+                tabIndex={0}
+                role="link"
+                aria-label={`Open ${exp.title}`}
                 style={{
                   padding: "2.5rem",
                   border: `1px solid ${theme.borderSubtle}`,
@@ -76,8 +85,8 @@ export default function SpyExperiments() {
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLDivElement;
-                  el.style.background = mode === "dark" ? "rgba(204,18,52,0.04)" : "rgba(204,18,52,0.03)";
-                  el.style.borderColor = mode === "dark" ? "rgba(204,18,52,0.2)" : "rgba(204,18,52,0.18)";
+                  el.style.background = mode === "dark" ? "rgba(229,72,93,0.05)" : "rgba(204,18,52,0.03)";
+                  el.style.borderColor = mode === "dark" ? "rgba(229,72,93,0.25)" : "rgba(204,18,52,0.18)";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLDivElement;

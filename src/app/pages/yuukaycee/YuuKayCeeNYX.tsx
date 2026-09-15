@@ -47,14 +47,6 @@ export default function YuuKayCeeNYX() {
           >
             Creative Studio
           </motion.p>
-          <motion.img
-            src="/images/nyxbureau-logo.png"
-            alt="NYX Bureau"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            style={{ height: "56px", width: "auto", objectFit: "contain", marginBottom: "2rem", display: "block" }}
-          />
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -66,6 +58,7 @@ export default function YuuKayCeeNYX() {
               color: theme.fg,
               lineHeight: 1.05,
               marginBottom: "2rem",
+              marginTop: 0,
             }}
           >
             NYX Bureau

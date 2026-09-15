@@ -13,7 +13,7 @@ export default function SpyProjects() {
   const isDesktop = useIsDesktop();
 
   return (
-    <div style={{ padding: "4rem clamp(2rem, 6vw, 6rem)", minHeight: "100vh", background: "transparent" }}>
+    <div style={{ padding: "4rem clamp(1.25rem, 5vw, 3rem)", minHeight: "100vh", background: "transparent" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, x: -12 }}
@@ -54,8 +54,17 @@ export default function SpyProjects() {
               initial={{ opacity: 0, x: -12 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.25, delay: i * 0.05 }}
-              onClick={() => navigate(`/project/${project.id}`)}
-              style={{
+                onClick={() => navigate(`/project/${project.id}`)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    navigate(`/project/${project.id}`);
+                  }
+                }}
+                tabIndex={0}
+                role="link"
+                aria-label={`Open ${project.title}`}
+                style={{
                 display: isDesktop ? "grid" : "flex",
                 gridTemplateColumns: isDesktop ? "60px 1fr 200px 40px" : undefined,
                 flexDirection: isDesktop ? undefined : "column",
@@ -63,13 +72,13 @@ export default function SpyProjects() {
                 alignItems: isDesktop ? "center" : "flex-start",
                 padding: "1.75rem 1.25rem",
                 border: `1px solid ${theme.borderSubtle}`,
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
-              whileHover={{
-                backgroundColor: mode === "dark" ? "rgba(204,18,52,0.04)" : "rgba(204,18,52,0.03)",
-                borderColor: mode === "dark" ? "rgba(204,18,52,0.18)" : "rgba(204,18,52,0.2)",
-              }}
+                  cursor: "pointer",
+                  transition: "color 0.2s ease",
+                }}
+                whileHover={{
+                  backgroundColor: mode === "dark" ? "rgba(229,72,93,0.05)" : "rgba(204,18,52,0.03)",
+                  borderColor: mode === "dark" ? "rgba(229,72,93,0.25)" : "rgba(204,18,52,0.2)",
+                }}
             >
               <span
                 style={{

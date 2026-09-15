@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router";
 import { useState } from "react";
 import { motion } from "motion/react";
+import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
-import { useIsMd } from "../shared/useMediaQuery";
+import { useIsMd, usePrefersReducedMotion } from "../shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { CORE_EYEBROW, CORE_FONTS, CORE_LAYOUT } from "./coreDesign";
 
 const identities = [
   {
@@ -47,7 +48,7 @@ const identities = [
   },
   {
     id: "cyb3r",
-    path: "/security",  
+    path: "/security",
     name: "CYB3R-BO1",
     archetype: "The Hacker",
     motto: "Security begins with understanding.",
@@ -67,63 +68,65 @@ const identities = [
 ];
 
 export function IdentityDiscovery() {
-  const navigate = useNavigate();
-  const [hovered, setHovered] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const isMd = useIsMd();
+  const reduceMotion = usePrefersReducedMotion();
   const { mode } = useTheme();
   const theme = getIdentityTheme("core", mode);
 
   return (
     <section
-      style={{
-        background: theme.bg,
-        transition: "background 0.4s ease",
-      }}
+      aria-label="Choose your direction"
+      style={{ background: theme.bg }}
     >
       {/* Transition text — bridges from understanding to choosing */}
       <div
         style={{
-          padding: "8rem clamp(2rem, 8vw, 8rem) 6rem",
+          padding: `${CORE_LAYOUT.sectionY} ${CORE_LAYOUT.pad} clamp(2.5rem, 5vw, 4rem)`,
           borderTop: `1px solid ${theme.borderSubtle}`,
         }}
       >
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        <div style={{ maxWidth: CORE_LAYOUT.maxWidth, margin: "0 auto" }}>
           <div
             style={{
               display: "grid",
               gridTemplateColumns: isMd ? "1fr 1fr" : "1fr",
-              gap: isMd ? "6rem" : "2rem",
+              gap: isMd ? "4rem" : "1.5rem",
               alignItems: "end",
             }}
           >
             <div>
               <motion.p
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: "0.65rem",
-                  letterSpacing: "0.3em",
-                  textTransform: "uppercase",
-                  color: theme.accent,
-                  marginBottom: "1rem",
-                }}
+                {...(reduceMotion
+                  ? {}
+                  : {
+                      initial: { opacity: 0 },
+                      whileInView: { opacity: 1 },
+                      viewport: { once: true },
+                      transition: { duration: 0.45 },
+                    })}
+                style={{ ...CORE_EYEBROW, color: theme.accent, margin: "0 0 0.9rem" }}
               >
                 Three Worlds
               </motion.p>
               <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                {...(reduceMotion
+                  ? {}
+                  : {
+                      initial: { opacity: 0, y: 12 },
+                      whileInView: { opacity: 1, y: 0 },
+                      viewport: { once: true },
+                      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+                    })}
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(2rem, 4vw, 3.5rem)",
-                  fontWeight: 300,
+                  fontFamily: CORE_FONTS.display,
+                  fontSize: "clamp(2rem, 3.6vw, 3.25rem)",
+                  fontWeight: 400,
                   color: theme.fg,
-                  lineHeight: 1.15,
+                  lineHeight: 1.12,
+                  letterSpacing: "-0.01em",
+                  margin: 0,
+                  textWrap: "balance",
                 }}
               >
                 Choose your direction
@@ -131,16 +134,21 @@ export function IdentityDiscovery() {
             </div>
 
             <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              {...(reduceMotion
+                ? {}
+                : {
+                    initial: { opacity: 0, y: 10 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true },
+                    transition: { duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] },
+                  })}
               style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "clamp(0.875rem, 1.8vw, 0.9rem)",
+                fontFamily: CORE_FONTS.body,
+                fontSize: "0.95rem",
                 lineHeight: 1.75,
                 color: theme.fgMuted,
-                maxWidth: "440px",
+                maxWidth: "28rem",
+                margin: 0,
               }}
             >
               Each identity is a complete world, its own aesthetic, its own discipline, its own body of work. Enter the one that speaks to you.
@@ -149,205 +157,215 @@ export function IdentityDiscovery() {
         </div>
       </div>
 
-      {/* Identity panels */}
+      {/* Identity panels — full-bleed triptych with hairline dividers */}
       <div
         style={{
           display: "grid",
           gridTemplateColumns: isMd ? "repeat(3, 1fr)" : "1fr",
-          minHeight: isMd ? "75vh" : "auto",
+          gap: "1px",
+          background: "rgba(247,244,238,0.12)",
+          borderTop: "1px solid rgba(247,244,238,0.12)",
+          borderBottom: "1px solid rgba(247,244,238,0.12)",
         }}
       >
-        {identities.map((identity, i) => (
-          <motion.div
-            key={identity.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-            onMouseEnter={() => setHovered(identity.id)}
-            onMouseLeave={() => setHovered(null)}
-            onClick={() => navigate(identity.path)}
-            style={{
-              position: "relative",
-              background: hovered === identity.id ? identity.bg : "#141414",
-              padding: isMd ? "3.5rem 2.5rem 4.5rem" : "3rem 2rem 3.5rem",
-              cursor: "pointer",
-              transition: "background 0.5s ease",
-              overflow: "hidden",
-              borderRight: isMd && i < 2 ? "1px solid rgba(247,244,238,0.04)" : "none",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              minHeight: isMd ? "auto" : "440px",
-            }}
-          >
-            {/* Accent line — top */}
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: "1px",
-                background: identity.accent,
-                opacity: hovered === identity.id ? 0.8 : 0.25,
-                transition: "opacity 0.4s ease",
-              }}
-            />
-
-            {/* Ambient glow on hover */}
+        {identities.map((identity, i) => {
+          const active = activeId === identity.id;
+          return (
             <motion.div
-              animate={{
-                opacity: hovered === identity.id ? 1 : 0,
-              }}
-              transition={{ duration: 0.5 }}
+              key={identity.id}
+              {...(reduceMotion
+                ? {}
+                : {
+                    initial: { opacity: 0, y: 16 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true },
+                    transition: { duration: 0.55, delay: Math.min(i * 0.08, 0.16), ease: [0.22, 1, 0.36, 1] },
+                  })}
+              onMouseEnter={() => setActiveId(identity.id)}
+              onMouseLeave={() => setActiveId(null)}
+              onFocus={() => setActiveId(identity.id)}
+              onBlur={() => setActiveId(null)}
               style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: "200px",
-                background: `radial-gradient(ellipse at 50% 0%, ${identity.accent}14 0%, transparent 70%)`,
-                pointerEvents: "none",
+                position: "relative",
+                background: active ? identity.bg : darkIdle(mode),
+                transition: "background 0.4s ease",
+                overflow: "hidden",
+                borderTop: `2px solid ${active ? identity.accent : `${identity.accent}40`}`,
+                minHeight: isMd ? "600px" : "auto",
               }}
-            />
-
-            {/* Content */}
-            <div style={{ position: "relative" }}>
-              <p
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.3em",
-                  textTransform: "uppercase",
-                  color: identity.accent,
-                  marginBottom: "1.75rem",
-                  opacity: hovered === identity.id ? 1 : 0.5,
-                  transition: "opacity 0.3s ease",
-                }}
-              >
-                {identity.discipline}
-              </p>
-
-              <h3
-                style={{
-                  fontFamily: identity.font,
-                  fontSize: "clamp(1.4rem, 2.5vw, 2rem)",
-                  fontWeight: identity.id === "spy" ? 600 : 400,
-                  color: "#F7F4EE",
-                  marginBottom: "1rem",
-                  lineHeight: 1.1,
-                  letterSpacing: identity.id === "cyb3r" ? "0.05em" : "normal",
-                }}
-              >
-                {identity.name}
-              </h3>
-
-              <p
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: "0.65rem",
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: identity.secondary,
-                  marginBottom: "2rem",
-                  opacity: 0.55,
-                }}
-              >
-                {identity.archetype}
-              </p>
-
-              <motion.p
-                animate={{
-                  opacity: hovered === identity.id ? 1 : 0.45,
-                }}
-                transition={{ duration: 0.3 }}
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "1.1rem",
-                  fontStyle: "italic",
-                  lineHeight: 1.6,
-                  color: "#F7F4EE",
-                  maxWidth: "300px",
-                  marginBottom: "2rem",
-                }}
-              >
-                "{identity.motto}"
-              </motion.p>
-
-              <p
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: "0.8rem",
-                  lineHeight: 1.7,
-                  color: "rgba(247,244,238,0.4)",
-                  maxWidth: "280px",
-                  transition: "color 0.3s ease",
-                }}
-              >
-                {identity.description}
-              </p>
-            </div>
-
-            {/* Bottom section */}
-            <div style={{ position: "relative", marginTop: "2.5rem" }}>
+            >
+              {/* Ambient glow on hover/focus */}
               <div
+                aria-hidden="true"
                 style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: "200px",
+                  background: `radial-gradient(ellipse at 50% 0%, ${identity.accent}1a 0%, transparent 70%)`,
+                  opacity: active ? 1 : 0,
+                  transition: reduceMotion ? "none" : "opacity 0.4s ease",
+                  pointerEvents: "none",
+                }}
+              />
+
+              <Link
+                to={identity.path}
+                aria-label={`Enter ${identity.name} — ${identity.discipline}`}
+                style={{
+                  position: "relative",
                   display: "flex",
-                  flexWrap: "wrap",
-                  gap: "0.5rem",
-                  marginBottom: "2rem",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  gap: "2rem",
+                  minHeight: isMd ? "600px" : "480px",
+                  padding: isMd ? "3rem 2.5rem 2.75rem" : "2.5rem 1.75rem",
+                  textDecoration: "none",
                 }}
               >
-                {identity.preview.map((item) => (
+                <span style={{ position: "relative", display: "block" }}>
                   <span
-                    key={item.label}
                     style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: "0.6rem",
-                      letterSpacing: "0.12em",
+                      fontFamily: CORE_FONTS.body,
+                      fontSize: "0.68rem",
+                      fontWeight: 600,
+                      letterSpacing: "0.26em",
                       textTransform: "uppercase",
-                      padding: "0.3rem 0.75rem",
-                      border: `1px solid ${hovered === identity.id ? identity.accent + "60" : "rgba(247,244,238,0.1)"}`,
-                      color: hovered === identity.id ? identity.accent : "rgba(247,244,238,0.3)",
-                      transition: "all 0.3s ease",
+                      color: identity.accent,
+                      display: "block",
+                      marginBottom: "1.5rem",
+                      opacity: active ? 1 : 0.75,
                     }}
                   >
-                    {item.label}
+                    {identity.discipline}
                   </span>
-                ))}
-              </div>
 
-              <button
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.75rem",
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: "0.65rem",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: hovered === identity.id ? identity.accent : "rgba(247,244,238,0.4)",
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                  transition: "color 0.3s ease",
-                  padding: 0,
-                }}
-              >
-                Enter
-                <motion.span
-                  animate={{ x: hovered === identity.id ? 4 : 0 }}
-                  transition={{ duration: 0.25 }}
-                  style={{ display: "flex", alignItems: "center" }}
-                >
-                  <ArrowRight size={12} strokeWidth={1.5} />
-                </motion.span>
-              </button>
-            </div>
-          </motion.div>
-        ))}
+                  <span
+                    style={{
+                      fontFamily: identity.font,
+                      fontSize: "clamp(1.5rem, 2.4vw, 1.9rem)",
+                      fontWeight: identity.id === "spy" ? 600 : 500,
+                      color: "#F7F4EE",
+                      display: "block",
+                      marginBottom: "0.8rem",
+                      lineHeight: 1.12,
+                      letterSpacing: identity.id === "cyb3r" ? "0.03em" : "normal",
+                    }}
+                  >
+                    {identity.name}
+                  </span>
+
+                  <span
+                    style={{
+                      fontFamily: CORE_FONTS.body,
+                      fontSize: "0.68rem",
+                      fontWeight: 500,
+                      letterSpacing: "0.16em",
+                      textTransform: "uppercase",
+                      color: identity.secondary,
+                      display: "block",
+                      marginBottom: "1.75rem",
+                      opacity: 0.7,
+                    }}
+                  >
+                    {identity.archetype}
+                  </span>
+
+                  <span
+                    style={{
+                      fontFamily: CORE_FONTS.display,
+                      fontSize: "1.15rem",
+                      fontStyle: "italic",
+                      lineHeight: 1.6,
+                      color: "#F7F4EE",
+                      display: "block",
+                      maxWidth: "19rem",
+                      marginBottom: "1.5rem",
+                      opacity: active ? 1 : 0.72,
+                    }}
+                  >
+                    &ldquo;{identity.motto}&rdquo;
+                  </span>
+
+                  <span
+                    style={{
+                      fontFamily: CORE_FONTS.body,
+                      fontSize: "0.85rem",
+                      lineHeight: 1.7,
+                      color: "rgba(247,244,238,0.62)",
+                      display: "block",
+                      maxWidth: "18rem",
+                    }}
+                  >
+                    {identity.description}
+                  </span>
+                </span>
+
+                <span style={{ position: "relative", display: "block" }}>
+                  <span
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: "0.5rem",
+                      marginBottom: "1.75rem",
+                    }}
+                  >
+                    {identity.preview.map((item) => (
+                      <span
+                        key={item.label}
+                        style={{
+                          fontFamily: CORE_FONTS.body,
+                          fontSize: "0.65rem",
+                          fontWeight: 500,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          padding: "0.4rem 0.8rem",
+                          border: `1px solid ${active ? `${identity.accent}66` : "rgba(247,244,238,0.16)"}`,
+                          color: active ? identity.accent : "rgba(247,244,238,0.6)",
+                        }}
+                      >
+                        {item.label}
+                      </span>
+                    ))}
+                  </span>
+
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.7rem",
+                      fontFamily: CORE_FONTS.body,
+                      fontSize: "0.72rem",
+                      fontWeight: 600,
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      color: active ? identity.accent : "rgba(247,244,238,0.6)",
+                      borderBottom: `1px solid ${active ? identity.accent : "transparent"}`,
+                      paddingBottom: "3px",
+                    }}
+                  >
+                    Enter
+                    <ArrowRight
+                      size={13}
+                      strokeWidth={1.75}
+                      style={{
+                        transform: active && !reduceMotion ? "translateX(3px)" : "none",
+                        transition: "transform 0.25s ease",
+                      }}
+                    />
+                  </span>
+                </span>
+              </Link>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );
+}
+
+function darkIdle(mode: string): string {
+  return mode === "dark" ? "#141311" : "#211F1C";
 }

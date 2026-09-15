@@ -1,5 +1,15 @@
-import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation, useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Outlet, Navigate, useParams, useLocation } from "react-router";
+import { useState, useEffect } from "react";
+
+// Content (for document titles on deep routes)
+import {
+  yuukayceeProjects,
+  spyProjects,
+  cyberResearch,
+  securityProjects,
+  cyberBlogPosts,
+  devBlogPosts,
+} from "./data/content";
 
 // Theme
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -80,7 +90,10 @@ function CoreWrapper() {
   return (
     <>
       {showArrival && <ArrivalScreen onComplete={handleArrivalComplete} />}
-      <div style={{ opacity: showArrival ? 0 : 1, transition: "opacity 0.5s ease" }}>
+      <div style={{ opacity: showArrival ? 0 : 1, transition: "opacity 0.3s ease" }}>
+        <a href="#main-content" className="core-skip-link">
+          Skip to content
+        </a>
         <CoreNav />
         <CoreHome />
       </div>
@@ -146,16 +159,90 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <ScrollReset />
+      <RouteTitles />
       <AppRoutes />
     </BrowserRouter>
   );
 }
 
-function ScrollReset() {
-  const location = useLocation();
+/**
+ * Persona-specific document titles. Every tab names its page first, then
+ * its identity — specific enough to tell tabs apart, plain enough to
+ * stay professional. Middle dots only; no dashes of any kind.
+ */
+function RouteTitles() {
+  const { pathname } = useLocation();
+
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+    document.title = titleForPath(pathname);
+  }, [pathname]);
+
   return null;
+}
+
+const PERSONA_OF_IDENTITY: Record<string, string> = {
+  yuukaycee: "YuuKayCee",
+  spy: "Spy D. Veloper",
+  cyb3r: "CYB3R-BO1",
+};
+
+function titleForPath(pathname: string): string {
+  const FALLBACK = "Uday Cherri · The Core";
+
+  if (pathname === "/") return FALLBACK;
+  if (pathname === "/journey") return "Journey · Uday Cherri";
+  if (pathname === "/work") return "Work · Uday Cherri";
+  if (pathname === "/contact") return "Contact · Uday Cherri";
+
+  if (pathname === "/design") return "YuuKayCee · Design";
+  if (pathname === "/design/work") return "Work · YuuKayCee";
+  if (pathname === "/design/case-studies") return "Case Studies · YuuKayCee";
+  if (pathname === "/design/nyx-bureau") return "NYX Bureau · YuuKayCee";
+  if (pathname === "/design/archive") return "Archive · YuuKayCee";
+  if (pathname === "/design/contact") return "Contact · YuuKayCee";
+
+  if (pathname === "/development") return "Spy D. Veloper · Development";
+  if (pathname === "/development/projects") return "Projects · Spy D. Veloper";
+  if (pathname === "/development/systems") return "Systems · Spy D. Veloper";
+  if (pathname === "/development/experiments") return "Experiments · Spy D. Veloper";
+  if (pathname === "/development/open-source") return "Open Source · Spy D. Veloper";
+  if (pathname === "/development/blog") return "Blog · Spy D. Veloper";
+  if (pathname === "/development/contact") return "Contact · Spy D. Veloper";
+  if (pathname.startsWith("/development/blog/")) {
+    const slug = pathname.split("/").pop() ?? "";
+    const post = devBlogPosts.find((p) => p.slug === slug);
+    if (post) return `${post.title} · Spy D. Veloper`;
+    return "Blog · Spy D. Veloper";
+  }
+
+  if (pathname === "/security") return "CYB3R-BO1 · Security";
+  if (pathname === "/security/research") return "Research · CYB3R-BO1";
+  if (pathname === "/security/security-projects") return "Projects · CYB3R-BO1";
+  if (pathname === "/security/ctf-archive") return "CTF Archive · CYB3R-BO1";
+  if (pathname === "/security/blog") return "Blog · CYB3R-BO1";
+  if (pathname === "/security/contact") return "Contact · CYB3R-BO1";
+  if (pathname.startsWith("/security/blog/")) {
+    const slug = pathname.split("/").pop() ?? "";
+    const post = cyberBlogPosts.find((p) => p.slug === slug);
+    if (post) return `${post.title} · CYB3R-BO1`;
+    return "Blog · CYB3R-BO1";
+  }
+
+  if (pathname.startsWith("/project/")) {
+    const id = pathname.split("/").pop() ?? "";
+    const project =
+      yuukayceeProjects.find((p) => p.id === id) ??
+      spyProjects.find((p) => p.id === id) ??
+      securityProjects.find((p) => p.id === id) ??
+      cyberResearch.find((r) => r.id === id);
+    if (project) {
+      const identity = "identity" in project ? (project.identity as string) : "cyb3r";
+      const persona = PERSONA_OF_IDENTITY[identity] ?? "Uday Cherri";
+      const title = "title" in project ? String(project.title) : id;
+      return `${title} · ${persona}`;
+    }
+    return FALLBACK;
+  }
+
+  return FALLBACK;
 }

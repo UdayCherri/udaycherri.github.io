@@ -1,8 +1,9 @@
 import { motion } from "motion/react";
 import { journeyMilestones } from "../../data/content";
-import { useIsMd } from "../shared/useMediaQuery";
+import { useIsMd, usePrefersReducedMotion } from "../shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { CORE_EYEBROW, CORE_FONTS, CORE_LAYOUT } from "./coreDesign";
 
 const disciplineColors: Record<string, string> = {
   design: "#67E8F9",
@@ -20,192 +21,213 @@ const disciplineLabels: Record<string, string> = {
 
 export function JourneyTimeline() {
   const isMd = useIsMd();
+  const reduceMotion = usePrefersReducedMotion();
   const { mode } = useTheme();
   const theme = getIdentityTheme("core", mode);
 
   return (
     <section
+      aria-label="Milestones"
       style={{
-        padding: "8rem clamp(2rem, 8vw, 8rem)",
+        padding: `${CORE_LAYOUT.sectionY} ${CORE_LAYOUT.pad}`,
         background: theme.bgSubtle,
         borderTop: `1px solid ${theme.borderSubtle}`,
-        transition: "background 0.4s ease",
       }}
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+      <div style={{ maxWidth: CORE_LAYOUT.maxWidth, margin: "0 auto" }}>
         {/* Header */}
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-end",
-            marginBottom: "5rem",
+            marginBottom: "3.5rem",
             flexWrap: "wrap",
-            gap: "1rem",
+            gap: "1.5rem",
           }}
         >
           <div>
             <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "0.65rem",
-                letterSpacing: "0.3em",
-                textTransform: "uppercase",
-                color: theme.accent,
-                marginBottom: "1rem",
-              }}
+              {...(reduceMotion
+                ? {}
+                : {
+                    initial: { opacity: 0 },
+                    whileInView: { opacity: 1 },
+                    viewport: { once: true },
+                    transition: { duration: 0.45 },
+                  })}
+              style={{ ...CORE_EYEBROW, color: theme.accent, margin: "0 0 0.9rem" }}
             >
               Milestones
             </motion.p>
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              {...(reduceMotion
+                ? {}
+                : {
+                    initial: { opacity: 0, y: 12 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true },
+                    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+                  })}
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "clamp(2rem, 3.5vw, 3rem)",
-                fontWeight: 300,
+                fontFamily: CORE_FONTS.display,
+                fontSize: "clamp(2rem, 3.4vw, 2.9rem)",
+                fontWeight: 400,
                 color: theme.fg,
-                lineHeight: 1.15,
+                lineHeight: 1.12,
+                letterSpacing: "-0.01em",
+                margin: 0,
               }}
             >
-              Work that speaks.
+              Evidence.
             </motion.h2>
           </div>
 
           {/* Legend */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+          <motion.ul
+            {...(reduceMotion
+              ? {}
+              : {
+                  initial: { opacity: 0 },
+                  whileInView: { opacity: 1 },
+                  viewport: { once: true },
+                  transition: { duration: 0.45, delay: 0.1 },
+                })}
+            aria-label="Disciplines"
             style={{
               display: "flex",
-              gap: "1.5rem",
+              gap: "1.25rem",
               alignItems: "center",
               flexWrap: "wrap",
+              listStyle: "none",
+              margin: 0,
+              padding: 0,
             }}
           >
-            {Object.entries(disciplineLabels).filter(([k]) => k !== "core").map(([key, label]) => (
-              <div key={key} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <div
-                  style={{
-                    width: "6px",
-                    height: "6px",
-                    borderRadius: "50%",
-                    background: disciplineColors[key],
-                  }}
-                />
-                <span
-                  style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: theme.fgMuted,
-                  }}
-                >
-                  {label}
-                </span>
-              </div>
-            ))}
-          </motion.div>
+            {Object.entries(disciplineLabels)
+              .filter(([k]) => k !== "core")
+              .map(([key, label]) => (
+                <li key={key} style={{ display: "flex", alignItems: "center", gap: "0.55rem" }}>
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "50%",
+                      background: disciplineColors[key],
+                      boxShadow: `0 0 0 3px ${disciplineColors[key]}22`,
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontFamily: CORE_FONTS.body,
+                      fontSize: "0.68rem",
+                      fontWeight: 500,
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      color: theme.fgMuted,
+                    }}
+                  >
+                    {label}
+                  </span>
+                </li>
+              ))}
+          </motion.ul>
         </div>
 
-        {/* Milestones grid */}
-        <div
+        {/* Milestones — single-column rhythm with top dividers; two-up on md via gap */}
+        <ol
           style={{
+            listStyle: "none",
+            margin: 0,
+            padding: 0,
             display: "grid",
             gridTemplateColumns: isMd ? "repeat(2, 1fr)" : "1fr",
-            gap: "0",
+            columnGap: "3rem",
           }}
         >
           {journeyMilestones.map((milestone, i) => (
-            <motion.div
+            <motion.li
               key={milestone.id}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{
-                duration: 0.5,
-                delay: i * 0.04,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+              {...(reduceMotion
+                ? {}
+                : {
+                    initial: { opacity: 0, y: 10 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true, margin: "-40px" },
+                    transition: { duration: 0.45, delay: Math.min(i * 0.05, 0.2), ease: [0.22, 1, 0.36, 1] },
+                  })}
               style={{
                 display: "flex",
-                alignItems: "center",
-                gap: "1.25rem",
-                padding: "1.5rem 0",
-                borderBottom: `1px solid ${theme.borderSubtle}`,
-                borderRight: isMd && i % 2 === 0 ? `1px solid ${theme.borderSubtle}` : "none",
-                paddingRight: isMd && i % 2 === 0 ? "3rem" : "0",
-                paddingLeft: isMd && i % 2 !== 0 ? "3rem" : "0",
+                alignItems: "baseline",
+                gap: "1rem",
+                padding: "1.35rem 0",
+                borderTop: `1px solid ${theme.borderSubtle}`,
+                borderBottom: !isMd && i === journeyMilestones.length - 1 ? `1px solid ${theme.borderSubtle}` : "none",
               }}
             >
-              {/* Discipline dot */}
-              <div
+              <span
+                aria-hidden="true"
                 style={{
                   flexShrink: 0,
                   width: "8px",
                   height: "8px",
                   borderRadius: "50%",
                   background: disciplineColors[milestone.discipline],
+                  boxShadow: `0 0 0 3px ${disciplineColors[milestone.discipline]}22`,
+                  transform: "translateY(-1px)",
+                  alignSelf: "center",
                 }}
               />
 
-              {/* Year */}
-              <p
+              <span
                 style={{
                   flexShrink: 0,
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "1.1rem",
-                  fontWeight: 300,
+                  fontFamily: CORE_FONTS.body,
+                  fontVariantNumeric: "tabular-nums",
+                  fontSize: "0.85rem",
+                  fontWeight: 500,
+                  letterSpacing: "0.08em",
                   color: theme.fgMuted,
-                  opacity: 0.6,
-                  width: "3rem",
-                  lineHeight: 1,
+                  width: "3.25rem",
+                  lineHeight: 1.4,
                 }}
               >
                 {milestone.year}
-              </p>
+              </span>
 
-              {/* Title */}
-              <p
+              <span
                 style={{
                   flex: 1,
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "1.15rem",
+                  fontFamily: CORE_FONTS.display,
+                  fontSize: "1.2rem",
                   fontWeight: 400,
                   color: theme.fg,
                   lineHeight: 1.3,
                 }}
               >
                 {milestone.title}
-              </p>
+              </span>
 
-              {/* Note */}
-              <p
+              <span
                 style={{
                   flexShrink: 0,
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.1em",
-                  color: disciplineColors[milestone.discipline],
+                  fontFamily: CORE_FONTS.body,
+                  fontSize: "0.68rem",
+                  fontWeight: 500,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: theme.fgMuted,
                   textAlign: "right",
-                  maxWidth: "100px",
-                  lineHeight: 1.4,
+                  maxWidth: "7rem",
+                  lineHeight: 1.5,
                 }}
               >
                 {milestone.note}
-              </p>
-            </motion.div>
+              </span>
+            </motion.li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

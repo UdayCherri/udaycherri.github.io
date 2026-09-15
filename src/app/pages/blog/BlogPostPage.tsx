@@ -65,7 +65,7 @@ export default function BlogPostPage({ section }: { section: BlogSection }) {
 
   if (!post || !body) {
     return (
-      <div style={{ padding: "6rem clamp(2rem, 6vw, 6rem)", minHeight: "100vh" }}>
+      <div style={{ padding: "6rem clamp(1.25rem, 5vw, 3rem)", minHeight: "100vh" }}>
         <div style={{ maxWidth: "720px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
           <h1 style={{ fontFamily: fonts.heading, fontSize: "1.6rem", color: theme.fg }}>Post not found</h1>
           {backLink}
@@ -74,8 +74,11 @@ export default function BlogPostPage({ section }: { section: BlogSection }) {
     );
   }
 
+  // Note: no page-level transition here — the discipline layout already
+  // wraps this route. Nesting two pathname-keyed transitions compounds
+  // their wait states into a visible stutter.
   return (
-    <div style={{ padding: "4rem clamp(2rem, 6vw, 6rem) 8rem", minHeight: "100vh" }}>
+    <div style={{ padding: "4rem clamp(1.25rem, 5vw, 3rem) 8rem", minHeight: "100vh" }}>
       <article style={{ maxWidth: "720px", margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, y: 16 }}

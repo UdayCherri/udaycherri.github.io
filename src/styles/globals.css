@@ -1,0 +1,73 @@
+/* ─── Core global refinements ───────────────────────────────────────────
+   Base readability, focus visibility, selection, and reduced-motion
+   handling for the whole portfolio. Identity-specific themes stay in
+   identityThemes.ts — this file only carries universal, low-risk rules. */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* Guard against horizontal scrollbar flashes from lateral page
+   * transitions. `clip` (unlike `hidden`) creates no scroll container,
+   * so position: sticky keeps working. */
+  overflow-x: clip;
+}
+
+body {
+  overflow-x: clip;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Legible, on-palette text selection */
+::selection {
+  background: rgba(184, 164, 106, 0.28);
+}
+
+/* Visible keyboard focus everywhere — 2px bronze ring with offset */
+:focus-visible {
+  outline: 2px solid #b8a46a;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Skip link (rendered by Core pages) */
+.core-skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: #1b1a18;
+  color: #f7f4ed;
+  border: 1px solid #b8a46a;
+  transition: top 0.2s ease;
+}
+
+.core-skip-link:focus-visible {
+  top: 1rem;
+}
+
+/* Respect reduced-motion preferences globally:
+   kills smooth scrolling, CSS transitions/animations, and lets the
+   JS motion components opt out via usePrefersReducedMotion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

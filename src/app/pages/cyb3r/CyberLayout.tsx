@@ -1,11 +1,15 @@
 import { Outlet, Link, useLocation } from "react-router";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { BackToCore } from "../../components/shared/BackToCore";
+import { DisciplineBrand } from "../../components/shared/DisciplineBrand";
 import { ThemeToggle } from "../../components/shared/ThemeToggle";
+import { RouteTransition } from "../../components/shared/PageTransition";
 import { ThemeProvider, useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { usePrefersReducedMotion } from "../../components/shared/useMediaQuery";
 import { Menu, X } from "lucide-react";
+
+const MAIN_BAR_HEIGHT = 64;
 
 const navLinks = [
   { to: "/security", label: "Home" },
@@ -20,16 +24,27 @@ function CyberLayoutInner() {
   const location = useLocation();
   const { mode } = useTheme();
   const theme = getIdentityTheme("cyb3r", mode);
+  const reduceMotion = usePrefersReducedMotion();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40);
+    const handler = () => setScrolled(window.scrollY > 24);
+    handler();
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
   useEffect(() => setMenuOpen(false), [location.pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [menuOpen]);
 
   return (
     <div
@@ -39,11 +54,12 @@ function CyberLayoutInner() {
         fontFamily: "'IBM Plex Sans', sans-serif",
         color: theme.fg,
         position: "relative",
-        transition: "background 0.4s ease, color 0.4s ease",
+        transition: "background 0.3s ease, color 0.3s ease",
       }}
     >
       {/* Scan-line texture */}
       <div
+        aria-hidden="true"
         style={{
           position: "fixed",
           inset: 0,
@@ -53,11 +69,11 @@ function CyberLayoutInner() {
         }}
       />
 
-      {/* Navigation — status bar style */}
+      {/* Navigation */}
       <motion.header
-        initial={{ opacity: 0 }}
+        initial={reduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.35 }}
+        transition={{ duration: 0.3 }}
         style={{
           position: "fixed",
           top: 0,
@@ -66,101 +82,118 @@ function CyberLayoutInner() {
           zIndex: 40,
           background: scrolled ? theme.navBgScrolled : theme.navBg,
           backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
           borderBottom: `1px solid ${theme.borderSubtle}`,
-          transition: "background 0.3s ease",
+          boxShadow: scrolled ? theme.shadow : "none",
+          transition: "background 0.3s ease, box-shadow 0.3s ease",
         }}
       >
-        {/* Top status bar */}
-        <div
-          style={{
-            padding: "0.5rem clamp(1rem, 4vw, 3rem)",
-            background: `${theme.accent}0D`,
-            borderBottom: `1px solid ${theme.borderSubtle}`,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.6rem",
-              color: `${theme.accent}99`,
-              letterSpacing: "0.1em",
-            }}
-          >
-            CYB3R-BO1 // Research Operations
-          </p>
-          <p
-            style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.6rem",
-              color: `${theme.accent}66`,
-            }}
-          >
-            STATUS: ACTIVE
-          </p>
-        </div>
-
         {/* Main nav */}
         <div
           style={{
-            padding: "1rem clamp(1rem, 4vw, 3rem)",
+            padding: "0 clamp(1.25rem, 4vw, 2.5rem)",
+            height: `${MAIN_BAR_HEIGHT}px`,
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            gap: "1rem",
+            position: "relative",
           }}
         >
-          <Link
-            to="/security"
+          {/* Brand lockup — discipline home + quiet route back to The Core */}
+          <DisciplineBrand
+            name="CYB3R-BO1"
+            homePath="/security"
+            nameFont="'IBM Plex Mono', monospace"
+            nameWeight={600}
+            nameSize="0.9rem"
+            nameSpacing="0.05em"
+            fg={theme.fg}
+            muted={theme.fgMuted}
+            accent={theme.accent}
+          />
+
+          {/* Desktop nav — centered */}
+          <nav
+            className="hidden lg:flex items-center gap-1"
+            aria-label="Primary"
             style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.9rem",
-              fontWeight: 500,
-              color: theme.fg,
-              textDecoration: "none",
-              letterSpacing: "0.05em",
-              transition: "color 0.3s ease",
+              position: "absolute",
+              left: "50%",
+              transform: "translateX(-50%)",
             }}
           >
-            CYB3R-BO1
-          </Link>
-
-          <nav className="hidden md:flex items-center gap-6">
             {navLinks.slice(1).map(({ to, label }) => {
-              const active = location.pathname === to;
+              const active =
+                location.pathname === to || (to !== "/security" && location.pathname.startsWith(to));
               return (
                 <Link
                   key={to}
                   to={to}
+                  aria-current={active ? "page" : undefined}
                   style={{
                     fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "clamp(0.6rem, 1.5vw, 0.65rem)",
+                    fontSize: "0.68rem",
                     letterSpacing: "0.1em",
                     color: active ? theme.accent : theme.fgMuted,
                     textDecoration: "none",
-                    transition: "color 0.15s ease",
-                    paddingBottom: active ? "1px" : "2px",
-                    borderBottom: active ? `1px solid ${theme.accent}` : "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    minHeight: "44px",
+                    padding: "0 0.65rem",
+                    position: "relative",
                   }}
                 >
                   {label}
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      position: "absolute",
+                      left: "0.65rem",
+                      right: "0.65rem",
+                      bottom: "8px",
+                      height: "2px",
+                      background: theme.accent,
+                      opacity: active ? 1 : 0,
+                      transform: active ? "scaleX(1)" : "scaleX(0)",
+                      transformOrigin: "left",
+                      transition: "opacity 0.2s ease, transform 0.2s ease",
+                    }}
+                  />
                 </Link>
               );
             })}
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <ThemeToggle identity="cyb3r" />
-              <BackToCore style={{ color: theme.fgMuted }} />
-            </div>
           </nav>
 
-          <button
-            className="md:hidden"
-            onClick={() => setMenuOpen(!menuOpen)}
-            style={{ color: theme.fg, background: "transparent", border: "none", cursor: "pointer", padding: "0.5rem" }}
-          >
-            {menuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
-          </button>
+          {/* Desktop theme toggle — right */}
+          <div className="hidden lg:flex items-center">
+            <ThemeToggle identity="cyb3r" />
+          </div>
+
+          {/* Mobile cluster — toggle stays visible, menu opens the links */}
+          <div className="lg:hidden flex items-center gap-1">
+            <ThemeToggle identity="cyb3r" />
+            <button
+              type="button"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-expanded={menuOpen}
+              aria-controls="cyber-mobile-menu"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              style={{
+                color: theme.fg,
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "44px",
+                height: "44px",
+              }}
+            >
+              {menuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
+            </button>
+          </div>
         </div>
       </motion.header>
 
@@ -172,61 +205,79 @@ function CyberLayoutInner() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
             onClick={() => setMenuOpen(false)}
             style={{ position: "fixed", inset: 0, zIndex: 38, background: "rgba(0,0,0,0.5)" }}
+            aria-hidden="true"
           />
         )}
       </AnimatePresence>
 
-      {/* Mobile menu */}
+      {/* Mobile menu — anchored panel, not fullscreen */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
+          <motion.nav
             key="cyber-menu"
-            initial={{ opacity: 0, y: -8 }}
+            id="cyber-mobile-menu"
+            aria-label="Mobile"
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+            transition={{ duration: reduceMotion ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
             style={{
               position: "fixed",
-              inset: 0,
+              top: "64px",
+              left: 0,
+              right: 0,
               zIndex: 39,
               background: theme.bg,
+              borderBottom: `1px solid ${theme.borderSubtle}`,
               display: "flex",
               flexDirection: "column",
-              justifyContent: "center",
-              padding: "3rem",
-              gap: "0.25rem",
+              padding: "0.75rem clamp(1.25rem, 5vw, 2rem) 1.25rem",
+              maxHeight: "calc(100dvh - 64px)",
+              overflowY: "auto",
             }}
           >
-            {navLinks.map(({ to, label }) => (
-              <Link
-                key={to}
-                to={to}
-                style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "1.5rem",
-                  fontWeight: 500,
-                  color: theme.fg,
-                  textDecoration: "none",
-                  padding: "0.75rem 0",
-                }}
-              >
-                {label}
-              </Link>
-            ))}
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "1.5rem" }}>
-              <BackToCore style={{ color: theme.fgMuted }} />
-              <ThemeToggle identity="cyb3r" />
-            </div>
-          </motion.div>
+            {navLinks.map(({ to, label }) => {
+              const active =
+                location.pathname === to || (to !== "/security" && location.pathname.startsWith(to));
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  onClick={() => setMenuOpen(false)}
+                  aria-current={active ? "page" : undefined}
+                  style={{
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "1.05rem",
+                    fontWeight: 500,
+                    color: active ? theme.accent : theme.fg,
+                    textDecoration: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.75rem",
+                    minHeight: "54px",
+                    padding: "0.55rem 0",
+                    borderBottom: `1px solid ${theme.borderSubtle}`,
+                  }}
+                >
+                  <span aria-hidden="true" style={{ color: theme.accent, opacity: active ? 1 : 0.4 }}>
+                    &gt;
+                  </span>
+                  {label}
+                </Link>
+              );
+            })}
+          </motion.nav>
         )}
       </AnimatePresence>
 
-      {/* Content */}
-      <div style={{ paddingTop: "96px", position: "relative", zIndex: 1 }}>
-        <Outlet />
+      {/* Content — clears the 64px fixed bar. */}
+      <div style={{ paddingTop: "68px", position: "relative", zIndex: 1 }}>
+        <RouteTransition persona="cyb3r">
+          <Outlet />
+        </RouteTransition>
       </div>
     </div>
   );

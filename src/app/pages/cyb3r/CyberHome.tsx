@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { motion } from "motion/react";
-import { useNavigate } from "react-router";
-import { ArrowRight, Shield, Key, Package, Cpu } from "lucide-react";
+import { useNavigate, Link } from "react-router";
+import { ArrowRight, ArrowUpRight, Shield, Key, Package, Cpu } from "lucide-react";
 import { cyberResearch, securityProjects } from "../../data/content";
-import { useIsDesktop, useIsMd } from "../../components/shared/useMediaQuery";
+import { useIsDesktop, useIsMd, usePrefersReducedMotion } from "../../components/shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 
@@ -19,64 +20,81 @@ const severityWidth: Record<string, string> = {
   Low: "20%",
 };
 
-const severityColor: Record<string, string> = {
-  Critical: "rgba(239,68,68,0.8)",
-  High: "rgba(245,158,11,0.8)",
-  Medium: "rgba(107,114,128,0.7)",
-  Low: "rgba(59,130,246,0.6)",
-};
+/** Severity colors adapt to the theme: translucent brights on dark,
+ *  solid deep tones on light so small badge text stays legible. */
+function severityStyle(severity: string, mode: "dark" | "light"): { color: string; border: string; bar: string } {
+  if (mode === "light") {
+    const map: Record<string, { color: string; border: string; bar: string }> = {
+      Critical: { color: "#B91C1C", border: "rgba(185,28,28,0.4)", bar: "#DC2626" },
+      High: { color: "#B45309", border: "rgba(180,83,9,0.4)", bar: "#D97706" },
+      Medium: { color: "#4B5563", border: "rgba(75,85,99,0.4)", bar: "#6B7280" },
+      Low: { color: "#1D4ED8", border: "rgba(29,78,216,0.4)", bar: "#3B82F6" },
+    };
+    return map[severity] ?? map.Medium;
+  }
+  const map: Record<string, { color: string; border: string; bar: string }> = {
+    Critical: { color: "rgba(239,68,68,0.95)", border: "rgba(239,68,68,0.45)", bar: "rgba(239,68,68,0.85)" },
+    High: { color: "rgba(245,158,11,0.95)", border: "rgba(245,158,11,0.45)", bar: "rgba(245,158,11,0.85)" },
+    Medium: { color: "rgba(156,163,175,0.9)", border: "rgba(156,163,175,0.4)", bar: "rgba(156,163,175,0.7)" },
+    Low: { color: "rgba(96,165,250,0.9)", border: "rgba(96,165,250,0.4)", bar: "rgba(96,165,250,0.7)" },
+  };
+  return map[severity] ?? map.Medium;
+}
 
-const severityBorder: Record<string, string> = {
-  Critical: "rgba(239,68,68,0.4)",
-  High: "rgba(245,158,11,0.4)",
-  Medium: "rgba(107,114,128,0.4)",
-  Low: "rgba(59,130,246,0.4)",
-};
-
-function ProfileArea({ theme, mode }: { theme: ReturnType<typeof getIdentityTheme>; mode: "dark" | "light" }) {
+function ProfileArea({
+  theme,
+  mode,
+  aspect = "4/5",
+}: {
+  theme: ReturnType<typeof getIdentityTheme>;
+  mode: "dark" | "light";
+  aspect?: string;
+}) {
   return (
-    <motion.div
+    <figure
       style={{
         position: "relative",
         width: "100%",
         maxWidth: "460px",
-        aspectRatio: "4/5",
+        aspectRatio: aspect,
         overflow: "hidden",
         flexShrink: 0,
         border: `1px solid ${theme.borderSubtle}`,
+        margin: 0,
+        background: theme.bgSubtle,
       }}
-      whileHover="hover"
     >
       {/* Security researcher photograph */}
-      <motion.img
+      <img
         src="/images/cyb3r-profile.png"
-        alt="Security researcher portrait"
-        variants={{ hover: { scale: 1.04 } }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        alt="CYB3R-BO1 security researcher portrait"
+        loading="eager"
         style={{
           width: "100%",
           height: "100%",
           objectFit: "cover",
           objectPosition: "center top",
           display: "block",
-          filter: mode === "dark" ? "brightness(0.78) saturate(0.8)" : "brightness(0.92) saturate(0.82)",
+          filter: mode === "dark" ? "brightness(0.8) saturate(0.85)" : "brightness(0.97) saturate(0.9)",
         }}
       />
 
       {/* Gradient overlay — bottom */}
       <div
+        aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
           background: mode === "dark"
-            ? "linear-gradient(to top, rgba(5,7,12,0.85) 0%, rgba(5,7,12,0.1) 50%, transparent 100%)"
-            : "linear-gradient(to top, rgba(238,244,241,0.8) 0%, rgba(238,244,241,0.05) 50%, transparent 100%)",
+            ? "linear-gradient(to top, rgba(5,7,12,0.88) 0%, rgba(5,7,12,0.1) 50%, transparent 100%)"
+            : "linear-gradient(to top, rgba(3,6,5,0.62) 0%, rgba(3,6,5,0.08) 50%, transparent 100%)",
           pointerEvents: "none",
         }}
       />
 
       {/* Subtle green accent edge — top */}
       <div
+        aria-hidden="true"
         style={{
           position: "absolute",
           top: 0,
@@ -90,21 +108,21 @@ function ProfileArea({ theme, mode }: { theme: ReturnType<typeof getIdentityThem
 
       {/* Identity classification — top */}
       <div style={{ position: "absolute", top: "1.25rem", left: "1.25rem" }}>
-        <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.6rem", color: `${theme.accent}99`, letterSpacing: "0.12em" }}>
+        <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.65rem", color: mode === "dark" ? theme.accent : "#34D399", letterSpacing: "0.12em", margin: 0 }}>
           CLASS: RESEARCHER
         </p>
       </div>
 
       {/* Identity label — bottom */}
-      <div style={{ position: "absolute", bottom: "1.75rem", left: "1.75rem", right: "1.75rem" }}>
-        <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: theme.accent, marginBottom: "0.35rem", opacity: 0.8 }}>
+      <figcaption style={{ position: "absolute", bottom: "1.75rem", left: "1.75rem", right: "1.75rem" }}>
+        <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.65rem", letterSpacing: "0.22em", color: mode === "dark" ? theme.accent : "#34D399", margin: "0 0 0.35rem" }}>
           THE INTELLIGENCE NETWORK
         </p>
-        <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "1.1rem", fontWeight: 500, color: mode === "dark" ? "rgba(236,253,245,0.95)" : "rgba(5,30,18,0.9)", letterSpacing: "0.05em" }}>
+        <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "1.1rem", fontWeight: 600, color: "#EAFBF3", letterSpacing: "0.05em", margin: 0 }}>
           CYB3R-BO1
         </p>
-      </div>
-    </motion.div>
+      </figcaption>
+    </figure>
   );
 }
 
@@ -112,16 +130,19 @@ export default function CyberHome() {
   const navigate = useNavigate();
   const { mode } = useTheme();
   const theme = getIdentityTheme("cyb3r", mode);
+  const reduceMotion = usePrefersReducedMotion();
   const isDesktop = useIsDesktop();
   const isMd = useIsMd();
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   return (
     <div style={{ background: "transparent", minHeight: "100vh" }}>
       {/* Hero */}
       <section
+        aria-label="Introduction"
         style={{
-          padding: "5rem clamp(2rem, 6vw, 6rem)",
-          minHeight: "85vh",
+          padding: "clamp(3rem, 7vw, 5rem) clamp(1.25rem, 5vw, 3rem)",
+          minHeight: "85svh",
           display: "flex",
           alignItems: "center",
         }}
@@ -130,46 +151,48 @@ export default function CyberHome() {
           style={{
             display: "grid",
             gridTemplateColumns: isDesktop ? "1fr 1fr" : "1fr",
-            gap: isDesktop ? "5rem" : "3rem",
+            gap: isDesktop ? "5rem" : "2.5rem",
             alignItems: "center",
             width: "100%",
             maxWidth: "1200px",
             margin: "0 auto",
           }}
         >
-          <div>
+          <div style={{ minWidth: 0 }}>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.35 }}
-              style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", marginBottom: "2rem" }}
+              {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.35 } })}
+              style={{ display: "inline-flex", alignItems: "center", gap: "0.55rem", minHeight: "44px", marginBottom: "1.5rem" }}
             >
-              <Shield size={10} strokeWidth={2} color={theme.accent} />
+              <Shield size={12} strokeWidth={2} color={theme.accent} aria-hidden="true" />
               <span
                 style={{
                   fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "clamp(0.6rem, 1.5vw, 0.6rem)",
-                  letterSpacing: "0.15em",
-                  color: `${theme.accent}B3`,
+                  fontSize: "0.68rem",
+                  letterSpacing: "0.14em",
+                  color: theme.accent,
                 }}
               >
-                SECURITY_BEGINS_WITH_UNDERSTANDING
+                {"// RESEARCH_LOG"}
               </span>
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+              {...(reduceMotion
+                ? {}
+                : {
+                    initial: { opacity: 0, y: 12 },
+                    animate: { opacity: 1, y: 0 },
+                    transition: { duration: 0.4, delay: 0.08, ease: "easeOut" },
+                  })}
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: "clamp(2rem, 5vw, 4.5rem)",
-                fontWeight: 500,
+                fontSize: "clamp(2rem, 5vw, 4.25rem)",
+                fontWeight: 600,
                 color: theme.fg,
-                lineHeight: 1.15,
+                lineHeight: 1.12,
                 letterSpacing: "-0.02em",
-                marginBottom: "2rem",
-                transition: "color 0.3s ease",
+                margin: "0 0 1.5rem",
+                textWrap: "balance",
               }}
             >
               Security<br />
@@ -178,16 +201,14 @@ export default function CyberHome() {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
+              {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.4, delay: 0.16 } })}
               style={{
                 fontFamily: "'IBM Plex Sans', sans-serif",
-                fontSize: "clamp(0.85rem, 2vw, 0.9rem)",
+                fontSize: "clamp(0.9rem, 1.8vw, 0.95rem)",
                 lineHeight: 1.75,
                 color: theme.fgMuted,
-                maxWidth: "420px",
-                marginBottom: "3rem",
+                maxWidth: "27rem",
+                margin: "0 0 2.25rem",
               }}
             >
               Vulnerability research, CTF competition, security tooling.
@@ -195,69 +216,78 @@ export default function CyberHome() {
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.3 }}
-              style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}
+              {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.3, delay: 0.22 } })}
+              style={{ display: "flex", gap: "0.85rem", flexWrap: "wrap" }}
             >
               <button
+                type="button"
                 onClick={() => navigate("/security/research")}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "0.75rem",
+                  gap: "0.7rem",
+                  minHeight: "52px",
                   fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "0.65rem",
+                  fontSize: "0.68rem",
                   letterSpacing: "0.1em",
-                  color: mode === "dark" ? "#0F1318" : "#fff",
+                  color: mode === "dark" ? "#0F1318" : "#FFFFFF",
                   background: theme.accent,
                   border: `1px solid ${theme.accent}`,
                   padding: "0.85rem 1.75rem",
                   cursor: "pointer",
-                  transition: "all 0.2s ease",
+                  transition: "filter 0.2s ease",
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.85"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
+                onMouseEnter={(e) => { e.currentTarget.style.filter = "brightness(1.1)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.filter = "none"; }}
               >
                 View Research
-                <ArrowRight size={12} strokeWidth={2} />
+                <ArrowRight size={13} strokeWidth={2} aria-hidden="true" />
               </button>
               <button
+                type="button"
                 onClick={() => navigate("/security/ctf-archive")}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "0.75rem",
+                  gap: "0.7rem",
+                  minHeight: "52px",
                   fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "0.65rem",
+                  fontSize: "0.68rem",
                   letterSpacing: "0.1em",
-                  color: theme.fgMuted,
+                  color: theme.fg,
                   background: "transparent",
                   border: `1px solid ${theme.borderSubtle}`,
                   padding: "0.85rem 1.75rem",
                   cursor: "pointer",
-                  transition: "all 0.2s ease",
+                  transition: "border-color 0.2s ease, color 0.2s ease",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.color = theme.accent;
-                  e.currentTarget.style.borderColor = `${theme.accent}80`;
+                  e.currentTarget.style.borderColor = theme.accent;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.color = theme.fgMuted;
+                  e.currentTarget.style.color = theme.fg;
                   e.currentTarget.style.borderColor = theme.borderSubtle;
                 }}
               >
                 CTF Archive
               </button>
             </motion.div>
+
+            {!isDesktop && (
+              <motion.div
+                {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.45, delay: 0.2 } })}
+                style={{ marginTop: "2.5rem" }}
+              >
+                <ProfileArea theme={theme} mode={mode} aspect="16/10" />
+              </motion.div>
+            )}
           </div>
 
           {/* Portrait — desktop only */}
           {isDesktop && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
+              {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.5, delay: 0.12 } })}
               style={{ display: "flex", justifyContent: "center" }}
             >
               <ProfileArea theme={theme} mode={mode} />
@@ -268,19 +298,21 @@ export default function CyberHome() {
 
       {/* Security Highlights */}
       <section
+        aria-label="Security highlights"
         style={{
-          padding: "5rem clamp(2rem, 6vw, 6rem)",
+          padding: "clamp(4rem, 8vw, 5.5rem) clamp(1.25rem, 5vw, 3rem)",
           borderTop: `1px solid ${theme.borderSubtle}`,
+          background: mode === "dark" ? "transparent" : theme.bgSubtle,
         }}
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <p
             style={{
               fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "clamp(0.6rem, 1.5vw, 0.6rem)",
+              fontSize: "0.68rem",
               letterSpacing: "0.2em",
-              color: `${theme.accent}99`,
-              marginBottom: "3rem",
+              color: theme.accent,
+              margin: "0 0 2.5rem",
             }}
           >
             SECURITY_HIGHLIGHTS
@@ -292,177 +324,248 @@ export default function CyberHome() {
                 ? `repeat(${Math.min(cyberResearch.length, 3)}, 1fr)`
                 : "1fr",
               gap: "1px",
-              background: `${theme.accent}0F`,
+              background: theme.borderSubtle,
+              border: `1px solid ${theme.borderSubtle}`,
             }}
           >
-            {cyberResearch.map((item, i) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: i * 0.07 }}
-                onClick={() => navigate("/security/research")}
-                style={{
-                  padding: "2.5rem",
-                  background: theme.bg,
-                  cursor: "pointer",
-                  transition: "background 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.background = `${theme.accent}0A`;
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.background = theme.bg;
-                }}
-              >
-                {/* Category icon */}
-                <div
+            {cyberResearch.map((item, i) => {
+              const sev = severityStyle(item.severity, mode);
+              const active = activeId === item.id;
+              return (
+                <motion.article
+                  key={item.id}
+                  {...(reduceMotion
+                    ? {}
+                    : {
+                        initial: { opacity: 0, y: 12 },
+                        whileInView: { opacity: 1, y: 0 },
+                        viewport: { once: true },
+                        transition: { duration: 0.4, delay: Math.min(i * 0.06, 0.12) },
+                      })}
+                  onMouseEnter={() => setActiveId(item.id)}
+                  onMouseLeave={() => setActiveId(null)}
+                  onFocus={() => setActiveId(item.id)}
+                  onBlur={() => setActiveId(null)}
                   style={{
-                    color: `${theme.accent}99`,
-                    marginBottom: "1rem",
-                  }}
-                >
-                  {researchIcons[item.id]}
-                </div>
-
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem" }}>
-                  <span
-                    style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: "0.6rem",
-                      letterSpacing: "0.15em",
-                      color: `${theme.accent}80`,
-                    }}
-                  >
-                    {item.year}
-                  </span>
-                  <motion.span
-                    animate={
-                      item.severity === "Critical"
-                        ? { scale: [1, 1.04, 1], transition: { repeat: Infinity, duration: 3 } }
-                        : {}
-                    }
-                    style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: "0.6rem",
-                      letterSpacing: "0.1em",
-                      padding: "0.15rem 0.5rem",
-                      border: `1px solid ${severityBorder[item.severity] ?? "rgba(107,114,128,0.4)"}`,
-                      color: severityColor[item.severity] ?? "rgba(107,114,128,0.8)",
-                      display: "inline-block",
-                    }}
-                  >
-                    {item.severity}
-                  </motion.span>
-                </div>
-
-                {/* Severity bar */}
-                <div
-                  style={{
-                    width: "100%",
-                    height: "4px",
-                    background: `${theme.accent}15`,
-                    marginBottom: "1.25rem",
-                    borderRadius: "2px",
-                    overflow: "hidden",
+                    position: "relative",
+                    padding: "2rem",
+                    background: active ? theme.bgSubtle : theme.surface,
+                    boxShadow: theme.shadow,
+                    transition: "background 0.2s ease",
                   }}
                 >
                   <div
                     style={{
-                      height: "100%",
-                      width: severityWidth[item.severity] ?? "30%",
-                      background: severityColor[item.severity] ?? "rgba(107,114,128,0.7)",
-                      borderRadius: "2px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      gap: "1rem",
+                      marginBottom: "1.25rem",
                     }}
-                  />
-                </div>
-
-                <h3
-                  style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "clamp(0.85rem, 2vw, 1rem)",
-                    fontWeight: 500,
-                    color: theme.fg,
-                    lineHeight: 1.3,
-                    marginBottom: "0.75rem",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  {item.title}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "'IBM Plex Sans', sans-serif",
-                    fontSize: "clamp(0.75rem, 1.8vw, 0.8rem)",
-                    color: theme.fgMuted,
-                    lineHeight: 1.65,
-                    marginBottom: "1.5rem",
-                  }}
-                >
-                  {item.subtitle}
-                </p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-                  {item.tags.slice(0, 3).map((tag) => (
+                  >
+                    <span aria-hidden="true" style={{ color: theme.accent, display: "inline-flex" }}>
+                      {researchIcons[item.id] ?? <Shield size={16} strokeWidth={1.5} />}
+                    </span>
                     <span
-                      key={tag}
                       style={{
                         fontFamily: "'IBM Plex Mono', monospace",
-                        fontSize: "0.6rem",
+                        fontSize: "0.62rem",
                         letterSpacing: "0.08em",
-                        padding: "0.2rem 0.5rem",
-                        border: `1px solid ${theme.borderSubtle}`,
-                        color: `${theme.accent}80`,
+                        color: theme.fgMuted,
+                        opacity: 0.8,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
                       }}
                     >
-                      {tag}
+                      ~/research/{item.id}
                     </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+                  </div>
+
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", marginBottom: "0.9rem" }}>
+                    <span
+                      style={{
+                        fontFamily: "'IBM Plex Mono', monospace",
+                        fontVariantNumeric: "tabular-nums",
+                        fontSize: "0.68rem",
+                        letterSpacing: "0.12em",
+                        color: theme.fgMuted,
+                      }}
+                    >
+                      {item.year}
+                    </span>
+                    {/* Static severity badge — no looping pulse */}
+                    <span
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.4rem",
+                        fontFamily: "'IBM Plex Mono', monospace",
+                        fontSize: "0.62rem",
+                        fontWeight: 600,
+                        letterSpacing: "0.1em",
+                        padding: "0.3rem 0.6rem",
+                        border: `1px solid ${sev.border}`,
+                        color: sev.color,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      <span
+                        aria-hidden="true"
+                        style={{ width: "5px", height: "5px", borderRadius: "50%", background: sev.bar }}
+                      />
+                      {item.severity.toUpperCase()}
+                    </span>
+                  </div>
+
+                  {/* Severity bar */}
+                  <div
+                    role="img"
+                    aria-label={`Severity ${item.severity}`}
+                    style={{
+                      width: "100%",
+                      height: "4px",
+                      background: theme.borderSubtle,
+                      marginBottom: "1.25rem",
+                      borderRadius: "2px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
+                      style={{
+                        height: "100%",
+                        width: severityWidth[item.severity] ?? "30%",
+                        background: sev.bar,
+                        borderRadius: "2px",
+                      }}
+                    />
+                  </div>
+
+                  <h3
+                    style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "clamp(0.9rem, 1.8vw, 1rem)",
+                      fontWeight: 600,
+                      color: theme.fg,
+                      lineHeight: 1.35,
+                      margin: "0 0 0.7rem",
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "'IBM Plex Sans', sans-serif",
+                      fontSize: "0.82rem",
+                      color: theme.fgMuted,
+                      lineHeight: 1.65,
+                      margin: "0 0 1.4rem",
+                    }}
+                  >
+                    {item.subtitle}
+                  </p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.45rem", marginBottom: "1.4rem" }}>
+                    {item.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={tag}
+                        style={{
+                          fontFamily: "'IBM Plex Mono', monospace",
+                          fontSize: "0.62rem",
+                          letterSpacing: "0.08em",
+                          padding: "0.28rem 0.6rem",
+                          border: `1px solid ${theme.borderSubtle}`,
+                          background: theme.bgSubtle,
+                          color: theme.fgMuted,
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <Link
+                    to="/security/research"
+                    aria-label={`Read research: ${item.title}`}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "0.65rem",
+                      letterSpacing: "0.12em",
+                      color: active ? theme.accent : theme.fgMuted,
+                      textDecoration: "none",
+                      borderBottom: `1px solid ${active ? theme.accent : "transparent"}`,
+                      paddingBottom: "2px",
+                    }}
+                  >
+                    READ
+                    <ArrowRight size={12} strokeWidth={2} aria-hidden="true" />
+                  </Link>
+                  <Link
+                    to="/security/research"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    style={{ position: "absolute", inset: 0 }}
+                  />
+                </motion.article>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Security Projects teaser */}
       <section
+        aria-label="Security tools"
         style={{
-          padding: "5rem clamp(2rem, 6vw, 6rem)",
+          padding: "clamp(4rem, 8vw, 5.5rem) clamp(1.25rem, 5vw, 3rem)",
           borderTop: `1px solid ${theme.borderSubtle}`,
+          background: mode === "dark" ? "transparent" : theme.bg,
         }}
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2.5rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "1rem", flexWrap: "wrap", marginBottom: "2.25rem" }}>
             <p
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: "clamp(0.6rem, 1.5vw, 0.6rem)",
+                fontSize: "0.68rem",
                 letterSpacing: "0.2em",
-                color: `${theme.accent}80`,
+                color: theme.accent,
+                margin: 0,
               }}
             >
               SECURITY_TOOLS
             </p>
             <button
+              type="button"
               onClick={() => navigate("/security/security-projects")}
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: "0.6rem",
-                letterSpacing: "0.1em",
+                fontSize: "0.65rem",
+                letterSpacing: "0.12em",
                 color: theme.fgMuted,
                 background: "transparent",
                 border: "none",
+                borderBottom: "1px solid transparent",
                 cursor: "pointer",
-                display: "flex",
+                display: "inline-flex",
                 alignItems: "center",
-                gap: "0.4rem",
-                transition: "color 0.15s ease",
+                gap: "0.45rem",
+                minHeight: "44px",
+                padding: "0 0.25rem",
+                transition: "color 0.15s ease, border-color 0.15s ease",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = theme.accent)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = theme.fgMuted)}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = theme.accent;
+                e.currentTarget.style.borderColor = theme.accent;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = theme.fgMuted;
+                e.currentTarget.style.borderColor = "transparent";
+              }}
             >
-              All Projects <ArrowRight size={10} strokeWidth={2} />
+              All Projects <ArrowRight size={12} strokeWidth={2} aria-hidden="true" />
             </button>
           </div>
           <div
@@ -472,66 +575,122 @@ export default function CyberHome() {
                 ? `repeat(${Math.min(securityProjects.slice(0, 2).length, 2)}, 1fr)`
                 : "1fr",
               gap: "1px",
-              background: `${theme.accent}0D`,
+              background: theme.borderSubtle,
+              border: `1px solid ${theme.borderSubtle}`,
             }}
           >
-            {securityProjects.slice(0, 2).map((project, i) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: i * 0.08 }}
-                onClick={() => navigate("/security/security-projects")}
-                style={{
-                  padding: "2.5rem",
-                  background: theme.bg,
-                  cursor: "pointer",
-                  borderTop: "2px solid transparent",
-                  transition: "border-color 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderTopColor = theme.accent;
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderTopColor = "transparent";
-                }}
-              >
-                <p
+            {securityProjects.slice(0, 2).map((project, i) => {
+              const active = activeId === project.id;
+              return (
+                <motion.article
+                  key={project.id}
+                  {...(reduceMotion
+                    ? {}
+                    : {
+                        initial: { opacity: 0, y: 12 },
+                        whileInView: { opacity: 1, y: 0 },
+                        viewport: { once: true },
+                        transition: { duration: 0.35, delay: Math.min(i * 0.06, 0.1) },
+                      })}
+                  onMouseEnter={() => setActiveId(project.id)}
+                  onMouseLeave={() => setActiveId(null)}
+                  onFocus={() => setActiveId(project.id)}
+                  onBlur={() => setActiveId(null)}
                   style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.15em",
-                    color: theme.accent,
-                    opacity: 0.6,
-                    marginBottom: "1rem",
+                    position: "relative",
+                    padding: "2rem",
+                    background: active ? theme.bgSubtle : theme.surface,
+                    boxShadow: theme.shadow,
+                    borderTop: `2px solid ${active ? theme.accent : "transparent"}`,
+                    transition: "background 0.2s ease, border-color 0.2s ease",
                   }}
                 >
-                  [{project.category.toUpperCase()}]
-                </p>
-                <h3
-                  style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "clamp(0.9rem, 2vw, 1rem)",
-                    fontWeight: 500,
-                    color: theme.fg,
-                    marginBottom: "0.5rem",
-                  }}
-                >
-                  {project.title}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "'IBM Plex Sans', sans-serif",
-                    fontSize: "clamp(0.78rem, 2vw, 0.82rem)",
-                    color: theme.fgMuted,
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {project.description}
-                </p>
-              </motion.div>
-            ))}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "baseline",
+                      gap: "1rem",
+                      marginBottom: "1rem",
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontFamily: "'IBM Plex Mono', monospace",
+                        fontSize: "0.65rem",
+                        letterSpacing: "0.14em",
+                        color: theme.accent,
+                        margin: 0,
+                      }}
+                    >
+                      [{project.category.toUpperCase()}]
+                    </p>
+                    <span
+                      style={{
+                        fontFamily: "'IBM Plex Mono', monospace",
+                        fontSize: "0.62rem",
+                        letterSpacing: "0.08em",
+                        color: theme.fgMuted,
+                        opacity: 0.8,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      ~/tools/{project.id}
+                    </span>
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "clamp(0.95rem, 1.8vw, 1.05rem)",
+                      fontWeight: 600,
+                      color: theme.fg,
+                      margin: "0 0 0.6rem",
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    {project.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "'IBM Plex Sans', sans-serif",
+                      fontSize: "0.85rem",
+                      color: theme.fgMuted,
+                      lineHeight: 1.65,
+                      margin: "0 0 1.25rem",
+                    }}
+                  >
+                    {project.description}
+                  </p>
+                  <Link
+                    to="/security/security-projects"
+                    aria-label={`Open security project: ${project.title}`}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "0.65rem",
+                      letterSpacing: "0.12em",
+                      color: active ? theme.accent : theme.fgMuted,
+                      textDecoration: "none",
+                      borderBottom: `1px solid ${active ? theme.accent : "transparent"}`,
+                      paddingBottom: "2px",
+                    }}
+                  >
+                    OPEN
+                    <ArrowUpRight size={12} strokeWidth={2} aria-hidden="true" />
+                  </Link>
+                  <Link
+                    to="/security/security-projects"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    style={{ position: "absolute", inset: 0 }}
+                  />
+                </motion.article>
+              );
+            })}
           </div>
         </div>
       </section>

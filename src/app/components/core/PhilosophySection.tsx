@@ -1,60 +1,90 @@
 import { motion } from "motion/react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { CORE_EYEBROW, CORE_FONTS, CORE_LAYOUT } from "./coreDesign";
+import { usePrefersReducedMotion } from "../shared/useMediaQuery";
 
 export function PhilosophySection() {
   const { mode } = useTheme();
   const theme = getIdentityTheme("core", mode);
+  const reduceMotion = usePrefersReducedMotion();
 
   return (
     <section
+      id="philosophy"
+      aria-label="Manifesto"
       style={{
-        padding: "6rem clamp(2rem, 8vw, 8rem)",
+        padding: `${CORE_LAYOUT.sectionY} ${CORE_LAYOUT.pad}`,
         background: theme.bg,
         borderTop: `1px solid ${theme.borderSubtle}`,
-        transition: "background 0.4s ease",
+        scrollMarginTop: "68px",
       }}
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+      <div style={{ maxWidth: CORE_LAYOUT.maxWidth, margin: "0 auto" }}>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            gap: "2rem",
+            gap: "1.5rem",
+            maxWidth: "44rem",
           }}
         >
+          <motion.p
+            {...(reduceMotion
+              ? {}
+              : {
+                  initial: { opacity: 0 },
+                  whileInView: { opacity: 1 },
+                  viewport: { once: true },
+                  transition: { duration: 0.45 },
+                })}
+            style={{ ...CORE_EYEBROW, color: theme.accent, margin: 0 }}
+          >
+            Manifesto
+          </motion.p>
+
           <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            {...(reduceMotion
+              ? {}
+              : {
+                  initial: { scaleX: 0 },
+                  whileInView: { scaleX: 1 },
+                  viewport: { once: true },
+                  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+                })}
             style={{
               width: "40px",
-              height: "1px",
+              height: "2px",
               background: theme.accent,
               transformOrigin: "left",
             }}
+            aria-hidden="true"
           />
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            {...(reduceMotion
+              ? {}
+              : {
+                  initial: { opacity: 0, y: 12 },
+                  whileInView: { opacity: 1, y: 0 },
+                  viewport: { once: true },
+                  transition: { duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] },
+                })}
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(1.6rem, 3.5vw, 2.8rem)",
-              fontWeight: 300,
+              fontFamily: CORE_FONTS.display,
+              fontSize: "clamp(1.75rem, 3.4vw, 2.75rem)",
+              fontWeight: 400,
               color: theme.fg,
-              lineHeight: 1.25,
-              maxWidth: "680px",
+              lineHeight: 1.22,
               letterSpacing: "-0.01em",
+              margin: 0,
+              textWrap: "balance",
             }}
           >
             Carpe diem.
             <br />
-            <span style={{ color: theme.fgMuted, fontStyle: "italic" }}>
+            <span style={{ color: theme.fgMuted, fontStyle: "italic", fontWeight: 300 }}>
               Seize the day.
             </span>
           </motion.p>

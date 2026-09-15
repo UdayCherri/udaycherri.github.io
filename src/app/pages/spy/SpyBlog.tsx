@@ -10,7 +10,7 @@ export default function SpyBlog() {
   const theme = getIdentityTheme("spy", mode);
 
   return (
-    <div style={{ minHeight: "100vh", background: "transparent", padding: "4rem clamp(2rem, 6vw, 6rem)" }}>
+    <div style={{ minHeight: "100vh", background: "transparent", padding: "4rem clamp(1.25rem, 5vw, 3rem)" }}>
       <div style={{ maxWidth: "900px", margin: "0 auto" }}>
         {/* Header */}
         <motion.div

@@ -23,7 +23,7 @@ export default function CyberBlog() {
       style={{
         minHeight: "100vh",
         background: "transparent",
-        padding: "4rem clamp(2rem, 6vw, 6rem)",
+        padding: "4rem clamp(1.25rem, 5vw, 3rem)",
       }}
     >
       <div style={{ maxWidth: "900px", margin: "0 auto" }}>
@@ -77,16 +77,18 @@ export default function CyberBlog() {
             <button
               key={cat}
               onClick={() => setActive(cat)}
+              aria-pressed={active === cat}
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: "0.6rem",
+                fontSize: "0.65rem",
                 letterSpacing: "0.1em",
-                padding: "0.4rem 0.9rem",
+                padding: "0.55rem 1rem",
+                minHeight: "44px",
                 background: active === cat ? theme.accent : "transparent",
                 border: `1px solid ${active === cat ? theme.accent : theme.borderSubtle}`,
                 color: active === cat ? (mode === "dark" ? "#0F1318" : "#fff") : theme.fgMuted,
                 cursor: "pointer",
-                transition: "all 0.15s ease",
+                transition: "background 0.15s ease, color 0.15s ease, border-color 0.15s ease",
                 borderRadius: "2px",
               }}
             >

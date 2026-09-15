@@ -1,53 +1,61 @@
 import { motion } from "motion/react";
-import { Mail, ArrowRight } from "lucide-react";
+import { Mail, ArrowUpRight } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { usePrefersReducedMotion } from "../../components/shared/useMediaQuery";
 
 export default function SpyContact() {
   const { mode } = useTheme();
   const theme = getIdentityTheme("spy", mode);
+  const reduceMotion = usePrefersReducedMotion();
 
   return (
-    <div
+    /* Centered in the space below the fixed bar: the layout already
+       offsets for its 72px header, so no second offset here. */
+    <main
       style={{
-        minHeight: "100vh",
+        minHeight: "calc(100dvh - 72px)",
         background: "transparent",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        padding: "0 clamp(2rem, 6vw, 6rem)",
+        padding: "clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem)",
       }}
     >
-      <div style={{ maxWidth: "700px" }}>
+      <div style={{ maxWidth: "44rem", margin: "0 auto", width: "100%" }}>
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
+          {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.35 } })}
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: "0.65rem",
-            letterSpacing: "0.3em",
+            fontSize: "0.7rem",
+            fontWeight: 500,
+            letterSpacing: "0.28em",
             textTransform: "uppercase",
             color: theme.accent,
-            marginBottom: "2rem",
+            margin: "0 0 1.25rem",
           }}
         >
-          Contact
+          {"// Contact"}
         </motion.p>
 
         <motion.h1
-          initial={{ opacity: 0, x: -16 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
+          {...(reduceMotion
+            ? {}
+            : {
+                initial: { opacity: 0, y: 12 },
+                animate: { opacity: 1, y: 0 },
+                transition: { duration: 0.4, ease: "easeOut" },
+              })}
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: "clamp(2.2rem, 5vw, 4.5rem)",
+            fontSize: "clamp(2.2rem, 5vw, 4.25rem)",
             fontWeight: 700,
             color: theme.fg,
             textTransform: "uppercase",
             letterSpacing: "-0.02em",
-            lineHeight: 1.0,
-            marginBottom: "2.5rem",
+            lineHeight: 1.02,
+            margin: "0 0 1.5rem",
+            textWrap: "balance",
           }}
         >
           Build something<br />
@@ -55,93 +63,144 @@ export default function SpyContact() {
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.35, delay: 0.15 }}
+          {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.35, delay: 0.12 } })}
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: "clamp(0.875rem, 1.8vw, 0.9rem)",
-            lineHeight: 1.75,
+            fontSize: "0.95rem",
+            lineHeight: 1.7,
             color: theme.fgMuted,
-            marginBottom: "4rem",
+            margin: "0 0 2.5rem",
+            maxWidth: "36rem",
           }}
         >
           Distributed systems, infrastructure challenges, open-source collaboration.
-          If the problem is interesting and the constraints are real, I'm interested.
+          If the problem is interesting and the constraints are real, I&apos;m interested.
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.25 }}
-          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.35, delay: 0.18 } })}
+          style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
         >
           <a
             href="mailto:spyd.veloper@gmail.com"
+            aria-label="Email Spy D. Veloper at spyd.veloper@gmail.com"
             style={{
-              display: "inline-flex",
+              display: "flex",
               alignItems: "center",
               gap: "1rem",
               textDecoration: "none",
               color: theme.fg,
-              padding: "1.25rem 2rem",
+              padding: "1rem 1.25rem",
+              minHeight: "64px",
               border: `1px solid ${theme.borderSubtle}`,
-              transition: "all 0.2s ease",
+              background: theme.surface,
+              boxShadow: theme.shadow,
+              transition: "border-color 0.2s ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = mode === "dark" ? "rgba(204,18,52,0.06)" : "rgba(204,18,52,0.04)";
               e.currentTarget.style.borderColor = theme.accent;
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = "transparent";
               e.currentTarget.style.borderColor = theme.borderSubtle;
             }}
           >
-            <Mail size={14} strokeWidth={1.5} color={theme.accent} />
-            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(0.8rem, 1.6vw, 0.875rem)" }}>
-              spyd.veloper@gmail.com
+            <span
+              aria-hidden="true"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "40px",
+                height: "40px",
+                flexShrink: 0,
+                border: `1px solid ${theme.borderSubtle}`,
+              }}
+            >
+              <Mail size={15} strokeWidth={1.75} color={theme.accent} />
             </span>
-            <ArrowRight size={12} strokeWidth={1.5} color={theme.fgMuted} style={{ marginLeft: "auto" }} />
+            <span style={{ minWidth: 0 }}>
+              <span
+                style={{
+                  display: "block",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "0.65rem",
+                  letterSpacing: "0.14em",
+                  color: theme.fgMuted,
+                  marginBottom: "0.2rem",
+                }}
+              >
+                {"$ mail spyd.veloper"}
+              </span>
+              <span
+                style={{
+                  display: "block",
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "0.95rem",
+                  overflowWrap: "anywhere",
+                }}
+              >
+                spyd.veloper@gmail.com
+              </span>
+            </span>
+            <ArrowUpRight size={15} strokeWidth={1.75} color={theme.fgMuted} style={{ marginLeft: "auto", flexShrink: 0 }} aria-hidden="true" />
           </a>
 
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <ul
+            aria-label="Social profiles"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+              gap: "0.75rem",
+              listStyle: "none",
+              margin: 0,
+              padding: 0,
+            }}
+          >
             {[
               { label: "GitHub", url: "https://github.com/Spy-D-Veloper" },
               { label: "Twitter", url: "https://x.com/SpyD_Veloper" },
               { label: "Instagram", url: "https://www.instagram.com/spyd.veloper/" },
             ].map(({ label, url }) => (
-              <a
-                key={label}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: "0.65rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: theme.fgMuted,
-                  textDecoration: "none",
-                  padding: "0.5rem 1.25rem",
-                  border: `1px solid ${theme.borderSubtle}`,
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = theme.fg;
-                  e.currentTarget.style.borderColor = mode === "dark" ? "rgba(240,238,229,0.25)" : "rgba(8,12,24,0.3)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = theme.fgMuted;
-                  e.currentTarget.style.borderColor = theme.borderSubtle;
-                }}
-              >
-                {label}
-              </a>
+              <li key={label}>
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontSize: "0.68rem",
+                    fontWeight: 600,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: theme.fgMuted,
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.4rem",
+                    minHeight: "48px",
+                    width: "100%",
+                    padding: "0.65rem 1rem",
+                    border: `1px solid ${theme.borderSubtle}`,
+                    transition: "color 0.2s ease, border-color 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = theme.accent;
+                    e.currentTarget.style.borderColor = theme.accent;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = theme.fgMuted;
+                    e.currentTarget.style.borderColor = theme.borderSubtle;
+                  }}
+                >
+                  {label}
+                  <ArrowUpRight size={12} strokeWidth={1.75} aria-hidden="true" />
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         </motion.div>
       </div>
-    </div>
+    </main>
   );
 }

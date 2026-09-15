@@ -1,114 +1,153 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { CORE_FONTS } from "./coreDesign";
 
 interface ArrivalScreenProps {
   onComplete: () => void;
 }
 
+/**
+ * Refined arrival moment — a single quiet fade, not a staged sequence.
+ * - Total visible time ~1.6s (was 4.4s), skippable via button / Escape / click.
+ * - Renders nothing when the user prefers reduced motion.
+ * - Auto-dismisses safely even if timers are throttled.
+ */
 export function ArrivalScreen({ onComplete }: ArrivalScreenProps) {
-  const [phase, setPhase] = useState<"name" | "subtitle" | "motto" | "exit">("name");
+  const [exiting, setExiting] = useState(false);
+  const reduceMotion =
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("subtitle"), 1400);
-    const t2 = setTimeout(() => setPhase("motto"), 2400);
-    const t3 = setTimeout(() => setPhase("exit"), 3600);
-    const t4 = setTimeout(() => onComplete(), 4400);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-      clearTimeout(t4);
+    if (reduceMotion) {
+      onComplete();
+      return;
+    }
+    const dismiss = setTimeout(() => setExiting(true), 1500);
+    const done = setTimeout(() => onComplete(), 1900);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onComplete();
     };
-  }, [onComplete]);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      clearTimeout(dismiss);
+      clearTimeout(done);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [onComplete, reduceMotion]);
 
-  const nameLetters = "Uday Cherri".split("");
+  if (reduceMotion) return null;
 
   return (
     <AnimatePresence>
-      {phase !== "exit" ? (
+      {!exiting ? (
         <motion.div
           key="arrival"
-          initial={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center"
-          style={{ background: "#0C0A08" }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          className="arrival-screen"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Introduction"
+          onClick={onComplete}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 50,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "#131210",
+            cursor: "pointer",
+          }}
         >
-          <div className="relative flex flex-col items-center gap-6 select-none">
-            {/* Name — staggered letters */}
-            <div className="flex overflow-hidden">
-              {nameLetters.map((char, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: i * 0.045,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "clamp(2.5rem, 6vw, 5rem)",
-                    fontWeight: 300,
-                    letterSpacing: "0.12em",
-                    color: "#F7F4EE",
-                    whiteSpace: "pre",
-                  }}
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "1.1rem",
+              userSelect: "none",
+              padding: "0 1.5rem",
+              textAlign: "center",
+            }}
+          >
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                fontFamily: CORE_FONTS.display,
+                fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                fontWeight: 400,
+                letterSpacing: "0.04em",
+                color: "#EDE8DC",
+                lineHeight: 1.1,
+                margin: 0,
+              }}
+            >
+              Uday Cherri
+            </motion.p>
 
-            {/* Gold rule */}
             <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: phase !== "name" ? 1 : 0 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 height: "1px",
-                width: "100%",
-                background: "#B8A46A",
-                transformOrigin: "left",
+                width: "120px",
+                background: "#A68C4E",
+                transformOrigin: "center",
               }}
+              aria-hidden="true"
             />
 
-            {/* Archetype */}
             <motion.p
               initial={{ opacity: 0 }}
-              animate={{ opacity: phase === "subtitle" || phase === "motto" ? 1 : 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
               style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "0.75rem",
-                fontWeight: 400,
-                letterSpacing: "0.3em",
-                color: "#B8A46A",
+                fontFamily: CORE_FONTS.body,
+                fontSize: "0.72rem",
+                fontWeight: 500,
+                letterSpacing: "0.28em",
+                color: "#D2B87A",
                 textTransform: "uppercase",
+                margin: 0,
               }}
             >
-              The INFJ
-            </motion.p>
-
-            {/* Motto */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: phase === "motto" ? 0.5 : 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "clamp(0.9rem, 2vw, 1.1rem)",
-                fontWeight: 300,
-                fontStyle: "italic",
-                letterSpacing: "0.05em",
-                color: "#F7F4EE",
-                textAlign: "center",
-              }}
-            >
-              Building across worlds. Growing beyond them.
+              The Core
             </motion.p>
           </div>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onComplete();
+            }}
+            aria-label="Skip introduction"
+            style={{
+              position: "absolute",
+              bottom: "2rem",
+              fontFamily: CORE_FONTS.body,
+              fontSize: "0.72rem",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "rgba(237,232,220,0.6)",
+              background: "transparent",
+              border: "1px solid rgba(237,232,220,0.2)",
+              padding: "0.65rem 1.25rem",
+              minHeight: "44px",
+              cursor: "pointer",
+            }}
+          >
+            Skip
+          </button>
         </motion.div>
       ) : null}
     </AnimatePresence>

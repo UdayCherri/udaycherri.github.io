@@ -13,7 +13,7 @@ export default function YuuKayCeeCaseStudies() {
   const theme = getIdentityTheme("yuukaycee", mode);
 
   return (
-    <div style={{ padding: "4rem clamp(2rem, 6vw, 6rem)", minHeight: "100vh", background: "transparent" }}>
+    <div style={{ padding: "4rem clamp(1.25rem, 5vw, 3rem)", minHeight: "100vh", background: "transparent" }}>
       <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -65,8 +65,17 @@ export default function YuuKayCeeCaseStudies() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              onClick={() => navigate(`/project/${project.id}`)}
-              style={{
+                onClick={() => navigate(`/project/${project.id}`)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    navigate(`/project/${project.id}`);
+                  }
+                }}
+                tabIndex={0}
+                role="link"
+                aria-label={`Open ${project.title}`}
+                style={{
                 display: "grid",
                 gridTemplateColumns: "1fr auto",
                 gap: "2rem",
@@ -74,10 +83,10 @@ export default function YuuKayCeeCaseStudies() {
                 padding: "2.5rem 1.5rem",
                 border: `1px solid ${theme.borderSubtle}`,
                 cursor: "pointer",
-                transition: "border-color 0.3s ease, background 0.3s ease",
+                transition: "border-color 0.3s ease, color 0.3s ease",
               }}
               whileHover={{
-                backgroundColor: mode === "dark" ? "rgba(103,232,249,0.03)" : "rgba(8,145,178,0.03)",
+                backgroundColor: mode === "dark" ? "rgba(103,232,249,0.03)" : "rgba(14,116,144,0.04)",
               }}
             >
               <div style={{ display: "flex", gap: "2rem", alignItems: "center", flexWrap: "wrap" }}>
@@ -86,6 +95,7 @@ export default function YuuKayCeeCaseStudies() {
                     width: "180px",
                     height: "120px",
                     background: project.coverColor + "15",
+                    border: `1px solid ${project.coverColor}30`,
                     position: "relative",
                     overflow: "hidden",
                     display: "flex",
@@ -93,12 +103,22 @@ export default function YuuKayCeeCaseStudies() {
                     justifyContent: "center",
                     flexShrink: 0,
                   }}
+                  aria-hidden="true"
                 >
-                  <img
-                    src="/images/nyxbureau-logo.png"
-                    alt={project.title}
-                    style={{ maxWidth: "70%", maxHeight: "70%", objectFit: "contain" }}
-                  />
+                  {/* Monogram placeholder until final artwork lands */}
+                  <span
+                    style={{
+                      fontFamily: "'Playfair Display', serif",
+                      fontStyle: "italic",
+                      fontWeight: 500,
+                      fontSize: "3rem",
+                      lineHeight: 1,
+                      color: project.coverColor,
+                      opacity: 0.85,
+                    }}
+                  >
+                    {project.title.charAt(0)}
+                  </span>
                 </div>
                 <div style={{ flex: 1, minWidth: "200px" }}>
                   <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", marginBottom: "0.75rem" }}>

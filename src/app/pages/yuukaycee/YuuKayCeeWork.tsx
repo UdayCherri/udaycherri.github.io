@@ -34,11 +34,36 @@ function CategoryCover({ category, coverColor }: { category: string; coverColor:
   if (category === "Branding") {
     return (
       <div style={baseStyle} className="yk-card-cover">
-        <img
-          src="/images/nyxbureau-logo.png"
-          alt="NYX Bureau"
-          style={{ maxWidth: "55%", maxHeight: "55%", objectFit: "contain", position: "relative", zIndex: 1 }}
-        />
+        {/* Type-specimen placeholder until final artwork lands */}
+        <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+          <p
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontStyle: "italic",
+              fontWeight: 500,
+              fontSize: "4rem",
+              lineHeight: 1,
+              color: coverColor,
+              margin: 0,
+            }}
+          >
+            Aa
+          </p>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "0.6rem",
+              fontWeight: 600,
+              letterSpacing: "0.26em",
+              textTransform: "uppercase",
+              color: coverColor,
+              opacity: 0.7,
+              margin: "0.6rem 0 0",
+            }}
+          >
+            Branding
+          </p>
+        </div>
         <div
           style={{
             position: "absolute",
@@ -206,7 +231,7 @@ export default function YuuKayCeeWork() {
   return (
     <div
       style={{
-        padding: "4rem clamp(2rem, 6vw, 6rem)",
+        padding: "4rem clamp(1.25rem, 5vw, 3rem)",
         minHeight: "100vh",
         background: "transparent",
       }}
@@ -261,6 +286,7 @@ export default function YuuKayCeeWork() {
             <button
               key={label}
               onClick={() => setActive(label)}
+              aria-pressed={active === label}
               style={{
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: "clamp(0.62rem, 1.5vw, 0.7rem)",
@@ -285,12 +311,12 @@ export default function YuuKayCeeWork() {
           ))}
         </motion.div>
 
-        {/* Grid — fixed: no inline gridTemplateColumns override */}
+        {/* Grid */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: gridCols,
-            gap: "2px",
+            gap: "2rem",
           }}
         >
           {filtered.map((project, i) => (
@@ -301,6 +327,15 @@ export default function YuuKayCeeWork() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: i * 0.06 }}
               onClick={() => navigate(`/project/${project.id}`)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  navigate(`/project/${project.id}`);
+                }
+              }}
+              tabIndex={0}
+              role="link"
+              aria-label={`Open ${project.title}`}
               style={{
                 cursor: "pointer",
                 overflow: "hidden",
