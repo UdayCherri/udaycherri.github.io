@@ -72,9 +72,9 @@ export default function SpySystems() {
           {spySystems.map((system, i) => (
             <motion.div
               key={system.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: i * 0.08 }}
+initial={{ opacity: 0, x: -12 }}
+animate={{ opacity: 1, x: 0 }}
+transition={{ duration: 0.25, delay: i * 0.05 }}
               style={{
                 padding: "2.5rem",
                 background: theme.bg,

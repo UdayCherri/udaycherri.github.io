@@ -16,22 +16,31 @@ export const journeyMilestones = [
     id: "m3",
     year: "2024",
     title: "Crack-In CTF 1.0",
-    note: "Ranked 2nd",
+    note: "Runner-up",
     discipline: "security",
+  },
+  {
+    id: "m5",
+    year: "2024",
+    title: "VaultChain",
+    note: "Systems",
+    discipline: "development",
+    path: "/project/vaultchain",
   },
   {
     id: "m4",
     year: "2025",
     title: "HackerTroupe",
-    note: "Team founded",
+    note: "Team",
     discipline: "security",
   },
   {
     id: "m1",
     year: "2026",
     title: "NYX BUREAU",
-    note: "Studio founded",
+    note: "Studio",
     discipline: "design",
+    path: "/project/nyx-bureau",
   },
   {
     id: "m2",
@@ -53,6 +62,8 @@ export const currentFocus = [
 ];
 
 // ─── Featured Work (Core landing page) ────────────────────────────────────────
+// One entry per discipline, in chronological discipline order. Descriptions
+// reuse the existing project/research copy; paths are deep project routes.
 
 export const featuredWork = [
   {
@@ -64,6 +75,28 @@ export const featuredWork = [
     description:
       "A complete visual identity system for a creative studio operating at the intersection of design and night.",
     coverColor: "#67E8F9",
-    path: "/design",
+    path: "/project/nyx-bureau",
+  },
+  {
+    id: "vaultchain",
+    identity: "spy" as const,
+    title: "VaultChain",
+    discipline: "Systems",
+    year: "2024",
+    description:
+      "A distributed secret management system designed for multi-tenant environments. Handles key rotation, access auditing, and zero-trust distribution at scale.",
+    coverColor: "#CC1234",
+    path: "/project/vaultchain",
+  },
+  {
+    id: "jwt-confusion",
+    identity: "cyb3r" as const,
+    title: "Algorithm Confusion in JWT Libraries",
+    discipline: "Vulnerability Research",
+    year: "2024",
+    description:
+      "Research into algorithm confusion vulnerabilities across 8 widely-used JWT libraries. Identified 3 previously undisclosed weaknesses in signature validation logic.",
+    coverColor: "#10B981",
+    path: "/project/jwt-confusion",
   },
 ];

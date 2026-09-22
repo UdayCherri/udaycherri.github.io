@@ -28,11 +28,11 @@ export default function CyberBlog() {
     >
       <div style={{ maxWidth: "900px", margin: "0 auto" }}>
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          style={{ marginBottom: "4rem" }}
+<motion.div
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+transition={{ duration: 0.35 }}
+style={{ marginBottom: "4rem" }}
         >
           <p
             style={{
@@ -65,7 +65,7 @@ export default function CyberBlog() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
+          transition={{ duration: 0.35, delay: 0.1 }}
           style={{
             display: "flex",
             flexWrap: "wrap",
@@ -100,11 +100,11 @@ export default function CyberBlog() {
         {/* Article list */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
           {filtered.map((post, i) => (
-            <motion.div
-              key={post.id}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: i * 0.07 }}
+<motion.div
+key={post.id}
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+transition={{ duration: 0.3, delay: i * 0.06 }}
               style={{
                 padding: "2rem 0",
                 borderBottom: `1px solid ${theme.borderSubtle}`,

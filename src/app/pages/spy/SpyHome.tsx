@@ -48,6 +48,20 @@ const diagrams: Record<string, (accent: string) => React.ReactNode> = {
   conduit: (accent) => <ConduitDiagram accent={accent} />,
 };
 
+// Generic schematic — blueprint module used when a project has no dedicated diagram
+function GenericDiagram({ accent }: { accent: string }) {
+  return (
+    <svg width="80" height="54" viewBox="0 0 80 54" fill="none" aria-hidden="true">
+      <rect x="1" y="8" width="78" height="38" rx="2" stroke={accent} strokeWidth="0.75" strokeDasharray="3 3" opacity={0.5} />
+      <rect x="10" y="21" width="12" height="12" rx="1" stroke={accent} strokeWidth="0.75" />
+      <rect x="58" y="21" width="12" height="12" rx="1" stroke={accent} strokeWidth="0.75" opacity={0.7} />
+      <line x1="22" y1="27" x2="58" y2="27" stroke={accent} strokeWidth="0.75" />
+      <polygon points="54,24 59,27 54,30" fill={accent} opacity={0.8} />
+      <circle cx="40" cy="27" r="2" stroke={accent} strokeWidth="0.75" />
+    </svg>
+  );
+}
+
 function ProfileArea({
   theme,
   mode,
@@ -151,7 +165,7 @@ function ProfileArea({
             margin: "0 0 0.35rem",
           }}
         >
-          The Framework
+          Systems Engineer
         </p>
         <p
           style={{
@@ -486,28 +500,7 @@ export default function SpyHome() {
                     {diagrams[project.id]
                       ? diagrams[project.id](project.coverColor)
                       : (
-                        <div
-                          style={{
-                            width: "60px",
-                            height: "40px",
-                            background: `${project.coverColor}1f`,
-                            border: `1px solid ${project.coverColor}55`,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontFamily: "'JetBrains Mono', monospace",
-                              fontVariantNumeric: "tabular-nums",
-                              fontSize: "0.72rem",
-                              color: project.coverColor,
-                            }}
-                          >
-                            {String(i + 1).padStart(2, "0")}
-                          </span>
-                        </div>
+                        <GenericDiagram accent={project.coverColor} />
                       )}
                   </div>
                   <div style={{ minWidth: 0 }}>

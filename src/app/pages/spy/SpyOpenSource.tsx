@@ -14,7 +14,7 @@ export default function SpyOpenSource() {
         <motion.div
           initial={{ opacity: 0, x: -12 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
           style={{ marginBottom: "5rem" }}
         >
           <p
@@ -50,9 +50,9 @@ export default function SpyOpenSource() {
               href={repo.url === "#" ? undefined : repo.url}
               target={repo.url === "#" ? undefined : "_blank"}
               rel="noopener noreferrer"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.25, delay: i * 0.06 }}
+initial={{ opacity: 0, x: -12 }}
+animate={{ opacity: 1, x: 0 }}
+transition={{ duration: 0.25, delay: i * 0.05 }}
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr auto",

@@ -62,11 +62,11 @@ export default function SpyExperiments() {
         {experiments.length > 0 ? (
           <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
             {experiments.map((exp, i) => (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.25, delay: i * 0.07 }}
+                <motion.div
+                  key={exp.id}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.25, delay: i * 0.05 }}
                 onClick={() => navigate(`/project/${exp.id}`)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
@@ -96,6 +96,18 @@ export default function SpyExperiments() {
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                   <div style={{ flex: 1 }}>
+                    <p
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: "0.6rem",
+                        letterSpacing: "0.15em",
+                        color: theme.accent,
+                        opacity: 0.7,
+                        margin: "0 0 0.5rem",
+                      }}
+                    >
+                      EXP_{String(i + 1).padStart(2, "0")}
+                    </p>
                     <h3
                       style={{
                         fontFamily: "'Space Grotesk', sans-serif",

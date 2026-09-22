@@ -17,8 +17,8 @@ export interface IdentityTheme {
 }
 
 // ─── YuuKayCee ───────────────────────────────────────────────────────────────
-// Aurora-first: cyan is primary, lavender secondary, peach tertiary.
-// Violet is one color in a 6-hue system — not the dominant one.
+// Cyan-family system: bright cyan primary, ice tint secondary, deep cyan
+// tertiary — one hue, three roles (emphasis, lift, depth).
 
 const yuukayceeDark: IdentityTheme = {
   bg: "#080A12",
@@ -28,8 +28,8 @@ const yuukayceeDark: IdentityTheme = {
   fg: "#F0EEF8",
   fgMuted: "rgba(240,238,248,0.72)",
   accent: "#67E8F9",          // cyan — primary
-  accentSecondary: "#C4B5FD", // soft lavender — secondary
-  accentTertiary: "#FDBA8C",  // peach — tertiary
+  accentSecondary: "#A5F3FC", // ice cyan — secondary lift
+  accentTertiary: "#0E7490",  // deep cyan — fills, large surfaces
   navBg: "transparent",
   navBgScrolled: "rgba(8,10,18,0.92)",
   borderSubtle: "rgba(103,232,249,0.14)",
@@ -37,17 +37,17 @@ const yuukayceeDark: IdentityTheme = {
 };
 
 const yuukayceeLight: IdentityTheme = {
-  bg: "#F5F8FF",
-  bgSubtle: "#E9F0FD",
+  bg: "#F1F6FC",
+  bgSubtle: "#E1ECF7",
   surface: "#FFFFFF",
   shadow: "0 1px 2px rgba(14,30,60,0.05), 0 10px 28px rgba(14,116,144,0.08)",
   fg: "#0E1020",
   fgMuted: "rgba(14,16,32,0.72)",
   accent: "#0E7490",          // deep cyan — primary (darkened for ≥4.5:1 on ivory)
   accentSecondary: "#0D9488", // teal — secondary
-  accentTertiary: "#C2410C",  // deep peach/rust
+  accentTertiary: "#155E75",  // abyssal cyan — fills, depth
   navBg: "transparent",
-  navBgScrolled: "rgba(245,248,255,0.92)",
+  navBgScrolled: "rgba(241,246,252,0.92)",
   borderSubtle: "rgba(14,116,144,0.16)",
   gridLine: "rgba(8,145,178,0.04)",
 };
@@ -72,7 +72,7 @@ const spyDark: IdentityTheme = {
 
 const spyLight: IdentityTheme = {
   bg: "#F4F2ED",
-  bgSubtle: "#E9E5D9",
+  bgSubtle: "#E5DFCC",
   surface: "#FCFBF6",
   shadow: "4px 4px 0 rgba(8,12,24,0.07)",
   fg: "#080C18",
@@ -105,8 +105,8 @@ const cyberDark: IdentityTheme = {
 };
 
 const cyberLight: IdentityTheme = {
-  bg: "#EEF4F1",
-  bgSubtle: "#DFEAE4",
+  bg: "#E9F3ED",
+  bgSubtle: "#D8E7DD",
   surface: "#FFFFFF",
   shadow: "0 1px 2px rgba(10,40,30,0.05), 0 10px 28px rgba(4,120,87,0.08)",
   fg: "#0F1318",

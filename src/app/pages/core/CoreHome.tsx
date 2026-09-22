@@ -155,7 +155,7 @@ export default function CoreHome() {
                       paddingTop: "0.75rem",
                     }}
                   >
-                    The Core — Uday Cherri
+                    Uday Cherri
                   </figcaption>
                 </motion.figure>
               )}
@@ -183,7 +183,7 @@ export default function CoreHome() {
                 }}
               >
                 <img
-                  src="/images/core-profile.jpg"
+                  src="/images/core-profile.png"
                   alt="Portrait of Uday Cherri"
                   loading="eager"
                   style={{
@@ -223,19 +223,6 @@ export default function CoreHome() {
                   }}
                 />
                 <figcaption style={{ position: "absolute", bottom: "1.25rem", left: "1.25rem" }}>
-                  <p
-                    style={{
-                      fontFamily: CORE_FONTS.body,
-                      fontSize: "0.68rem",
-                      fontWeight: 500,
-                      letterSpacing: "0.28em",
-                      textTransform: "uppercase",
-                      color: mode === "dark" ? theme.accent : "#D3B87C",
-                      margin: "0 0 0.3rem",
-                    }}
-                  >
-                    The Core
-                  </p>
                   <p
                     style={{
                       fontFamily: CORE_FONTS.display,
@@ -342,7 +329,7 @@ export default function CoreHome() {
                   margin: "0 0 0.9rem",
                 }}
               >
-                The Core
+                Uday Cherri
               </p>
               <p
                 style={{

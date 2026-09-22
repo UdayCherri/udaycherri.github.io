@@ -8,7 +8,7 @@ interface ArrivalScreenProps {
 
 /**
  * Refined arrival moment — a single quiet fade, not a staged sequence.
- * - Total visible time ~1.6s (was 4.4s), skippable via button / Escape / click.
+ * - Total visible time ~1.6s (was 4.4s), dismissible via Escape / click.
  * - Renders nothing when the user prefers reduced motion.
  * - Auto-dismisses safely even if timers are throttled.
  */
@@ -105,49 +105,8 @@ export function ArrivalScreen({ onComplete }: ArrivalScreenProps) {
               }}
               aria-hidden="true"
             />
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              style={{
-                fontFamily: CORE_FONTS.body,
-                fontSize: "0.72rem",
-                fontWeight: 500,
-                letterSpacing: "0.28em",
-                color: "#D2B87A",
-                textTransform: "uppercase",
-                margin: 0,
-              }}
-            >
-              The Core
-            </motion.p>
           </div>
 
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onComplete();
-            }}
-            aria-label="Skip introduction"
-            style={{
-              position: "absolute",
-              bottom: "2rem",
-              fontFamily: CORE_FONTS.body,
-              fontSize: "0.72rem",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "rgba(237,232,220,0.6)",
-              background: "transparent",
-              border: "1px solid rgba(237,232,220,0.2)",
-              padding: "0.65rem 1.25rem",
-              minHeight: "44px",
-              cursor: "pointer",
-            }}
-          >
-            Skip
-          </button>
         </motion.div>
       ) : null}
     </AnimatePresence>

@@ -52,7 +52,7 @@ export function DisciplineBrand({
     >
       <Link
         to="/"
-        title="Back to Uday Cherri (The Core)"
+        title="Back to Uday Cherri"
         aria-label="Back to Uday Cherri home"
         onMouseEnter={() => setHover("core")}
         onMouseLeave={() => setHover(null)}

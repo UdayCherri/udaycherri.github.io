@@ -13,11 +13,11 @@ export default function SpyBlog() {
     <div style={{ minHeight: "100vh", background: "transparent", padding: "4rem clamp(1.25rem, 5vw, 3rem)" }}>
       <div style={{ maxWidth: "900px", margin: "0 auto" }}>
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          style={{ marginBottom: "4rem" }}
+<motion.div
+initial={{ opacity: 0, x: -12 }}
+animate={{ opacity: 1, x: 0 }}
+transition={{ duration: 0.3, ease: "easeOut" }}
+style={{ marginBottom: "4rem" }}
         >
           <p
             style={{
@@ -49,11 +49,11 @@ export default function SpyBlog() {
         {/* Article list */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
           {devBlogPosts.map((post, i) => (
-            <motion.div
-              key={post.id}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: i * 0.07 }}
+<motion.div
+key={post.id}
+initial={{ opacity: 0, x: -12 }}
+animate={{ opacity: 1, x: 0 }}
+transition={{ duration: 0.25, delay: i * 0.05 }}
               style={{ padding: "2rem 0", borderBottom: `1px solid ${theme.borderSubtle}` }}
             >
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "2rem", flexWrap: "wrap" }}>

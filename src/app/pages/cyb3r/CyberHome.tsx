@@ -116,7 +116,7 @@ function ProfileArea({
       {/* Identity label — bottom */}
       <figcaption style={{ position: "absolute", bottom: "1.75rem", left: "1.75rem", right: "1.75rem" }}>
         <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.65rem", letterSpacing: "0.22em", color: mode === "dark" ? theme.accent : "#34D399", margin: "0 0 0.35rem" }}>
-          THE INTELLIGENCE NETWORK
+          SECURITY RESEARCHER
         </p>
         <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "1.1rem", fontWeight: 600, color: "#EAFBF3", letterSpacing: "0.05em", margin: 0 }}>
           CYB3R-BO1
@@ -142,7 +142,7 @@ export default function CyberHome() {
         aria-label="Introduction"
         style={{
           padding: "clamp(3rem, 7vw, 5rem) clamp(1.25rem, 5vw, 3rem)",
-          minHeight: "85svh",
+          minHeight: "88svh",
           display: "flex",
           alignItems: "center",
         }}
@@ -340,7 +340,7 @@ export default function CyberHome() {
                         initial: { opacity: 0, y: 12 },
                         whileInView: { opacity: 1, y: 0 },
                         viewport: { once: true },
-                        transition: { duration: 0.4, delay: Math.min(i * 0.06, 0.12) },
+                        transition: { duration: 0.35, delay: Math.min(i * 0.06, 0.12) },
                       })}
                   onMouseEnter={() => setActiveId(item.id)}
                   onMouseLeave={() => setActiveId(null)}
@@ -484,7 +484,7 @@ export default function CyberHome() {
                     ))}
                   </div>
                   <Link
-                    to="/security/research"
+                    to={`/project/${item.id}`}
                     aria-label={`Read research: ${item.title}`}
                     style={{
                       display: "inline-flex",
@@ -503,7 +503,7 @@ export default function CyberHome() {
                     <ArrowRight size={12} strokeWidth={2} aria-hidden="true" />
                   </Link>
                   <Link
-                    to="/security/research"
+                    to={`/project/${item.id}`}
                     tabIndex={-1}
                     aria-hidden="true"
                     style={{ position: "absolute", inset: 0 }}
@@ -664,7 +664,7 @@ export default function CyberHome() {
                     {project.description}
                   </p>
                   <Link
-                    to="/security/security-projects"
+                    to={`/project/${project.id}`}
                     aria-label={`Open security project: ${project.title}`}
                     style={{
                       display: "inline-flex",
@@ -683,7 +683,7 @@ export default function CyberHome() {
                     <ArrowUpRight size={12} strokeWidth={2} aria-hidden="true" />
                   </Link>
                   <Link
-                    to="/security/security-projects"
+                    to={`/project/${project.id}`}
                     tabIndex={-1}
                     aria-hidden="true"
                     style={{ position: "absolute", inset: 0 }}

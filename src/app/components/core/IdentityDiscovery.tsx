@@ -17,9 +17,9 @@ const identities = [
     discipline: "Design",
     bg: "#080A12",
     accent: "#67E8F9",
-    secondary: "#FDBA8C",
+    secondary: "#A5F3FC",
     font: "'Playfair Display', serif",
-    description: "Brand identity, UI/UX, editorial design, and creative direction.",
+    description: "Brand identity, UI/UX, editorial design, and creative direction — from the Prism.",
     preview: [
       { label: "Brand Identity" },
       { label: "UI/UX Systems" },
@@ -38,7 +38,7 @@ const identities = [
     accent: "#CC1234",
     secondary: "#F0EEE5",
     font: "'Space Grotesk', sans-serif",
-    description: "Distributed systems, infrastructure, open source, and language design.",
+    description: "Distributed systems, infrastructure, open source, and language design — from the Framework.",
     preview: [
       { label: "Distributed Systems" },
       { label: "Open Source" },
@@ -50,14 +50,14 @@ const identities = [
     id: "cyb3r",
     path: "/security",
     name: "CYB3R-BO1",
-    archetype: "The Hacker",
+    archetype: "The Security Researcher",
     motto: "Security begins with understanding.",
     discipline: "Security",
     bg: "#0F1318",
     accent: "#10B981",
     secondary: "#2DD4BF",
     font: "'IBM Plex Mono', monospace",
-    description: "Vulnerability research, CTF, security tooling, and systems analysis.",
+    description: "Vulnerability research, CTF, security tooling, and systems analysis — from the Intelligence Network.",
     preview: [
       { label: "Vuln Research" },
       { label: "CTF Competitions" },
@@ -107,7 +107,7 @@ export function IdentityDiscovery() {
                     })}
                 style={{ ...CORE_EYEBROW, color: theme.accent, margin: "0 0 0.9rem" }}
               >
-                Three Worlds
+                Three Disciplines
               </motion.p>
               <motion.h2
                 {...(reduceMotion
@@ -151,7 +151,7 @@ export function IdentityDiscovery() {
                 margin: 0,
               }}
             >
-              Each identity is a complete world, its own aesthetic, its own discipline, its own body of work. Enter the one that speaks to you.
+              Three professional practices. One source.
             </motion.p>
           </div>
         </div>

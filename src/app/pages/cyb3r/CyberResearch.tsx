@@ -60,7 +60,7 @@ export default function CyberResearch() {
               key={item.id}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.35, delay: i * 0.08 }}
+              transition={{ duration: 0.3, delay: i * 0.06 }}
               style={{
                 padding: "3rem 2rem",
                 border: `1px solid ${theme.borderSubtle}`,

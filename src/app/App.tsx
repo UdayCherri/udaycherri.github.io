@@ -187,7 +187,7 @@ const PERSONA_OF_IDENTITY: Record<string, string> = {
 };
 
 function titleForPath(pathname: string): string {
-  const FALLBACK = "Uday Cherri · The Core";
+  const FALLBACK = "Uday Cherri · Portfolio";
 
   if (pathname === "/") return FALLBACK;
   if (pathname === "/journey") return "Journey · Uday Cherri";

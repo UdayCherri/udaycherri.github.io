@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Link } from "react-router";
 import { journeyMilestones } from "../../data/content";
 import { useIsMd, usePrefersReducedMotion } from "../shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -14,7 +15,7 @@ const disciplineColors: Record<string, string> = {
 
 const disciplineLabels: Record<string, string> = {
   design: "Design",
-  development: "Dev",
+  development: "Development",
   security: "Security",
   core: "Core",
 };
@@ -206,7 +207,22 @@ export function JourneyTimeline() {
                   lineHeight: 1.3,
                 }}
               >
-                {milestone.title}
+                {"path" in milestone && typeof milestone.path === "string" ? (
+                  <Link
+                    to={milestone.path}
+                    aria-label={`${milestone.title} — open project`}
+                    style={{
+                      color: "inherit",
+                      textDecoration: "underline",
+                      textDecorationColor: theme.fgMuted,
+                      textUnderlineOffset: "4px",
+                    }}
+                  >
+                    {milestone.title}
+                  </Link>
+                ) : (
+                  milestone.title
+                )}
               </span>
 
               <span

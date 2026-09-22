@@ -58,7 +58,7 @@ export default function CyberSecurityProjects() {
               key={project.id}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: i * 0.07 }}
+              transition={{ duration: 0.3, delay: i * 0.06 }}
               style={{
                 padding: "2.5rem",
                 background: theme.bg,

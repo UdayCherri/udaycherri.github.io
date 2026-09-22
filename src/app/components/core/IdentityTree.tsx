@@ -10,7 +10,7 @@ const identities = [
     id: "yuukaycee",
     path: "/design",
     name: "YuuKayCee",
-    role: "The Prism",
+    role: "The Designer",
     discipline: "Design",
     accent: "#67E8F9",
     font: "'Playfair Display', serif",
@@ -19,7 +19,7 @@ const identities = [
     id: "spy",
     path: "/development",
     name: "Spy D. Veloper",
-    role: "The Builder",
+    role: "The Developer",
     discipline: "Development",
     accent: "#CC1234",
     font: "'Space Grotesk', sans-serif",
@@ -28,7 +28,7 @@ const identities = [
     id: "cyb3r",
     path: "/security",
     name: "CYB3R-BO1",
-    role: "The Researcher",
+    role: "The Security Researcher",
     discipline: "Security",
     accent: "#10B981",
     font: "'IBM Plex Mono', monospace",
@@ -98,19 +98,6 @@ export function IdentityTree() {
               })}
           style={{ textAlign: "center" }}
         >
-          <p
-            style={{
-              fontFamily: CORE_FONTS.body,
-              fontSize: "0.68rem",
-              fontWeight: 500,
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              color: bronze,
-              margin: "0 0 0.8rem",
-            }}
-          >
-            The Architect
-          </p>
           <h2
             style={{
               fontFamily: CORE_FONTS.display,

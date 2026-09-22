@@ -24,7 +24,7 @@ function PortraitHero({
       style={{
         position: "relative",
         width: "100%",
-        maxWidth: "440px",
+        maxWidth: "460px",
         aspectRatio: aspect,
         overflow: "hidden",
         border: `1px solid ${borderColor}`,
@@ -55,11 +55,11 @@ function PortraitHero({
           inset: 0,
           background: mode === "dark"
             ? [
-                "linear-gradient(128deg, rgba(103,232,249,0.08) 0%, rgba(45,212,191,0.04) 30%, rgba(196,181,253,0.04) 60%, rgba(244,114,182,0.03) 100%)",
+                "linear-gradient(128deg, rgba(103,232,249,0.08) 0%, rgba(45,212,191,0.04) 30%, rgba(165,243,252,0.04) 60%, rgba(34,211,238,0.03) 100%)",
                 "linear-gradient(to top, rgba(8,10,18,0.6) 0%, transparent 50%)",
               ].join(", ")
             : [
-                "linear-gradient(128deg, rgba(14,116,144,0.08) 0%, rgba(20,184,166,0.04) 30%, rgba(13,148,136,0.03) 60%, rgba(219,39,119,0.02) 100%)",
+                "linear-gradient(128deg, rgba(14,116,144,0.08) 0%, rgba(20,184,166,0.04) 30%, rgba(13,148,136,0.03) 60%, rgba(21,94,117,0.03) 100%)",
                 "linear-gradient(to top, rgba(5,8,14,0.62) 0%, transparent 52%)",
               ].join(", "),
           pointerEvents: "none",
@@ -76,8 +76,8 @@ function PortraitHero({
           right: 0,
           height: "2px",
           background: mode === "dark"
-            ? "linear-gradient(90deg, rgba(103,232,249,0.6) 0%, rgba(45,212,191,0.4) 25%, rgba(196,181,253,0.4) 50%, rgba(244,114,182,0.4) 75%, rgba(251,191,36,0.4) 100%)"
-            : "linear-gradient(90deg, rgba(14,116,144,0.55) 0%, rgba(20,184,166,0.4) 25%, rgba(13,148,136,0.35) 50%, rgba(219,39,119,0.3) 75%, rgba(217,119,6,0.3) 100%)",
+            ? "linear-gradient(90deg, rgba(103,232,249,0.6) 0%, rgba(45,212,191,0.4) 25%, rgba(165,243,252,0.45) 50%, rgba(34,211,238,0.4) 75%, rgba(14,116,144,0.35) 100%)"
+            : "linear-gradient(90deg, rgba(14,116,144,0.55) 0%, rgba(20,184,166,0.4) 25%, rgba(13,148,136,0.35) 50%, rgba(21,94,117,0.35) 75%, rgba(12,74,110,0.3) 100%)",
           opacity: 0.8,
         }}
       />
@@ -148,7 +148,7 @@ export default function YuuKayCeeHome() {
         aria-label="Introduction"
         style={{
           padding: "clamp(3rem, 7vw, 5rem) clamp(1.25rem, 5vw, 3rem)",
-          minHeight: "90svh",
+          minHeight: "88svh",
           display: "flex",
           alignItems: "center",
         }}
@@ -196,7 +196,7 @@ export default function YuuKayCeeHome() {
             >
               Designing<br />
               <em style={{ color: theme.accent }}>connections</em><br />
-              between worlds
+              between disciplines
             </motion.h1>
 
             <motion.p

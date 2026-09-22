@@ -83,7 +83,7 @@ function YuuKayCeeCover() {
           right: 0,
           height: "2px",
           background:
-            "linear-gradient(90deg, rgba(103,232,249,0.6) 0%, rgba(45,212,191,0.4) 25%, rgba(196,181,253,0.4) 50%, rgba(244,114,182,0.4) 75%, rgba(251,191,36,0.4) 100%)",
+            "linear-gradient(90deg, rgba(103,232,249,0.6) 0%, rgba(45,212,191,0.4) 25%, rgba(165,243,252,0.4) 50%, rgba(34,211,238,0.4) 75%, rgba(14,116,144,0.4) 100%)",
           opacity: 0.8,
         }}
       />
