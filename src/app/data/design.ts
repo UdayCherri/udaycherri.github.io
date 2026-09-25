@@ -1,4 +1,4 @@
-// ─── Design — YuuKayCee ───────────────────────────────────────────────────────
+// ─── Design - YuuKayCee ───────────────────────────────────────────────────────
 
 import type { Project } from "./types";
 
@@ -19,7 +19,7 @@ export const yuukayceeProjects: Project[] = [
       "Developed a dual-register system: a refined formal layer for client-facing materials, and a more expressive layer for cultural projects. The wordmark uses a modified geometric serif.",
     process: [
       "Competitive landscape audit across creative studios",
-      "Typography exploration — 40+ specimen studies",
+      "Typography exploration: 40+ specimen studies",
       "Color system development with light and dark expressions",
       "Application across stationery, digital surfaces, and motion",
     ],
@@ -28,23 +28,6 @@ export const yuukayceeProjects: Project[] = [
     lessons:
       "The best brand systems hold tension rather than resolve it. NYX needed to feel like it could occupy two rooms simultaneously.",
     featured: true,
-    coverColor: "#67E8F9",
-  },
-  {
-    id: "axon",
-    identity: "yuukaycee",
-    title: "AXON",
-    subtitle: "A SaaS Platform",
-    category: "Branding",
-    year: "2026",
-    tags: ["Brand Identity", "Typography", "Visual System"],
-    overview: "A short overview of the project and what it set out to accomplish.",
-    problem: "The problem this project was trying to solve.",
-    approach: "The approach taken to solve it.",
-    process: ["Step one", "Step two"],
-    outcome: "The outcome and results.",
-    lessons: "What was learned.",
-    featured: false,
     coverColor: "#67E8F9",
   },
 ];

@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { cyberResearch } from "../../data/content";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { severityStyle } from "./cyberSeverity";
 
 export default function CyberResearch() {
   const { mode } = useTheme();
@@ -22,7 +23,7 @@ export default function CyberResearch() {
               fontSize: "0.65rem",
               letterSpacing: "0.2em",
               color: theme.accent,
-              opacity: 0.65,
+              opacity: 0.9,
               marginBottom: "1rem",
             }}
           >
@@ -32,7 +33,7 @@ export default function CyberResearch() {
             style={{
               fontFamily: "'IBM Plex Mono', monospace",
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
-              fontWeight: 500,
+              fontWeight: 600,
               color: theme.fg,
               letterSpacing: "-0.02em",
               lineHeight: 1.15,
@@ -50,7 +51,7 @@ export default function CyberResearch() {
               maxWidth: "520px",
             }}
           >
-            Original vulnerability research. Full disclosure policy — all findings responsibly disclosed before publication.
+            Original vulnerability research. Full disclosure policy: all findings responsibly disclosed before publication.
           </p>
         </motion.div>
 
@@ -84,7 +85,7 @@ export default function CyberResearch() {
                     fontSize: "0.6rem",
                     letterSpacing: "0.1em",
                     color: theme.fgMuted,
-                    opacity: 0.65,
+                    opacity: 0.8,
                   }}
                 >
                   {item.year}
@@ -105,8 +106,8 @@ export default function CyberResearch() {
                     fontFamily: "'IBM Plex Mono', monospace",
                     fontSize: "0.6rem",
                     padding: "0.15rem 0.5rem",
-                    border: `1px solid ${item.severity === "Critical" ? "rgba(239,68,68,0.4)" : item.severity === "High" ? "rgba(245,158,11,0.4)" : "rgba(107,114,128,0.35)"}`,
-                    color: item.severity === "Critical" ? "rgba(239,68,68,0.9)" : item.severity === "High" ? "rgba(245,158,11,0.9)" : "rgba(107,114,128,0.8)",
+                    border: `1px solid ${severityStyle(item.severity, mode).border}`,
+                    color: severityStyle(item.severity, mode).color,
                   }}
                 >
                   {item.severity}
@@ -116,8 +117,8 @@ export default function CyberResearch() {
               <h2
                 style={{
                   fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "clamp(1.1rem, 2.2vw, 1.3rem)",
-                  fontWeight: 500,
+              fontSize: "clamp(1.1rem, 2.2vw, 1.3rem)",
+              fontWeight: 600,
                   color: theme.fg,
                   lineHeight: 1.25,
                   marginBottom: "1rem",

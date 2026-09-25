@@ -19,7 +19,7 @@ const identities = [
     accent: "#67E8F9",
     secondary: "#A5F3FC",
     font: "'Playfair Display', serif",
-    description: "Brand identity, UI/UX, editorial design, and creative direction — from the Prism.",
+    description: "Brand identity, UI/UX, editorial design, and creative direction, from the Prism.",
     preview: [
       { label: "Brand Identity" },
       { label: "UI/UX Systems" },
@@ -38,7 +38,7 @@ const identities = [
     accent: "#CC1234",
     secondary: "#F0EEE5",
     font: "'Space Grotesk', sans-serif",
-    description: "Distributed systems, infrastructure, open source, and language design — from the Framework.",
+    description: "Distributed systems, infrastructure, open source, and language design, from the Framework.",
     preview: [
       { label: "Distributed Systems" },
       { label: "Open Source" },
@@ -57,7 +57,7 @@ const identities = [
     accent: "#10B981",
     secondary: "#2DD4BF",
     font: "'IBM Plex Mono', monospace",
-    description: "Vulnerability research, CTF, security tooling, and systems analysis — from the Intelligence Network.",
+    description: "AI security, application security, CTF, and security tooling, from the Intelligence Network.",
     preview: [
       { label: "Vuln Research" },
       { label: "CTF Competitions" },
@@ -79,7 +79,7 @@ export function IdentityDiscovery() {
       aria-label="Choose your direction"
       style={{ background: theme.bg }}
     >
-      {/* Transition text — bridges from understanding to choosing */}
+      {/* Transition text - bridges from understanding to choosing */}
       <div
         style={{
           padding: `${CORE_LAYOUT.sectionY} ${CORE_LAYOUT.pad} clamp(2.5rem, 5vw, 4rem)`,
@@ -154,10 +154,34 @@ export function IdentityDiscovery() {
               Three professional practices. One source.
             </motion.p>
           </div>
+
+          {/* Compact one-to-three connector - the Tree diagram, folded in */}
+          <div
+            aria-hidden="true"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              margin: "2.25rem 0 0",
+            }}
+          >
+            <div style={{ width: "1px", height: "28px", background: theme.accent, opacity: 0.6 }} />
+            {isMd ? (
+              <div style={{ display: "flex", alignItems: "center", width: "min(52%, 480px)" }}>
+                <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#67E8F9", flexShrink: 0 }} />
+                <span style={{ flex: 1, height: "1px", background: theme.borderSubtle }} />
+                <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#CC1234", flexShrink: 0 }} />
+                <span style={{ flex: 1, height: "1px", background: theme.borderSubtle }} />
+                <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#10B981", flexShrink: 0 }} />
+              </div>
+            ) : (
+              <div style={{ width: "1px", height: "20px", background: theme.borderSubtle }} />
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Identity panels — full-bleed triptych with hairline dividers */}
+      {/* Identity panels - full-bleed triptych with hairline dividers */}
       <div
         style={{
           display: "grid",
@@ -212,7 +236,7 @@ export function IdentityDiscovery() {
 
               <Link
                 to={identity.path}
-                aria-label={`Enter ${identity.name} — ${identity.discipline}`}
+                aria-label={`Enter ${identity.name} · ${identity.discipline}`}
                 style={{
                   position: "relative",
                   display: "flex",

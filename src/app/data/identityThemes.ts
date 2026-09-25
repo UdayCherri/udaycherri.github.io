@@ -18,7 +18,7 @@ export interface IdentityTheme {
 
 // ─── YuuKayCee ───────────────────────────────────────────────────────────────
 // Cyan-family system: bright cyan primary, ice tint secondary, deep cyan
-// tertiary — one hue, three roles (emphasis, lift, depth).
+// tertiary - one hue, three roles (emphasis, lift, depth).
 
 const yuukayceeDark: IdentityTheme = {
   bg: "#080A12",
@@ -27,9 +27,9 @@ const yuukayceeDark: IdentityTheme = {
   shadow: "none",
   fg: "#F0EEF8",
   fgMuted: "rgba(240,238,248,0.72)",
-  accent: "#67E8F9",          // cyan — primary
-  accentSecondary: "#A5F3FC", // ice cyan — secondary lift
-  accentTertiary: "#0E7490",  // deep cyan — fills, large surfaces
+  accent: "#67E8F9",          // cyan - primary
+  accentSecondary: "#A5F3FC", // ice cyan - secondary lift
+  accentTertiary: "#0E7490",  // deep cyan - fills, large surfaces
   navBg: "transparent",
   navBgScrolled: "rgba(8,10,18,0.92)",
   borderSubtle: "rgba(103,232,249,0.14)",
@@ -43,9 +43,9 @@ const yuukayceeLight: IdentityTheme = {
   shadow: "0 1px 2px rgba(14,30,60,0.05), 0 10px 28px rgba(14,116,144,0.08)",
   fg: "#0E1020",
   fgMuted: "rgba(14,16,32,0.72)",
-  accent: "#0E7490",          // deep cyan — primary (darkened for ≥4.5:1 on ivory)
-  accentSecondary: "#0D9488", // teal — secondary
-  accentTertiary: "#155E75",  // abyssal cyan — fills, depth
+  accent: "#0E7490",          // deep cyan - primary (darkened for ≥4.5:1 on ivory)
+  accentSecondary: "#0D9488", // teal - secondary
+  accentTertiary: "#155E75",  // abyssal cyan - fills, depth
   navBg: "transparent",
   navBgScrolled: "rgba(241,246,252,0.92)",
   borderSubtle: "rgba(14,116,144,0.16)",
@@ -63,7 +63,7 @@ const spyDark: IdentityTheme = {
   fgMuted: "rgba(240,238,229,0.72)",
   accent: "#E5485D",          // signal red, brightened for ≥4.5:1 on near-black
   accentSecondary: "#F0EEE5",
-  accentTertiary: "#CC1234",  // deep brand red — fills, large surfaces
+  accentTertiary: "#CC1234",  // deep brand red - fills, large surfaces
   navBg: "rgba(8,12,24,0.7)",
   navBgScrolled: "rgba(8,12,24,0.94)",
   borderSubtle: "rgba(229,72,93,0.18)",
@@ -77,7 +77,7 @@ const spyLight: IdentityTheme = {
   shadow: "4px 4px 0 rgba(8,12,24,0.07)",
   fg: "#080C18",
   fgMuted: "rgba(8,12,24,0.72)",
-  accent: "#CC1234",          // brand red — already ≥4.5:1 on bone
+  accent: "#CC1234",          // brand red - already ≥4.5:1 on bone
   accentSecondary: "#080C18",
   accentTertiary: "#CC1234",
   navBg: "rgba(244,242,237,0.7)",
@@ -98,31 +98,31 @@ const cyberDark: IdentityTheme = {
   accent: "#10B981",
   accentSecondary: "#2DD4BF",
   accentTertiary: "#10B981",
-  navBg: "rgba(15,19,24,0.8)",
-  navBgScrolled: "rgba(15,19,24,0.96)",
+  navBg: "#0F1318",
+  navBgScrolled: "#0F1318",
   borderSubtle: "rgba(16,185,129,0.16)",
   gridLine: "rgba(16,185,129,0.02)",
 };
 
 const cyberLight: IdentityTheme = {
-  bg: "#E9F3ED",
-  bgSubtle: "#D8E7DD",
-  surface: "#FFFFFF",
-  shadow: "0 1px 2px rgba(10,40,30,0.05), 0 10px 28px rgba(4,120,87,0.08)",
-  fg: "#0F1318",
-  fgMuted: "rgba(15,19,24,0.72)",
-  accent: "#047857",          // deep emerald — darkened for ≥4.5:1 on mist
+  bg: "#E7F2EC",
+  bgSubtle: "#D3E6DA",
+  surface: "#F4FAF6",
+  shadow: "0 1px 2px rgba(10,40,30,0.06), 0 10px 28px rgba(4,120,87,0.1)",
+  fg: "#0C1512",
+  fgMuted: "rgba(12,21,18,0.74)",
+  accent: "#047857",          // deep emerald - darkened for ≥4.5:1 on mist
   accentSecondary: "#0D9488",
   accentTertiary: "#059669",
-  navBg: "rgba(238,244,241,0.8)",
-  navBgScrolled: "rgba(238,244,241,0.96)",
-  borderSubtle: "rgba(4,120,87,0.18)",
-  gridLine: "rgba(5,150,105,0.045)",
+  navBg: "#E7F2EC",
+  navBgScrolled: "#E7F2EC",
+  borderSubtle: "rgba(4,120,87,0.24)",
+  gridLine: "rgba(5,150,105,0.06)",
 };
 
 // ─── Core (Uday Cherri) ───────────────────────────────────────────────────────
-// Light: ivory/stone/deep-bronze — Gallery / Architectural Space
-// Dark:  warm-graphite/champagne — Observatory / Nexus
+// Light: ivory/stone/deep-bronze - Gallery / Architectural Space
+// Dark:  warm-graphite/champagne - Observatory / Nexus
 // Accent is text-safe in both modes (≥4.5:1 on bg) so eyebrow labels stay
 // legible; accentTertiary carries the decorative champagne tone.
 

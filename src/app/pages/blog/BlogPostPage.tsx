@@ -74,7 +74,7 @@ export default function BlogPostPage({ section }: { section: BlogSection }) {
     );
   }
 
-  // Note: no page-level transition here — the discipline layout already
+  // Note: no page-level transition here - the discipline layout already
   // wraps this route. Nesting two pathname-keyed transitions compounds
   // their wait states into a visible stutter.
   return (

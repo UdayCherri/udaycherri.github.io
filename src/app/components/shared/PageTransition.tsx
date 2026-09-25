@@ -37,8 +37,8 @@ interface PersonaConfig {
  * Route transitions, deliberately boring. There is no exit animation and
  * no sequencing: the old page unmounts instantly and the new one fades
  * in immediately. The previous exit-then-enter sequencing forced every
- * navigation to sit through a fade-out plus a fade-in — up to 0.8s of
- * dim screen — which read as a fault rather than a flourish.
+ * navigation to sit through a fade-out plus a fade-in - up to 0.8s of
+ * dim screen - which read as a fault rather than a flourish.
  *
  * Core rises gently and YuuKayCee pulls focus; Spy and CYB3R are plain
  * fast fades. Everything disables fully under reduced motion.

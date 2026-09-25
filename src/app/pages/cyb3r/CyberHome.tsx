@@ -1,45 +1,16 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { useNavigate, Link } from "react-router";
-import { ArrowRight, ArrowUpRight, Shield, Key, Package, Cpu } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Shield, Key } from "lucide-react";
 import { cyberResearch, securityProjects } from "../../data/content";
 import { useIsDesktop, useIsMd, usePrefersReducedMotion } from "../../components/shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { severityStyle, severityWidth } from "./cyberSeverity";
 
 const researchIcons: Record<string, React.ReactNode> = {
   "jwt-confusion": <Key size={16} strokeWidth={1.5} />,
-  "supply-chain-analysis": <Package size={16} strokeWidth={1.5} />,
-  "kernel-analysis": <Cpu size={16} strokeWidth={1.5} />,
 };
-
-const severityWidth: Record<string, string> = {
-  Critical: "100%",
-  High: "75%",
-  Medium: "45%",
-  Low: "20%",
-};
-
-/** Severity colors adapt to the theme: translucent brights on dark,
- *  solid deep tones on light so small badge text stays legible. */
-function severityStyle(severity: string, mode: "dark" | "light"): { color: string; border: string; bar: string } {
-  if (mode === "light") {
-    const map: Record<string, { color: string; border: string; bar: string }> = {
-      Critical: { color: "#B91C1C", border: "rgba(185,28,28,0.4)", bar: "#DC2626" },
-      High: { color: "#B45309", border: "rgba(180,83,9,0.4)", bar: "#D97706" },
-      Medium: { color: "#4B5563", border: "rgba(75,85,99,0.4)", bar: "#6B7280" },
-      Low: { color: "#1D4ED8", border: "rgba(29,78,216,0.4)", bar: "#3B82F6" },
-    };
-    return map[severity] ?? map.Medium;
-  }
-  const map: Record<string, { color: string; border: string; bar: string }> = {
-    Critical: { color: "rgba(239,68,68,0.95)", border: "rgba(239,68,68,0.45)", bar: "rgba(239,68,68,0.85)" },
-    High: { color: "rgba(245,158,11,0.95)", border: "rgba(245,158,11,0.45)", bar: "rgba(245,158,11,0.85)" },
-    Medium: { color: "rgba(156,163,175,0.9)", border: "rgba(156,163,175,0.4)", bar: "rgba(156,163,175,0.7)" },
-    Low: { color: "rgba(96,165,250,0.9)", border: "rgba(96,165,250,0.4)", bar: "rgba(96,165,250,0.7)" },
-  };
-  return map[severity] ?? map.Medium;
-}
 
 function ProfileArea({
   theme,
@@ -64,22 +35,25 @@ function ProfileArea({
         background: theme.bgSubtle,
       }}
     >
-      {/* Security researcher photograph */}
-      <img
-        src="/images/cyb3r-profile.png"
-        alt="CYB3R-BO1 security researcher portrait"
-        loading="eager"
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "center top",
-          display: "block",
-          filter: mode === "dark" ? "brightness(0.8) saturate(0.85)" : "brightness(0.97) saturate(0.9)",
-        }}
-      />
+      {/* Security researcher photograph - mobile crop served on small screens */}
+      <picture style={{ display: "contents" }}>
+        <source media="(max-width: 1023px)" srcSet="/images/cyb3r-profile-mobile.png" />
+        <img
+          src="/images/cyb3r-profile.png"
+          alt="CYB3R-BO1 security researcher portrait"
+          loading="eager"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center top",
+            display: "block",
+            filter: mode === "dark" ? "brightness(0.8) saturate(0.85)" : "brightness(0.97) saturate(0.9)",
+          }}
+        />
+      </picture>
 
-      {/* Gradient overlay — bottom */}
+      {/* Gradient overlay - bottom */}
       <div
         aria-hidden="true"
         style={{
@@ -92,7 +66,7 @@ function ProfileArea({
         }}
       />
 
-      {/* Subtle green accent edge — top */}
+      {/* Subtle green accent edge - top */}
       <div
         aria-hidden="true"
         style={{
@@ -106,14 +80,14 @@ function ProfileArea({
         }}
       />
 
-      {/* Identity classification — top */}
+      {/* Identity classification - top */}
       <div style={{ position: "absolute", top: "1.25rem", left: "1.25rem" }}>
         <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.65rem", color: mode === "dark" ? theme.accent : "#34D399", letterSpacing: "0.12em", margin: 0 }}>
           CLASS: RESEARCHER
         </p>
       </div>
 
-      {/* Identity label — bottom */}
+      {/* Identity label - bottom */}
       <figcaption style={{ position: "absolute", bottom: "1.75rem", left: "1.75rem", right: "1.75rem" }}>
         <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.65rem", letterSpacing: "0.22em", color: mode === "dark" ? theme.accent : "#34D399", margin: "0 0 0.35rem" }}>
           SECURITY RESEARCHER
@@ -208,11 +182,25 @@ export default function CyberHome() {
                 lineHeight: 1.75,
                 color: theme.fgMuted,
                 maxWidth: "27rem",
-                margin: "0 0 2.25rem",
+                margin: "0 0 1.25rem",
               }}
             >
-              Vulnerability research, CTF competition, security tooling.
-              Understanding systems deeply enough to secure them.
+              AI security and application security. Understanding systems
+              deeply enough to secure them, proven in CTF competition.
+            </motion.p>
+
+            <motion.p
+              {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.4, delay: 0.2 } })}
+              style={{
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: "0.68rem",
+                letterSpacing: "0.14em",
+                margin: "0 0 2.25rem",
+              }}
+              aria-label="Focus areas: AI security primary, application security secondary"
+            >
+              <span style={{ color: theme.accent, fontWeight: 600 }}>PRIMARY: AI SECURITY</span>
+              <span style={{ color: theme.fgMuted }}> · SECONDARY: APPSEC</span>
             </motion.p>
 
             <motion.div
@@ -284,7 +272,7 @@ export default function CyberHome() {
             )}
           </div>
 
-          {/* Portrait — desktop only */}
+          {/* Portrait - desktop only */}
           {isDesktop && (
             <motion.div
               {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.5, delay: 0.12 } })}
@@ -320,9 +308,7 @@ export default function CyberHome() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: isMd
-                ? `repeat(${Math.min(cyberResearch.length, 3)}, 1fr)`
-                : "1fr",
+              gridTemplateColumns: isMd ? "repeat(2, 1fr)" : "1fr",
               gap: "1px",
               background: theme.borderSubtle,
               border: `1px solid ${theme.borderSubtle}`,
@@ -394,7 +380,7 @@ export default function CyberHome() {
                     >
                       {item.year}
                     </span>
-                    {/* Static severity badge — no looping pulse */}
+                    {/* Static severity badge - no looping pulse */}
                     <span
                       style={{
                         display: "inline-flex",
@@ -571,9 +557,7 @@ export default function CyberHome() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: isMd
-                ? `repeat(${Math.min(securityProjects.slice(0, 2).length, 2)}, 1fr)`
-                : "1fr",
+              gridTemplateColumns: isMd ? "repeat(2, 1fr)" : "1fr",
               gap: "1px",
               background: theme.borderSubtle,
               border: `1px solid ${theme.borderSubtle}`,

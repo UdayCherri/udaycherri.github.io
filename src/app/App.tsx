@@ -20,6 +20,7 @@ import { CoreNav } from "./components/core/CoreNav";
 import CoreHome from "./pages/core/CoreHome";
 import CoreJourney from "./pages/core/CoreJourney";
 import CoreWork from "./pages/core/CoreWork";
+import CoreProfile from "./pages/core/CoreProfile";
 import CoreContact from "./pages/core/CoreContact";
 
 // YuuKayCee
@@ -61,7 +62,7 @@ function LegacyRedirect({ to }: { to: string }) {
   return <Navigate to={rest ? `${to}/${rest}` : to} replace />;
 }
 
-// Core layout wrapper — provides ThemeContext for all Core routes
+// Core layout wrapper - provides ThemeContext for all Core routes
 function CoreLayout() {
   return (
     <ThemeProvider identity="core">
@@ -104,15 +105,16 @@ function CoreWrapper() {
 function AppRoutes() {
   return (
     <Routes>
-      {/* Core — all wrapped in CoreLayout for ThemeContext */}
+      {/* Core - all wrapped in CoreLayout for ThemeContext */}
       <Route element={<CoreLayout />}>
         <Route path="/" element={<CoreWrapper />} />
         <Route path="/journey" element={<CoreJourney />} />
         <Route path="/work" element={<CoreWork />} />
+        <Route path="/profile" element={<CoreProfile />} />
         <Route path="/contact" element={<CoreContact />} />
       </Route>
 
-      {/* Design — YuuKayCee */}
+      {/* Design - YuuKayCee */}
       <Route path="/design" element={<YuuKayCeeLayout />}>
         <Route index element={<YuuKayCeeHome />} />
         <Route path="work" element={<YuuKayCeeWork />} />
@@ -122,7 +124,7 @@ function AppRoutes() {
         <Route path="contact" element={<YuuKayCeeContact />} />
       </Route>
 
-      {/* Development — Spy D. Veloper */}
+      {/* Development - Spy D. Veloper */}
       <Route path="/development" element={<SpyLayout />}>
         <Route index element={<SpyHome />} />
         <Route path="projects" element={<SpyProjects />} />
@@ -134,7 +136,7 @@ function AppRoutes() {
         <Route path="contact" element={<SpyContact />} />
       </Route>
 
-      {/* Security — CYB3R-BO1 */}
+      {/* Security - CYB3R-BO1 */}
       <Route path="/security" element={<CyberLayout />}>
         <Route index element={<CyberHome />} />
         <Route path="research" element={<CyberResearch />} />
@@ -167,7 +169,7 @@ export default function App() {
 
 /**
  * Persona-specific document titles. Every tab names its page first, then
- * its identity — specific enough to tell tabs apart, plain enough to
+ * its identity - specific enough to tell tabs apart, plain enough to
  * stay professional. Middle dots only; no dashes of any kind.
  */
 function RouteTitles() {
@@ -187,45 +189,46 @@ const PERSONA_OF_IDENTITY: Record<string, string> = {
 };
 
 function titleForPath(pathname: string): string {
-  const FALLBACK = "Uday Cherri · Portfolio";
+  const FALLBACK = "Uday Cherri - Portfolio";
 
   if (pathname === "/") return FALLBACK;
-  if (pathname === "/journey") return "Journey · Uday Cherri";
-  if (pathname === "/work") return "Work · Uday Cherri";
-  if (pathname === "/contact") return "Contact · Uday Cherri";
+  if (pathname === "/journey") return "Journey - Uday Cherri";
+  if (pathname === "/work") return "Work - Uday Cherri";
+  if (pathname === "/profile") return "Profile - Uday Cherri";
+  if (pathname === "/contact") return "Contact - Uday Cherri";
 
-  if (pathname === "/design") return "YuuKayCee · Design";
-  if (pathname === "/design/work") return "Work · YuuKayCee";
-  if (pathname === "/design/case-studies") return "Case Studies · YuuKayCee";
-  if (pathname === "/design/nyx-bureau") return "NYX Bureau · YuuKayCee";
-  if (pathname === "/design/archive") return "Archive · YuuKayCee";
-  if (pathname === "/design/contact") return "Contact · YuuKayCee";
+  if (pathname === "/design") return "YuuKayCee - Design";
+  if (pathname === "/design/work") return "Work - YuuKayCee";
+  if (pathname === "/design/case-studies") return "Case Studies - YuuKayCee";
+  if (pathname === "/design/nyx-bureau") return "NYX Bureau - YuuKayCee";
+  if (pathname === "/design/archive") return "Archive - YuuKayCee";
+  if (pathname === "/design/contact") return "Contact - YuuKayCee";
 
-  if (pathname === "/development") return "Spy D. Veloper · Development";
-  if (pathname === "/development/projects") return "Projects · Spy D. Veloper";
-  if (pathname === "/development/systems") return "Systems · Spy D. Veloper";
-  if (pathname === "/development/experiments") return "Experiments · Spy D. Veloper";
-  if (pathname === "/development/open-source") return "Open Source · Spy D. Veloper";
-  if (pathname === "/development/blog") return "Blog · Spy D. Veloper";
-  if (pathname === "/development/contact") return "Contact · Spy D. Veloper";
+  if (pathname === "/development") return "Spy D. Veloper - Development";
+  if (pathname === "/development/projects") return "Projects - Spy D. Veloper";
+  if (pathname === "/development/systems") return "Systems - Spy D. Veloper";
+  if (pathname === "/development/experiments") return "Experiments - Spy D. Veloper";
+  if (pathname === "/development/open-source") return "Open Source - Spy D. Veloper";
+  if (pathname === "/development/blog") return "Blog - Spy D. Veloper";
+  if (pathname === "/development/contact") return "Contact - Spy D. Veloper";
   if (pathname.startsWith("/development/blog/")) {
     const slug = pathname.split("/").pop() ?? "";
     const post = devBlogPosts.find((p) => p.slug === slug);
-    if (post) return `${post.title} · Spy D. Veloper`;
-    return "Blog · Spy D. Veloper";
+    if (post) return `${post.title} - Spy D. Veloper`;
+    return "Blog - Spy D. Veloper";
   }
 
-  if (pathname === "/security") return "CYB3R-BO1 · Security";
-  if (pathname === "/security/research") return "Research · CYB3R-BO1";
-  if (pathname === "/security/security-projects") return "Projects · CYB3R-BO1";
-  if (pathname === "/security/ctf-archive") return "CTF Archive · CYB3R-BO1";
-  if (pathname === "/security/blog") return "Blog · CYB3R-BO1";
-  if (pathname === "/security/contact") return "Contact · CYB3R-BO1";
+  if (pathname === "/security") return "CYB3R-BO1 - Security";
+  if (pathname === "/security/research") return "Research - CYB3R-BO1";
+  if (pathname === "/security/security-projects") return "Projects - CYB3R-BO1";
+  if (pathname === "/security/ctf-archive") return "CTF Archive - CYB3R-BO1";
+  if (pathname === "/security/blog") return "Blog - CYB3R-BO1";
+  if (pathname === "/security/contact") return "Contact - CYB3R-BO1";
   if (pathname.startsWith("/security/blog/")) {
     const slug = pathname.split("/").pop() ?? "";
     const post = cyberBlogPosts.find((p) => p.slug === slug);
-    if (post) return `${post.title} · CYB3R-BO1`;
-    return "Blog · CYB3R-BO1";
+    if (post) return `${post.title} - CYB3R-BO1`;
+    return "Blog - CYB3R-BO1";
   }
 
   if (pathname.startsWith("/project/")) {
@@ -239,7 +242,7 @@ function titleForPath(pathname: string): string {
       const identity = "identity" in project ? (project.identity as string) : "cyb3r";
       const persona = PERSONA_OF_IDENTITY[identity] ?? "Uday Cherri";
       const title = "title" in project ? String(project.title) : id;
-      return `${title} · ${persona}`;
+      return `${title} - ${persona}`;
     }
     return FALLBACK;
   }

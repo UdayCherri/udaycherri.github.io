@@ -7,7 +7,7 @@ interface ArrivalScreenProps {
 }
 
 /**
- * Refined arrival moment — a single quiet fade, not a staged sequence.
+ * Refined arrival moment - a single quiet fade, not a staged sequence.
  * - Total visible time ~1.6s (was 4.4s), dismissible via Escape / click.
  * - Renders nothing when the user prefers reduced motion.
  * - Auto-dismisses safely even if timers are throttled.

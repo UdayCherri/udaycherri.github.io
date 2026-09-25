@@ -92,7 +92,7 @@ export default function CoreContact() {
             }}
           >
             Whether you&apos;re looking to collaborate on a design project, build something ambitious, or
-            discuss security research — I&apos;m interested in work that matters.
+              discuss security research, I&apos;m interested in work that matters.
           </motion.p>
 
           <motion.div

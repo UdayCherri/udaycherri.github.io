@@ -180,7 +180,7 @@ function CategoryCover({ category, coverColor }: { category: string; coverColor:
     );
   }
 
-  // Concepts — node-and-edge network
+  // Concepts - node-and-edge network
   return (
     <div style={baseStyle} className="yk-card-cover">
       <svg width="140" height="120" viewBox="0 0 140 120" fill="none" opacity={0.55}>
@@ -389,6 +389,19 @@ export default function YuuKayCeeWork() {
             </motion.div>
           ))}
         </div>
+
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "0.85rem",
+            color: theme.fgMuted,
+            marginTop: "3rem",
+            maxWidth: "32rem",
+            lineHeight: 1.7,
+          }}
+        >
+          More selected work is being prepared. Check back soon.
+        </p>
       </div>
     </div>
   );

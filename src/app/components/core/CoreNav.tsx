@@ -11,6 +11,7 @@ const links = [
   { to: "/", label: "Home" },
   { to: "/journey", label: "Journey" },
   { to: "/work", label: "Work" },
+  { to: "/profile", label: "Profile" },
   { to: "/contact", label: "Contact" },
 ];
 
@@ -77,7 +78,7 @@ export function CoreNav() {
           {/* Wordmark */}
           <Link
             to="/"
-            aria-label="Uday Cherri — home"
+            aria-label="Uday Cherri · home"
             style={{
               fontFamily: CORE_FONTS.display,
               fontSize: "1.05rem",
@@ -94,7 +95,7 @@ export function CoreNav() {
             Uday Cherri
           </Link>
 
-          {/* Desktop nav — centered */}
+          {/* Desktop nav - centered */}
           <nav
             className="hidden lg:flex items-center gap-2"
             aria-label="Primary"
@@ -147,12 +148,12 @@ export function CoreNav() {
             })}
           </nav>
 
-          {/* Desktop theme toggle — right */}
+          {/* Desktop theme toggle - right */}
           <div className="hidden lg:flex items-center">
             <ThemeToggle identity="core" />
           </div>
 
-          {/* Mobile cluster — theme toggle stays visible, menu opens the links */}
+          {/* Mobile cluster - theme toggle stays visible, menu opens the links */}
           <div className="lg:hidden flex items-center gap-1">
             <ThemeToggle identity="core" />
             <button

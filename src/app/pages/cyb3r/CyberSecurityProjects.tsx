@@ -1,4 +1,6 @@
 import { motion } from "motion/react";
+import { Link } from "react-router";
+import { ArrowUpRight } from "lucide-react";
 import { securityProjects } from "../../data/content";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
@@ -24,7 +26,7 @@ export default function CyberSecurityProjects() {
               fontSize: "0.65rem",
               letterSpacing: "0.2em",
               color: theme.accent,
-              opacity: 0.65,
+              opacity: 0.9,
               marginBottom: "1rem",
             }}
           >
@@ -34,7 +36,7 @@ export default function CyberSecurityProjects() {
             style={{
               fontFamily: "'IBM Plex Mono', monospace",
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
-              fontWeight: 500,
+              fontWeight: 600,
               color: theme.fg,
               letterSpacing: "-0.02em",
             }}
@@ -95,7 +97,7 @@ export default function CyberSecurityProjects() {
                     fontSize: "0.6rem",
                     color: theme.fgMuted,
                     letterSpacing: "0.1em",
-                    opacity: 0.55,
+                    opacity: 0.8,
                   }}
                 >
                   {project.year}
@@ -105,8 +107,8 @@ export default function CyberSecurityProjects() {
               <h3
                 style={{
                   fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "1.1rem",
-                  fontWeight: 500,
+              fontSize: "1.1rem",
+              fontWeight: 600,
                   color: theme.fg,
                   marginBottom: "0.5rem",
                   lineHeight: 1.3,
@@ -140,7 +142,7 @@ export default function CyberSecurityProjects() {
                 {project.description}
               </p>
 
-              <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "1.5rem" }}>
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
@@ -149,14 +151,73 @@ export default function CyberSecurityProjects() {
                       fontSize: "0.6rem",
                       letterSpacing: "0.06em",
                       padding: "0.2rem 0.5rem",
-                      border: `1px solid ${theme.borderSubtle}`,
-                      color: theme.accent,
-                      opacity: 0.65,
+                    border: `1px solid ${theme.borderSubtle}`,
+                    color: theme.accent,
+                    opacity: 0.85,
                     }}
                   >
                     {tag}
                   </span>
                 ))}
+              </div>
+
+              <div style={{ display: "flex", gap: "1.75rem", flexWrap: "wrap" }}>
+                <Link
+                  to={`/project/${project.id}`}
+                  aria-label={`Open detail: ${project.title}`}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "0.65rem",
+                    letterSpacing: "0.12em",
+                    color: theme.fgMuted,
+                    textDecoration: "none",
+                    borderBottom: "1px solid transparent",
+                    paddingBottom: "2px",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = theme.accent;
+                    e.currentTarget.style.borderBottomColor = theme.accent;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = theme.fgMuted;
+                    e.currentTarget.style.borderBottomColor = "transparent";
+                  }}
+                >
+                  OPEN DETAIL
+                  <ArrowUpRight size={12} strokeWidth={2} aria-hidden="true" />
+                </Link>
+                <a
+                  href="https://github.com/CYB3R-BO1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="CYB3R-BO1 on GitHub"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "0.65rem",
+                    letterSpacing: "0.12em",
+                    color: theme.fgMuted,
+                    textDecoration: "none",
+                    borderBottom: "1px solid transparent",
+                    paddingBottom: "2px",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = theme.accent;
+                    e.currentTarget.style.borderBottomColor = theme.accent;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = theme.fgMuted;
+                    e.currentTarget.style.borderBottomColor = "transparent";
+                  }}
+                >
+                  GITHUB
+                  <ArrowUpRight size={12} strokeWidth={2} aria-hidden="true" />
+                </a>
               </div>
             </motion.div>
           ))}

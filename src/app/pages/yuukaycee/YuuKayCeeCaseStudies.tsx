@@ -54,7 +54,7 @@ export default function YuuKayCeeCaseStudies() {
               maxWidth: "520px",
             }}
           >
-            Each case study documents the full project arc — from brief through execution. Evidence of process, not just result.
+            Each case study documents the full project arc, from brief through execution. Evidence of process, not just result.
           </p>
         </motion.div>
 

@@ -1,8 +1,8 @@
-// ─── Uday Cherri — Core identity ──────────────────────────────────────────────
+// ─── Uday Cherri - Core identity ──────────────────────────────────────────────
 
 export const udayProfile = {
   name: "Uday Cherri",
-  archetype: "The Core",
+  archetypes: ["The Core", "The INFJ", "A Man", "A Student", "A Mentor"],
   motto: "You can do it too!",
   introduction:
     "Medicine, law, business, engineering, these are noble pursuits and necessary to sustain life. But poetry, beauty, romance, love, these are what we stay alive for.",
@@ -100,3 +100,40 @@ export const featuredWork = [
     path: "/project/jwt-confusion",
   },
 ];
+
+// ─── Profile (Uday Cherri - /profile) ────────────────────────────────────────
+// Factual identity sheet. Copy lives here; CoreProfile.tsx only renders it.
+
+export const profileAtAGlance = [
+  { label: "Based in", value: "Visakhapatnam, Andhra Pradesh, India" },
+  { label: "Education", value: "B.Tech CSE, RGUKT Nuzvid" },
+  { label: "Graduating", value: "May 2027" },
+  { label: "Open to", value: "Internships" },
+  { label: "Work mode", value: "Remote or anywhere in India" },
+  { label: "Email", value: "cherriuday@gmail.com", href: "mailto:cherriuday@gmail.com" },
+];
+
+export const profileAbout =
+  "I’m a multidisciplinary builder working across design, software, and cybersecurity. I started with visual design, moved into computer science and software development, and eventually into security research. Today, I treat the three disciplines as connected practices rather than separate paths: design shapes how I see and communicate, software lets me turn ideas into systems, and security pushes me to understand how those systems behave under pressure. I’m interested in building useful things, understanding how they work, and finding better ways to make them clear, reliable, and secure.";
+
+export const profileCurrent = [
+  "Building systems",
+  "Researching security",
+  "Refining visual work",
+  "Learning chess",
+];
+
+export const profileBackground =
+  "Started in design, moved into software, and expanded into cybersecurity. The three disciplines continue to develop alongside each other.";
+
+export const profileInterests = {
+  professional: ["AI Security", "Graphic Design"],
+  personal: ["Chess", "Movies", "Music"],
+};
+
+export const profileLinksPrimary = [
+  { label: "LinkedIn", url: "https://linkedin.com/in/uday-kiran-cherri" },
+  { label: "Email", url: "mailto:cherriuday@gmail.com" },
+];
+
+export const profileLinksSecondary: { label: string; url: string; note: string }[] = [];

@@ -136,7 +136,7 @@ export function JourneyTimeline() {
           </motion.ul>
         </div>
 
-        {/* Milestones — single-column rhythm with top dividers; two-up on md via gap */}
+        {/* Milestones - single-column rhythm with top dividers; two-up on md via gap */}
         <ol
           style={{
             listStyle: "none",
@@ -210,7 +210,7 @@ export function JourneyTimeline() {
                 {"path" in milestone && typeof milestone.path === "string" ? (
                   <Link
                     to={milestone.path}
-                    aria-label={`${milestone.title} — open project`}
+                    aria-label={`${milestone.title} · open project`}
                     style={{
                       color: "inherit",
                       textDecoration: "underline",

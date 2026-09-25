@@ -48,7 +48,21 @@ style={{ marginBottom: "4rem" }}
 
         {/* Article list */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
-          {devBlogPosts.map((post, i) => (
+          {devBlogPosts.length === 0 ? (
+            <p
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: "0.95rem",
+                color: theme.fgMuted,
+                lineHeight: 1.7,
+                padding: "2rem 0",
+                borderBottom: `1px solid ${theme.borderSubtle}`,
+              }}
+            >
+              First entries landing soon.
+            </p>
+          ) : (
+          devBlogPosts.map((post, i) => (
 <motion.div
 key={post.id}
 initial={{ opacity: 0, x: -12 }}
@@ -115,7 +129,8 @@ transition={{ duration: 0.25, delay: i * 0.05 }}
                 </Link>
               </div>
             </motion.div>
-          ))}
+          ))
+          )}
         </div>
       </div>
     </div>

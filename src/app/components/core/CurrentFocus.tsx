@@ -13,7 +13,7 @@ export function CurrentFocus() {
 
   return (
     <section
-      aria-label="Current studio focus"
+      aria-label="Current focus"
       style={{
         padding: `${CORE_LAYOUT.sectionY} ${CORE_LAYOUT.pad}`,
         background: theme.bg,
@@ -62,7 +62,7 @@ export function CurrentFocus() {
                 margin: "0 0 1rem",
               }}
             >
-              Current studio focus
+              Current focus
             </motion.h2>
             <motion.p
               {...(reduceMotion

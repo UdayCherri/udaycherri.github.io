@@ -20,7 +20,7 @@ interface DisciplineBrandProps {
 /**
  * Stacked brand lockup for discipline navbars.
  * Pairs the discipline identity (links home) with a quiet "Uday Cherri"
- * eyebrow (links back to The Core) — so the separate arrow + name
+ * eyebrow (links back to The Core) - so the separate arrow + name
  * cluster on the right side of the bar is no longer needed.
  */
 export function DisciplineBrand({
@@ -74,7 +74,7 @@ export function DisciplineBrand({
       </Link>
       <Link
         to={homePath}
-        aria-label={`${name} — home`}
+        aria-label={`${name} · home`}
         onMouseEnter={() => setHover("home")}
         onMouseLeave={() => setHover(null)}
         onFocus={() => setHover("home")}

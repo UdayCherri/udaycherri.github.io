@@ -195,7 +195,7 @@ export default function ProjectPage() {
             color: theme.accent,
           }}
         >
-          {project.category} · {project.year}
+          {project.category} - {project.year}
         </p>
       </div>
 

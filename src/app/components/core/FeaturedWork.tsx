@@ -8,7 +8,7 @@ import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 import { CORE_EYEBROW, CORE_FONTS, CORE_LAYOUT } from "./coreDesign";
 
-// YuuKayCee editorial cover — type specimen. The design discipline
+// YuuKayCee editorial cover - type specimen. The design discipline
 // represented the honest way: letterforms, not a placeholder logo.
 function YuuKayCeeCover() {
   return (
@@ -71,7 +71,7 @@ function YuuKayCeeCover() {
             margin: "0.75rem 0 0",
           }}
         >
-          Playfair Display · Design
+          Playfair Display - Design
         </p>
       </div>
       <div
@@ -99,7 +99,7 @@ function YuuKayCeeCover() {
   );
 }
 
-// Spy D. Veloper editorial cover — mock Rust code snippet with red highlight
+// Spy D. Veloper editorial cover - mock Rust code snippet with red highlight
 function SpyCover() {
   const lines = [
     { text: "use vault_core::{SecretStore, Config};", highlight: false },
@@ -190,7 +190,7 @@ function SpyCover() {
   );
 }
 
-// CYB3R-BO1 editorial cover — terminal window with vulnerability scan output
+// CYB3R-BO1 editorial cover - terminal window with vulnerability scan output
 function CyberCover() {
   const termLines = [
     { text: "$ vuln-scan -t jwt-libs -d full", dim: false },
@@ -267,7 +267,7 @@ function CyberCover() {
               letterSpacing: "0.08em",
             }}
           >
-            cyb3r-bo1 — zsh
+            cyb3r-bo1: zsh
           </span>
         </div>
         <div style={{ padding: "0.75rem 1rem 1rem" }}>
@@ -471,7 +471,7 @@ export function FeaturedWork() {
                   >
                     {item.description}
                   </p>
-                  {/* Stretched link — the whole card is keyboard-activatable */}
+                  {/* Stretched link - the whole card is keyboard-activatable */}
                   <Link
                     to={item.path}
                     aria-label={`Explore ${item.title}`}

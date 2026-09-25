@@ -161,35 +161,14 @@ export default function SpyExperiments() {
           >
             <p
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "0.65rem",
-                color: theme.accent,
-                marginBottom: "1rem",
-                opacity: 0.7,
-              }}
-            >
-              EXP_01
-            </p>
-            <h3
-              style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "1.4rem",
-                fontWeight: 600,
-                color: theme.fg,
-                textTransform: "uppercase",
-                marginBottom: "0.5rem",
-              }}
-            >
-              Prism Language
-            </h3>
-            <p
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(0.8rem, 1.6vw, 0.875rem)",
+                fontSize: "0.95rem",
                 color: theme.fgMuted,
+                lineHeight: 1.7,
+                margin: 0,
               }}
             >
-              Declarative DSL for data transformation. Compiles to Rust.
+              Experiments are documented as they ship. Check back soon.
             </p>
           </motion.div>
         )}

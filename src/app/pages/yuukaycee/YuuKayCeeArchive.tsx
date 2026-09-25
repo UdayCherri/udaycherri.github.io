@@ -59,7 +59,21 @@ export default function YuuKayCeeArchive() {
 
         {/* Archive list */}
         <div>
-          {archive.map((project, i) => (
+          {archive.length === 0 ? (
+            <p
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "0.95rem",
+                color: theme.fgMuted,
+                lineHeight: 1.7,
+                padding: "1.75rem 0",
+                borderBottom: `1px solid ${theme.borderSubtle}`,
+              }}
+            >
+              The archive is being organized. Check back soon.
+            </p>
+          ) : (
+          archive.map((project, i) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0 }}
@@ -122,7 +136,8 @@ export default function YuuKayCeeArchive() {
                 {project.category}
               </span>
             </motion.div>
-          ))}
+          ))
+          )}
         </div>
       </div>
     </div>

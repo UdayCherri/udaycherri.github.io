@@ -113,7 +113,7 @@ export function IdentityTree() {
           </h2>
         </motion.div>
 
-        {/* Simplified connector — one stem, one branch, three nodes */}
+        {/* Simplified connector - one stem, one branch, three nodes */}
         <div
           aria-hidden="true"
           style={{
@@ -158,7 +158,7 @@ export function IdentityTree() {
             >
               <Link
                 to={identity.path}
-                aria-label={`${identity.name} — ${identity.discipline}`}
+                aria-label={`${identity.name} · ${identity.discipline}`}
                 style={{
                   display: "block",
                   padding: "1.75rem 1.6rem 1.6rem",

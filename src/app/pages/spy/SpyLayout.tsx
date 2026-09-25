@@ -101,7 +101,7 @@ function SpyLayoutInner() {
             position: "relative",
           }}
         >
-          {/* Brand lockup — discipline home + quiet route back to The Core */}
+          {/* Brand lockup - discipline home + quiet route back to TH3 C0R3 */}
           <DisciplineBrand
             name="Spy D. Veloper"
             homePath="/development"
@@ -115,7 +115,7 @@ function SpyLayoutInner() {
             accent={theme.accent}
           />
 
-          {/* Desktop nav — centered */}
+          {/* Desktop nav - centered */}
           <nav
             className="hidden lg:flex items-center gap-1"
             aria-label="Primary"
@@ -169,12 +169,12 @@ function SpyLayoutInner() {
             })}
           </nav>
 
-          {/* Desktop theme toggle — right */}
+          {/* Desktop theme toggle - right */}
           <div className="hidden lg:flex items-center">
             <ThemeToggle identity="spy" />
           </div>
 
-          {/* Mobile cluster — toggle stays visible, menu opens the links */}
+          {/* Mobile cluster - toggle stays visible, menu opens the links */}
           <div className="lg:hidden flex items-center gap-1">
             <ThemeToggle identity="spy" />
             <button
@@ -217,7 +217,7 @@ function SpyLayoutInner() {
         )}
       </AnimatePresence>
 
-      {/* Mobile menu — anchored panel, not fullscreen */}
+      {/* Mobile menu - anchored panel, not fullscreen */}
       <AnimatePresence>
         {menuOpen && (
           <motion.nav

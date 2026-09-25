@@ -1,4 +1,4 @@
-// ─── Security — CYB3R-BO1 ─────────────────────────────────────────────────────
+// ─── Security - CYB3R-BO1 ─────────────────────────────────────────────────────
 
 export const cyberResearch = [
   {
@@ -35,12 +35,62 @@ export const securityProjects = [
 
 export const ctfArchive = [
   {
-    id: "ctf1",
-    event: "DEF CON CTF Qualifier 2024",
-    placement: "Top 15%",
+    id: "ctf-gaslight-2026",
+    event: "gaslightCTF 2026",
+    placement: "7th Open",
+    year: "2026",
+    categories: ["Misc", "Forensics", "Web", "Crypto"],
+    notableSolves: [
+      "12 solves: 5 misc, 4 forensics, 2 web, 1 crypto",
+      "GF(2) linear algebra break of fake AES",
+      "OSINT geolocation across 4 image challenges",
+      "robots.txt maze with flag encoded in binary path",
+    ],
+  },
+  {
+    id: "ctf-script-2026",
+    event: "scriptCTF 2026",
+    placement: "55th",
+    year: "2026",
+    categories: ["Web", "Reverse", "OSINT"],
+    notableSolves: [
+      "Go binary red herring: flag hidden in .shstrtab",
+      "robots.txt endpoint disclosure",
+      "Taco Bell geolocation via street view",
+    ],
+  },
+  {
+    id: "ctf-bits-2026",
+    event: "BITSCTF 2026",
+    placement: "32nd of 862",
+    year: "2026",
+    categories: ["Web", "OSINT", "Crypto", "Pwn"],
+    notableSolves: [
+      "Rust proxy path-normalization bypass",
+      "DES semi-weak key decryption oracle",
+      "Stack pivot + partial GOT + SROP chain",
+      "Scholar-trail professor OSINT",
+    ],
+  },
+  {
+    id: "ctf-0xl4ugh-2026",
+    event: "0xL4ugh CTF v5 2026",
+    placement: "19th of 1732",
+    year: "2026",
+    categories: ["DFIR", "Forensics"],
+    notableSolves: [
+      "Windows triage: Edge history to Sysmon timeline",
+      "Sliver C2 attribution",
+      "Run-key persistence mapping",
+    ],
+  },
+  {
+    id: "ctf-crackin-2024",
+    event: "CRACK-IN 1.0 CTF",
+    placement: "2nd",
     year: "2024",
-    categories: ["Pwn", "Web", "Reverse Engineering"],
-    notableSolves: ["Custom heap exploitation", "JWT confusion chain", "Multi-stage web challenge"],
+    categories: [],
+    notableSolves: ["Hosted by CyberHive of GGITS"],
   },
 ];
 

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { ArrowUp } from "lucide-react";
 import { Link } from "react-router";
@@ -8,7 +9,6 @@ import { JourneyTimeline } from "../../components/core/JourneyTimeline";
 import { FeaturedWork } from "../../components/core/FeaturedWork";
 import { IdentityDiscovery } from "../../components/core/IdentityDiscovery";
 import { CurrentFocus } from "../../components/core/CurrentFocus";
-import { IdentityTree } from "../../components/core/IdentityTree";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 import { CORE_EYEBROW, CORE_FONTS, CORE_LAYOUT } from "../../components/core/coreDesign";
@@ -30,6 +30,17 @@ export default function CoreHome() {
           animate: { opacity: 1, y: 0 },
           transition: { ...MOTION, delay },
         };
+
+  // Rotating archetype - one line, no layout shift, static under reduced motion.
+  const [archetypeIndex, setArchetypeIndex] = useState(0);
+  useEffect(() => {
+    if (reduceMotion) return;
+    const t = setInterval(
+      () => setArchetypeIndex((v) => (v + 1) % udayProfile.archetypes.length),
+      2000
+    );
+    return () => clearInterval(t);
+  }, [reduceMotion]);
 
   return (
     <div style={{ background: theme.bg, transition: "background 0.3s ease, color 0.3s ease" }}>
@@ -63,14 +74,17 @@ export default function CoreHome() {
             {/* Text column */}
             <div style={{ minWidth: 0 }}>
               <motion.p
-                {...fadeUp(0)}
+                key={archetypeIndex}
+                {...(reduceMotion
+                  ? {}
+                  : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.5 } })}
                 style={{
                   ...CORE_EYEBROW,
                   color: theme.accent,
                   margin: "0 0 1.5rem",
                 }}
               >
-                {udayProfile.archetype}
+                {udayProfile.archetypes[archetypeIndex]}
               </motion.p>
 
               <motion.h1
@@ -122,14 +136,14 @@ export default function CoreHome() {
                 {udayProfile.introduction}
               </motion.p>
 
-              {/* Mobile portrait — keeps the hero balanced where the desktop frame is hidden */}
+              {/* Mobile portrait - keeps the hero balanced where the desktop frame is hidden */}
               {!isDesktop && (
                 <motion.figure
                   {...fadeUp(0.24)}
                   style={{ margin: "2.25rem 0 0", maxWidth: "420px" }}
                 >
                   <img
-                    src="/images/core-profile.jpg"
+                    src="/images/core-profile-mobile.png"
                     alt="Portrait of Uday Cherri"
                     loading="eager"
                     style={{
@@ -161,7 +175,7 @@ export default function CoreHome() {
               )}
             </div>
 
-            {/* Portrait — desktop only */}
+            {/* Portrait - desktop only */}
             {isDesktop && (
               <motion.figure
                 {...(reduceMotion
@@ -239,7 +253,7 @@ export default function CoreHome() {
             )}
           </div>
 
-          {/* Scroll cue — static, doubles as a skip link to the manifesto */}
+          {/* Scroll cue - static, doubles as a skip link to the manifesto */}
           <motion.a
             href="#philosophy"
             {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.5, delay: 0.5 } })}
@@ -294,9 +308,6 @@ export default function CoreHome() {
         {/* Current Focus */}
         <CurrentFocus />
 
-        {/* Identity Relationship */}
-        <IdentityTree />
-
         {/* Identity Discovery */}
         <IdentityDiscovery />
       </main>
@@ -349,6 +360,7 @@ export default function CoreHome() {
               {[
                 { to: "/journey", label: "Journey" },
                 { to: "/work", label: "Work" },
+                { to: "/profile", label: "Profile" },
                 { to: "/contact", label: "Contact" },
               ].map(({ to, label }) => (
                 <Link

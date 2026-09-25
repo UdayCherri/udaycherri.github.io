@@ -1,11 +1,27 @@
+import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { ctfArchive } from "../../data/content";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { usePrefersReducedMotion, useIsMd } from "../../components/shared/useMediaQuery";
+
+const PAGE_SIZE = 6;
 
 export default function CyberCTF() {
   const { mode } = useTheme();
   const theme = getIdentityTheme("cyb3r", mode);
+  const reduceMotion = usePrefersReducedMotion();
+  const isMd = useIsMd();
+  const [page, setPage] = useState(0);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const totalPages = Math.max(1, Math.ceil(ctfArchive.length / PAGE_SIZE));
+  const visible = ctfArchive.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+
+  const goToPage = (next: number) => {
+    setPage(next);
+    listRef.current?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  };
 
   return (
     <div style={{ padding: "4rem clamp(1.25rem, 5vw, 3rem)", minHeight: "100vh", background: "transparent" }}>
@@ -22,7 +38,7 @@ export default function CyberCTF() {
               fontSize: "0.65rem",
               letterSpacing: "0.2em",
               color: theme.accent,
-              opacity: 0.65,
+              opacity: 0.9,
               marginBottom: "1rem",
             }}
           >
@@ -32,7 +48,7 @@ export default function CyberCTF() {
             style={{
               fontFamily: "'IBM Plex Mono', monospace",
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
-              fontWeight: 500,
+              fontWeight: 600,
               color: theme.fg,
               letterSpacing: "-0.02em",
             }}
@@ -53,13 +69,13 @@ export default function CyberCTF() {
           </p>
         </motion.div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
-          {ctfArchive.map((event, i) => (
+        <div ref={listRef} style={{ display: "grid", gridTemplateColumns: isMd ? "repeat(2, 1fr)" : "1fr", gap: "1.25rem", scrollMarginTop: "88px" }}>
+          {visible.map((event, i) => (
             <motion.div
               key={event.id}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: i * 0.06 }}
+              transition={{ duration: 0.3, delay: Math.min(i * 0.06, 0.6) }}
               style={{
                 padding: "2.5rem 2rem",
                 border: `1px solid ${theme.borderSubtle}`,
@@ -91,8 +107,8 @@ export default function CyberCTF() {
                       fontFamily: "'IBM Plex Mono', monospace",
                       fontSize: "0.6rem",
                       letterSpacing: "0.15em",
-                      color: theme.fgMuted,
-                      opacity: 0.55,
+                    color: theme.fgMuted,
+                    opacity: 0.8,
                       marginBottom: "0.5rem",
                     }}
                   >
@@ -101,8 +117,8 @@ export default function CyberCTF() {
                   <h3
                     style={{
                       fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: "1.05rem",
-                      fontWeight: 500,
+                    fontSize: "1.05rem",
+                    fontWeight: 600,
                       color: theme.fg,
                       lineHeight: 1.3,
                     }}
@@ -122,7 +138,7 @@ export default function CyberCTF() {
                     style={{
                       fontFamily: "'IBM Plex Mono', monospace",
                       fontSize: "0.7rem",
-                      fontWeight: 500,
+                      fontWeight: 600,
                       color: theme.accent,
                       letterSpacing: "0.05em",
                       whiteSpace: "nowrap",
@@ -160,7 +176,7 @@ export default function CyberCTF() {
                         fontFamily: "'IBM Plex Mono', monospace",
                         fontSize: "0.6rem",
                         color: theme.accentSecondary,
-                        opacity: 0.65,
+                        opacity: 0.85,
                         marginTop: "0.1rem",
                         flexShrink: 0,
                       }}
@@ -184,7 +200,91 @@ export default function CyberCTF() {
             </motion.div>
           ))}
         </div>
+
+        {totalPages > 1 && (
+          <nav
+            aria-label="CTF archive pages"
+            style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginTop: "2.5rem", flexWrap: "wrap" }}
+          >
+            <PageButton
+              label="PREV"
+              disabled={page === 0}
+              onClick={() => goToPage(page - 1)}
+              theme={theme}
+            />
+            {Array.from({ length: totalPages }, (_, p) => (
+              <PageButton
+                key={p}
+                label={String(p + 1).padStart(2, "0")}
+                active={p === page}
+                ariaCurrent={p === page}
+                onClick={() => goToPage(p)}
+                theme={theme}
+              />
+            ))}
+            <PageButton
+              label="NEXT"
+              disabled={page === totalPages - 1}
+              onClick={() => goToPage(page + 1)}
+              theme={theme}
+            />
+            <span
+              aria-hidden="true"
+              style={{
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: "0.62rem",
+                letterSpacing: "0.1em",
+                color: theme.fgMuted,
+                opacity: 0.7,
+                marginLeft: "0.5rem",
+              }}
+            >
+              {String(page + 1).padStart(2, "0")} / {String(totalPages).padStart(2, "0")}
+            </span>
+          </nav>
+        )}
       </div>
     </div>
+  );
+}
+
+function PageButton({
+  label,
+  active = false,
+  disabled = false,
+  ariaCurrent = false,
+  onClick,
+  theme,
+}: {
+  label: string;
+  active?: boolean;
+  disabled?: boolean;
+  ariaCurrent?: boolean;
+  onClick: () => void;
+  theme: ReturnType<typeof getIdentityTheme>;
+}) {
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      aria-current={ariaCurrent ? "page" : undefined}
+      onClick={onClick}
+      style={{
+        fontFamily: "'IBM Plex Mono', monospace",
+        fontSize: "0.65rem",
+        letterSpacing: "0.1em",
+        minHeight: "44px",
+        minWidth: "44px",
+        padding: "0.5rem 0.9rem",
+        background: active ? theme.accent + "14" : "transparent",
+        border: `1px solid ${active ? theme.accent : theme.borderSubtle}`,
+        color: active ? theme.accent : theme.fgMuted,
+        opacity: disabled ? 0.35 : 1,
+        cursor: disabled ? "default" : "pointer",
+        transition: "border-color 0.2s ease, color 0.2s ease",
+      }}
+    >
+      {label}
+    </button>
   );
 }

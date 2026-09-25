@@ -72,7 +72,7 @@ export default function YuuKayCeeContact() {
             maxWidth: "36rem",
           }}
         >
-          Brand identity, product design, typographic systems — if it involves creating visual experiences
+            Brand identity, product design, typographic systems: if it involves creating visual experiences
           that communicate clearly and feel right, I want to hear about it.
         </motion.p>
 

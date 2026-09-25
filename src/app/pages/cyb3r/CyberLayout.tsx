@@ -81,8 +81,6 @@ function CyberLayoutInner() {
           right: 0,
           zIndex: 40,
           background: scrolled ? theme.navBgScrolled : theme.navBg,
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
           borderBottom: `1px solid ${theme.borderSubtle}`,
           boxShadow: scrolled ? theme.shadow : "none",
           transition: "background 0.3s ease, box-shadow 0.3s ease",
@@ -100,7 +98,7 @@ function CyberLayoutInner() {
             position: "relative",
           }}
         >
-          {/* Brand lockup — discipline home + quiet route back to The Core */}
+          {/* Brand lockup - discipline home + quiet route back to TH3 C0R3 */}
           <DisciplineBrand
             name="CYB3R-BO1"
             homePath="/security"
@@ -113,7 +111,7 @@ function CyberLayoutInner() {
             accent={theme.accent}
           />
 
-          {/* Desktop nav — centered */}
+          {/* Desktop nav - centered */}
           <nav
             className="hidden lg:flex items-center gap-1"
             aria-label="Primary"
@@ -165,12 +163,12 @@ function CyberLayoutInner() {
             })}
           </nav>
 
-          {/* Desktop theme toggle — right */}
+          {/* Desktop theme toggle - right */}
           <div className="hidden lg:flex items-center">
             <ThemeToggle identity="cyb3r" />
           </div>
 
-          {/* Mobile cluster — toggle stays visible, menu opens the links */}
+          {/* Mobile cluster - toggle stays visible, menu opens the links */}
           <div className="lg:hidden flex items-center gap-1">
             <ThemeToggle identity="cyb3r" />
             <button
@@ -213,7 +211,7 @@ function CyberLayoutInner() {
         )}
       </AnimatePresence>
 
-      {/* Mobile menu — anchored panel, not fullscreen */}
+      {/* Mobile menu - anchored panel, not fullscreen */}
       <AnimatePresence>
         {menuOpen && (
           <motion.nav
@@ -273,7 +271,7 @@ function CyberLayoutInner() {
         )}
       </AnimatePresence>
 
-      {/* Content — clears the 64px fixed bar. */}
+      {/* Content - clears the 64px fixed bar. */}
       <div style={{ paddingTop: "68px", position: "relative", zIndex: 1 }}>
         <RouteTransition persona="cyb3r">
           <Outlet />

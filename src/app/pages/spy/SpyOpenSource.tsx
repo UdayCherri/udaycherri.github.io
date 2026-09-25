@@ -44,7 +44,21 @@ export default function SpyOpenSource() {
         </motion.div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
-          {openSourceRepos.map((repo, i) => (
+          {openSourceRepos.length === 0 ? (
+            <p
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: "0.95rem",
+                color: theme.fgMuted,
+                lineHeight: 1.7,
+                padding: "2rem 1.5rem",
+                border: `1px solid ${theme.borderSubtle}`,
+              }}
+            >
+              The open-source index is being updated. Full list landing soon.
+            </p>
+          ) : (
+          openSourceRepos.map((repo, i) => (
             <motion.a
               key={repo.name}
               href={repo.url === "#" ? undefined : repo.url}
@@ -119,7 +133,8 @@ transition={{ duration: 0.25, delay: i * 0.05 }}
                 <ArrowUpRight size={14} strokeWidth={1.5} color={theme.fgMuted} />
               </div>
             </motion.a>
-          ))}
+          ))
+          )}
         </div>
       </div>
     </div>

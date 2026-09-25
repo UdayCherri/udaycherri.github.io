@@ -7,7 +7,7 @@ import { useIsDesktop, useIsMd, usePrefersReducedMotion } from "../../components
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 
-// Portrait hero — creative director editorial portrait with prismatic color treatment
+// Portrait hero - creative director editorial portrait with prismatic color treatment
 function PortraitHero({
   theme,
   mode,
@@ -32,22 +32,25 @@ function PortraitHero({
         background: theme.bgSubtle,
       }}
     >
-      {/* Portrait photograph */}
-      <img
-        src="/images/yuukaycee-profile.png"
-        alt="Portrait of YuuKayCee, creative director"
-        loading="eager"
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: aspect === "4/5" ? "contain" : "cover",
-          objectPosition: "center top",
-          display: "block",
-          filter: mode === "dark" ? "brightness(0.9) saturate(0.92)" : "brightness(1) saturate(0.95)",
-        }}
-      />
+      {/* Portrait photograph - mobile crop served on small screens */}
+      <picture style={{ display: "contents" }}>
+        <source media="(max-width: 1023px)" srcSet="/images/yuukaycee-profile-mobile.png" />
+        <img
+          src="/images/yuukaycee-profile.png"
+          alt="Portrait of YuuKayCee, creative director"
+          loading="eager"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: aspect === "4/5" ? "contain" : "cover",
+            objectPosition: "center top",
+            display: "block",
+            filter: mode === "dark" ? "brightness(0.9) saturate(0.92)" : "brightness(1) saturate(0.95)",
+          }}
+        />
+      </picture>
 
-      {/* Prismatic color overlay — light passing through from top-left */}
+      {/* Prismatic color overlay - light passing through from top-left */}
       <div
         aria-hidden="true"
         style={{
@@ -66,7 +69,20 @@ function PortraitHero({
         }}
       />
 
-      {/* Thin chromatic edge — top */}
+      {/* Bottom caption gradient - caption legibility, matching Spy/Cyber portraits */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: mode === "dark"
+            ? "linear-gradient(to top, rgba(8,10,18,0.85) 0%, rgba(8,10,18,0.12) 55%, transparent 100%)"
+            : "linear-gradient(to top, rgba(5,8,14,0.65) 0%, rgba(5,8,14,0.1) 55%, transparent 100%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Thin chromatic edge - top */}
       <div
         aria-hidden="true"
         style={{
@@ -178,7 +194,7 @@ export default function YuuKayCeeHome() {
                 margin: "0 0 1.5rem",
               }}
             >
-              Design · Identity · Experience
+              Design - Identity - Experience
             </motion.p>
 
             <motion.h1
@@ -249,7 +265,7 @@ export default function YuuKayCeeHome() {
               </button>
             </motion.div>
 
-            {/* Mobile portrait — keeps the hero balanced on small screens */}
+            {/* Mobile portrait - keeps the hero balanced on small screens */}
             {!isDesktop && (
               <motion.div
                 {...enter(0.2)}
@@ -260,7 +276,7 @@ export default function YuuKayCeeHome() {
             )}
           </div>
 
-          {/* Right: Creative director portrait — desktop only */}
+          {/* Right: Creative director portrait - desktop only */}
           {isDesktop && (
             <motion.div
               {...(reduceMotion
@@ -416,7 +432,7 @@ export default function YuuKayCeeHome() {
                       textAlign: "center",
                     }}
                   >
-                    {/* Typographic cover — artwork placeholder until final pieces land */}
+                    {/* Typographic cover - artwork placeholder until final pieces land */}
                     <div style={{ position: "relative", zIndex: 1 }}>
                       <p
                         style={{
@@ -429,7 +445,7 @@ export default function YuuKayCeeHome() {
                           margin: "0 0 1rem",
                         }}
                       >
-                        {project.category} — N° {String(i + 1).padStart(2, "0")}
+                        {project.category} · N° {String(i + 1).padStart(2, "0")}
                       </p>
                       <p
                         style={{

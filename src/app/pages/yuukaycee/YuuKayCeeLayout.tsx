@@ -60,7 +60,7 @@ function YuuKayCeeLayoutInner() {
         transition: "background 0.3s ease, color 0.3s ease",
       }}
     >
-      {/* Prismatic background — cyan light refracting through a prism */}
+      {/* Prismatic background - cyan light refracting through a prism */}
       <div
         style={{
           position: "fixed",
@@ -68,21 +68,21 @@ function YuuKayCeeLayoutInner() {
           zIndex: 0,
           pointerEvents: "none",
           background: [
-            // Cyan dispersion beam — top-left to bottom-right, bright to deep
+            // Cyan dispersion beam - top-left to bottom-right, bright to deep
             `linear-gradient(128deg, rgba(103,232,249,${0.05 * auroraOpacity}) 0%, rgba(45,212,191,${0.03 * auroraOpacity}) 18%, rgba(165,243,252,${0.025 * auroraOpacity}) 38%, rgba(34,211,238,${0.025 * auroraOpacity}) 58%, rgba(14,116,144,${0.02 * auroraOpacity}) 78%, rgba(21,94,117,${0.02 * auroraOpacity}) 100%)`,
-            // Cyan primary — concentrated top-left light source
+            // Cyan primary - concentrated top-left light source
             `radial-gradient(ellipse 50% 35% at 8% 6%, rgba(103,232,249,${0.18 * auroraOpacity}) 0%, transparent 100%)`,
-            // Teal refraction — upper-center
+            // Teal refraction - upper-center
             `radial-gradient(ellipse 38% 22% at 34% 14%, rgba(45,212,191,${0.11 * auroraOpacity}) 0%, transparent 100%)`,
-            // Ice glow — center (one note among many, not dominant)
+            // Ice glow - center (one note among many, not dominant)
             `radial-gradient(ellipse 52% 38% at 58% 52%, rgba(165,243,252,${0.07 * auroraOpacity}) 0%, transparent 100%)`,
-            // Bright cyan — right edge refraction
+            // Bright cyan - right edge refraction
             `radial-gradient(ellipse 32% 24% at 92% 38%, rgba(34,211,238,${0.09 * auroraOpacity}) 0%, transparent 100%)`,
-            // Deep teal — bottom-right
+            // Deep teal - bottom-right
             `radial-gradient(ellipse 45% 28% at 78% 88%, rgba(15,118,110,${0.08 * auroraOpacity}) 0%, transparent 100%)`,
-            // Deep cyan — bottom-left
+            // Deep cyan - bottom-left
             `radial-gradient(ellipse 38% 24% at 14% 82%, rgba(14,116,144,${0.06 * auroraOpacity}) 0%, transparent 100%)`,
-            // Pale shimmer — center-right
+            // Pale shimmer - center-right
             `radial-gradient(ellipse 28% 18% at 72% 22%, rgba(207,250,254,${0.06 * auroraOpacity}) 0%, transparent 100%)`,
           ].join(", "),
         }}
@@ -129,7 +129,7 @@ function YuuKayCeeLayoutInner() {
             position: "relative",
           }}
         >
-          {/* Brand lockup — discipline home + quiet route back to The Core */}
+          {/* Brand lockup - discipline home + quiet route back to TH3 C0R3 */}
           <DisciplineBrand
             name="YuuKayCee"
             homePath="/design"
@@ -142,7 +142,7 @@ function YuuKayCeeLayoutInner() {
             accent={theme.accent}
           />
 
-          {/* Desktop nav — centered */}
+          {/* Desktop nav - centered */}
           <nav
             className="hidden lg:flex items-center gap-1"
             aria-label="Primary"
@@ -196,12 +196,12 @@ function YuuKayCeeLayoutInner() {
             })}
           </nav>
 
-          {/* Desktop theme toggle — right */}
+          {/* Desktop theme toggle - right */}
           <div className="hidden lg:flex items-center">
             <ThemeToggle identity="yuukaycee" />
           </div>
 
-          {/* Mobile cluster — toggle stays visible, menu opens the links */}
+          {/* Mobile cluster - toggle stays visible, menu opens the links */}
           <div className="lg:hidden flex items-center gap-1">
             <ThemeToggle identity="yuukaycee" />
             <button
@@ -249,7 +249,7 @@ function YuuKayCeeLayoutInner() {
         )}
       </AnimatePresence>
 
-      {/* Mobile menu — anchored panel, not fullscreen */}
+      {/* Mobile menu - anchored panel, not fullscreen */}
       <AnimatePresence>
         {menuOpen && (
           <motion.nav

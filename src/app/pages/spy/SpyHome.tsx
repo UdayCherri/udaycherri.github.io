@@ -48,7 +48,7 @@ const diagrams: Record<string, (accent: string) => React.ReactNode> = {
   conduit: (accent) => <ConduitDiagram accent={accent} />,
 };
 
-// Generic schematic — blueprint module used when a project has no dedicated diagram
+// Generic schematic - blueprint module used when a project has no dedicated diagram
 function GenericDiagram({ accent }: { accent: string }) {
   return (
     <svg width="80" height="54" viewBox="0 0 80 54" fill="none" aria-hidden="true">
@@ -85,22 +85,25 @@ function ProfileArea({
         background: theme.bgSubtle,
       }}
     >
-      {/* Workspace photograph */}
-      <img
-        src="/images/spy-profile.png"
-        alt="Spy D. Veloper engineering workspace"
-        loading="eager"
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "center",
-          display: "block",
-          filter: mode === "dark" ? "brightness(0.78) saturate(0.9)" : "brightness(0.95) saturate(0.9)",
-        }}
-      />
+      {/* Workspace photograph - mobile crop served on small screens */}
+      <picture style={{ display: "contents" }}>
+        <source media="(max-width: 1023px)" srcSet="/images/spy-profile-mobile.png" />
+        <img
+          src="/images/spy-profile.png"
+          alt="Spy D. Veloper engineering workspace"
+          loading="eager"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+            display: "block",
+            filter: mode === "dark" ? "brightness(0.78) saturate(0.9)" : "brightness(0.95) saturate(0.9)",
+          }}
+        />
+      </picture>
 
-      {/* Accent overlay — gradient to bottom */}
+      {/* Accent overlay - gradient to bottom */}
       <div
         aria-hidden="true"
         style={{
@@ -113,7 +116,7 @@ function ProfileArea({
         }}
       />
 
-      {/* Accent edge line — top */}
+      {/* Accent edge line - top */}
       <div
         aria-hidden="true"
         style={{
@@ -245,7 +248,7 @@ export default function SpyHome() {
                   color: theme.accent,
                 }}
               >
-                Systems · Infrastructure · Open Source
+                Systems - Infrastructure - Open Source
               </span>
             </motion.div>
 
@@ -361,7 +364,7 @@ export default function SpyHome() {
             )}
           </div>
 
-          {/* Portrait — desktop only */}
+          {/* Portrait - desktop only */}
           {isDesktop && (
             <motion.div
               {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.5, delay: 0.15 } })}

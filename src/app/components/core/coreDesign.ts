@@ -1,4 +1,4 @@
-// ─── Core design system — shared tokens for the Uday Cherri (Core) identity ───
+// ─── Core design system - shared tokens for the Uday Cherri (Core) identity ───
 // Keeps typography, spacing, and motion consistent across all Core pages.
 // Other identities (design / development / security) keep their own fonts.
 
@@ -28,7 +28,7 @@ export const CORE_LAYOUT = {
   sectionY: "clamp(4.5rem, 9vw, 7.5rem)",
 } as const;
 
-/** Subtle, fast motion — used everywhere in Core. Disabled when the user
+/** Subtle, fast motion - used everywhere in Core. Disabled when the user
  *  prefers reduced motion (see usePrefersReducedMotion). */
 export const CORE_MOTION = {
   fadeUp: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
