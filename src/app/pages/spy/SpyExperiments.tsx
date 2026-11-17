@@ -1,14 +1,14 @@
 import { motion } from "motion/react";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 import { spyProjects } from "../../data/content";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { EmptySection } from "../../components/shared/EmptySection";
 
 const experiments = spyProjects.filter((p) => p.category === "Experiments");
 
 export default function SpyExperiments() {
-  const navigate = useNavigate();
   const { mode } = useTheme();
   const theme = getIdentityTheme("spy", mode);
 
@@ -67,17 +67,8 @@ export default function SpyExperiments() {
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.25, delay: i * 0.05 }}
-                onClick={() => navigate(`/project/${exp.id}`)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    navigate(`/project/${exp.id}`);
-                  }
-                }}
-                tabIndex={0}
-                role="link"
-                aria-label={`Open ${exp.title}`}
                 style={{
+                  position: "relative",
                   padding: "2.5rem",
                   border: `1px solid ${theme.borderSubtle}`,
                   cursor: "pointer",
@@ -143,34 +134,31 @@ export default function SpyExperiments() {
                       {exp.overview}
                     </p>
                   </div>
-                  <ArrowRight size={14} strokeWidth={1.5} color={theme.fgMuted} style={{ marginLeft: "2rem", flexShrink: 0 }} />
+                  <ArrowRight size={14} strokeWidth={1.5} color={theme.fgMuted} style={{ marginLeft: "2rem", flexShrink: 0 }} aria-hidden="true" />
                 </div>
+                <Link
+                  to={`/project/${exp.id}`}
+                  aria-label={`Open ${exp.title}`}
+                  style={{ position: "absolute", inset: 0, display: "block", textDecoration: "none" }}
+                >
+                  <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap" }}>
+                    Open {exp.title}
+                  </span>
+                </Link>
               </motion.div>
             ))}
           </div>
         ) : (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            style={{
-              padding: "3rem",
-              border: `1px solid ${theme.borderSubtle}`,
-              cursor: "default",
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "0.95rem",
-                color: theme.fgMuted,
-                lineHeight: 1.7,
-                margin: 0,
-              }}
-            >
-              Experiments are documented as they ship. Check back soon.
-            </p>
-          </motion.div>
+          <EmptySection
+            title="In progress"
+            body="Small experiments with code and notes will appear here once published."
+            contactPath="/development/contact"
+            contactLabel="Contact Spy D. Veloper"
+            fontFamily="'Space Grotesk', sans-serif"
+            monoFamily="'JetBrains Mono', monospace"
+            accent={theme.accent}
+            muted={theme.fgMuted}
+          />
         )}
       </div>
     </div>

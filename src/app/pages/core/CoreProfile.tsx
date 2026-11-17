@@ -94,7 +94,7 @@ export default function CoreProfile() {
                 letterSpacing: "0.02em",
               }}
             >
-              Designer · Developer · Security Researcher
+              Designer · Developer · Security Student
             </motion.p>
           </div>
         </div>

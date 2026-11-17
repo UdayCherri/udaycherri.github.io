@@ -7,6 +7,7 @@ import { useIsDesktop, usePrefersReducedMotion } from "../shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 import { CORE_EYEBROW, CORE_FONTS, CORE_LAYOUT } from "./coreDesign";
+import { EmptySection } from "../shared/EmptySection";
 
 // YuuKayCee editorial cover - type specimen. The design discipline
 // represented the honest way: letterforms, not a placeholder logo.
@@ -99,20 +100,9 @@ function YuuKayCeeCover() {
   );
 }
 
-// Spy D. Veloper editorial cover - mock Rust code snippet with red highlight
+// Spy D. Veloper editorial cover - abstract systems motif. Intentionally
+// generic: no fictional APIs, crates, or performance claims.
 function SpyCover() {
-  const lines = [
-    { text: "use vault_core::{SecretStore, Config};", highlight: false },
-    { text: "", highlight: false },
-    { text: "async fn init_vault(cfg: Config) {", highlight: false },
-    { text: "  let store = SecretStore::new(cfg)", highlight: false },
-    { text: "    .with_replication(3)", highlight: true },
-    { text: "    .with_encryption(AES_256_GCM)", highlight: false },
-    { text: "    .build().await?;", highlight: false },
-    { text: "  store.start().await", highlight: false },
-    { text: "}", highlight: false },
-  ];
-
   return (
     <div
       aria-hidden="true"
@@ -139,42 +129,40 @@ function SpyCover() {
       <div
         style={{
           position: "relative",
-          padding: "1.5rem",
-          width: "100%",
-          maxWidth: "340px",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.9rem",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            gap: "0.35rem",
-            marginBottom: "1rem",
-            opacity: 0.4,
-          }}
-        >
-          {["#CC1234", "#F0EEE5", "#F0EEE5"].map((c, i) => (
+        {["Client", "Core", "Store"].map((label, i) => (
+          <div key={label} style={{ display: "flex", alignItems: "center", gap: "0.9rem" }}>
             <div
-              key={i}
-              style={{ width: "7px", height: "7px", borderRadius: "50%", background: c, opacity: i === 0 ? 1 : 0.3 }}
-            />
-          ))}
-        </div>
-        {lines.map((line, i) => (
-          <div
-            key={i}
-            style={{
-              fontFamily: "'JetBrains Mono', 'IBM Plex Mono', monospace",
-              fontSize: "0.68rem",
-              lineHeight: 1.7,
-              color: line.highlight ? "#E5485D" : "rgba(240,238,229,0.62)",
-              background: line.highlight ? "rgba(204,18,52,0.1)" : "transparent",
-              padding: line.highlight ? "0 0.25rem" : "0",
-              marginLeft: line.highlight ? "-0.25rem" : "0",
-              whiteSpace: "pre",
-              letterSpacing: "0.02em",
-            }}
-          >
-            {line.text || " "}
+              style={{
+                width: "64px",
+                height: "64px",
+                border: "1px solid rgba(204,18,52,0.45)",
+                borderRadius: i === 1 ? "50%" : "4px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: "'JetBrains Mono', 'IBM Plex Mono', monospace",
+                fontSize: "0.58rem",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "rgba(240,238,229,0.6)",
+              }}
+            >
+              {label}
+            </div>
+            {i < 2 && (
+              <div
+                style={{
+                  width: "28px",
+                  height: "1px",
+                  background: "rgba(204,18,52,0.5)",
+                }}
+              />
+            )}
           </div>
         ))}
       </div>
@@ -190,16 +178,13 @@ function SpyCover() {
   );
 }
 
-// CYB3R-BO1 editorial cover - terminal window with vulnerability scan output
+// CYB3R-BO1 editorial cover - abstract research motif. Intentionally generic:
+// no tool names, findings, or CVE-like identifiers.
 function CyberCover() {
-  const termLines = [
-    { text: "$ vuln-scan -t jwt-libs -d full", dim: false },
-    { text: "  scanning 8 libraries...", dim: true },
-    { text: "  [CRITICAL] node-jsonwebtoken: alg confusion", dim: false, accent: true },
-    { text: "  [HIGH]     pyjwt: missing alg validation", dim: false },
-    { text: "  [CRITICAL] go-jose: none-alg bypass", dim: false, accent: true },
-    { text: "  patching in progress: 5/8 libraries", dim: true },
-    { text: "  CVE-2024-1337  CVE-2024-1338  issued.", dim: false },
+  const rows = [
+    { label: "scope", value: "defined" },
+    { label: "method", value: "documented" },
+    { label: "limits", value: "stated" },
   ];
 
   return (
@@ -267,27 +252,42 @@ function CyberCover() {
               letterSpacing: "0.08em",
             }}
           >
-            cyb3r-bo1: zsh
+            research notes
           </span>
         </div>
-        <div style={{ padding: "0.75rem 1rem 1rem" }}>
-          {termLines.map((line, i) => (
+        <div style={{ padding: "1rem 1.25rem 1.25rem" }}>
+          {rows.map((row) => (
             <div
-              key={i}
+              key={row.label}
               style={{
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: "0.65rem",
-                lineHeight: 1.75,
-                color: line.accent
-                  ? "#34D399"
-                  : line.dim
-                    ? "rgba(16,185,129,0.45)"
-                    : "rgba(226,234,240,0.72)",
-                letterSpacing: "0.02em",
-                whiteSpace: "pre",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                gap: "1rem",
+                padding: "0.45rem 0",
+                borderBottom: "1px solid rgba(16,185,129,0.12)",
               }}
             >
-              {line.text}
+              <span
+                style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.62rem",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "rgba(16,185,129,0.6)",
+                }}
+              >
+                {row.label}
+              </span>
+              <span
+                style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.68rem",
+                  color: "rgba(226,234,240,0.75)",
+                }}
+              >
+                {row.value}
+              </span>
             </div>
           ))}
         </div>
@@ -363,7 +363,7 @@ export function FeaturedWork() {
               textWrap: "balance",
             }}
           >
-            Three disciplines. One body of work.
+            Selected work.
           </motion.h2>
         </div>
 
@@ -374,6 +374,17 @@ export function FeaturedWork() {
             gap: isDesktop ? "2rem" : "3rem",
           }}
         >
+          {featuredWork.length === 0 && (
+            <EmptySection
+              title="In progress"
+              body="Selected pieces from design, development, and security will appear here once published."
+              contactPath="/contact"
+              fontFamily={CORE_FONTS.body}
+              monoFamily={CORE_FONTS.body}
+              accent={theme.accent}
+              muted={theme.fgMuted}
+            />
+          )}
           {featuredWork.map((item, i) => {
             const active = activeId === item.id;
             return (

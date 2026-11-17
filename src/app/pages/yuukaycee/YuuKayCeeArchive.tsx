@@ -3,6 +3,7 @@ import { yuukayceeProjects } from "../../data/content";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 import { useIsMd } from "../../components/shared/useMediaQuery";
+import { EmptySection } from "../../components/shared/EmptySection";
 
 const archive = yuukayceeProjects.filter((p) => !p.featured);
 
@@ -60,18 +61,15 @@ export default function YuuKayCeeArchive() {
         {/* Archive list */}
         <div>
           {archive.length === 0 ? (
-            <p
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "0.95rem",
-                color: theme.fgMuted,
-                lineHeight: 1.7,
-                padding: "1.75rem 0",
-                borderBottom: `1px solid ${theme.borderSubtle}`,
-              }}
-            >
-              The archive is being organized. Check back soon.
-            </p>
+            <EmptySection
+              title="In progress"
+              body="Published design work with constraints, iterations, and deliverables will appear here once ready."
+              contactPath="/design/contact"
+              fontFamily="'DM Sans', sans-serif"
+              monoFamily="'DM Sans', sans-serif"
+              accent={theme.accent}
+              muted={theme.fgMuted}
+            />
           ) : (
           archive.map((project, i) => (
             <motion.div

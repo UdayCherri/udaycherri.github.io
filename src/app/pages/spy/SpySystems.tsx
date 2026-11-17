@@ -3,6 +3,7 @@ import { spySystems } from "../../data/content";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 import { useIsDesktop, useIsMd } from "../../components/shared/useMediaQuery";
+import { EmptySection } from "../../components/shared/EmptySection";
 
 export default function SpySystems() {
   const { mode } = useTheme();
@@ -59,17 +60,25 @@ export default function SpySystems() {
 
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: isDesktop
-              ? `repeat(${Math.min(spySystems.length, 3)}, 1fr)`
-              : isMd
-              ? `repeat(${Math.min(spySystems.length, 2)}, 1fr)`
-              : "1fr",
-            gap: "1px",
-            background: theme.borderSubtle,
-          }}
-        >
-          {spySystems.map((system, i) => (
+          display: "grid",
+          gridTemplateColumns: isDesktop ? "repeat(3, 1fr)" : isMd ? "repeat(2, 1fr)" : "1fr",
+          gap: "1px",
+          background: theme.borderSubtle,
+        }}
+      >
+        {spySystems.length === 0 && (
+          <EmptySection
+            title="In progress"
+            body="Systems write-ups with architecture and trade-offs will appear here once published."
+            contactPath="/development/contact"
+            contactLabel="Contact Spy D. Veloper"
+            fontFamily="'Space Grotesk', sans-serif"
+            monoFamily="'JetBrains Mono', monospace"
+            accent={theme.accent}
+            muted={theme.fgMuted}
+          />
+        )}
+        {spySystems.map((system, i) => (
             <motion.div
               key={system.id}
 initial={{ opacity: 0, x: -12 }}

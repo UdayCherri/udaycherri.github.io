@@ -5,6 +5,7 @@ import { useIsMd, usePrefersReducedMotion } from "../shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 import { CORE_EYEBROW, CORE_FONTS, CORE_LAYOUT } from "./coreDesign";
+import { EmptySection } from "../shared/EmptySection";
 
 const disciplineColors: Record<string, string> = {
   design: "#67E8F9",
@@ -147,6 +148,19 @@ export function JourneyTimeline() {
             columnGap: "3rem",
           }}
         >
+          {journeyMilestones.length === 0 && (
+            <li>
+              <EmptySection
+                title="In progress"
+                body="Milestones will appear here once published."
+                contactPath="/contact"
+                fontFamily={CORE_FONTS.body}
+                monoFamily={CORE_FONTS.body}
+                accent={theme.accent}
+                muted={theme.fgMuted}
+              />
+            </li>
+          )}
           {journeyMilestones.map((milestone, i) => (
             <motion.li
               key={milestone.id}

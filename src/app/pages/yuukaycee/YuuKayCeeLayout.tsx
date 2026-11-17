@@ -8,18 +8,21 @@ import { ThemeProvider } from "../../contexts/ThemeContext";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 import { usePrefersReducedMotion } from "../../components/shared/useMediaQuery";
+import { availability } from "../../data/availability";
 import { Menu, X } from "lucide-react";
 
 const HEADER_HEIGHT = 72;
 
-const navLinks = [
-  { to: "/design", label: "Home" },
-  { to: "/design/work", label: "Work" },
-  { to: "/design/case-studies", label: "Case Studies" },
-  { to: "/design/nyx-bureau", label: "NYX Bureau" },
-  { to: "/design/archive", label: "Archive" },
-  { to: "/design/contact", label: "Contact" },
+const allNavLinks = [
+  { to: "/design", label: "Home", key: null as null },
+  { to: "/design/work", label: "Work", key: "designWork" as const },
+  { to: "/design/case-studies", label: "Case Studies", key: "designCaseStudies" as const },
+  { to: "/design/nyx-bureau", label: "NYX Bureau", key: null as null },
+  { to: "/design/contact", label: "Contact", key: null as null },
 ];
+
+// Archive has no content model yet; hidden until it ships real entries.
+const navLinks = allNavLinks.filter((l) => l.key === null || availability[l.key]);
 
 function YuuKayCeeLayoutInner() {
   const location = useLocation();
@@ -60,6 +63,32 @@ function YuuKayCeeLayoutInner() {
         transition: "background 0.3s ease, color 0.3s ease",
       }}
     >
+      <a
+        href="#main-content"
+        style={{
+          position: "absolute",
+          left: "1rem",
+          top: "-100px",
+          zIndex: 100,
+          background: theme.accent,
+          color: "#080A12",
+          padding: "0.75rem 1.25rem",
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: "0.75rem",
+          fontWeight: 600,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          textDecoration: "none",
+        }}
+        onFocus={(e) => {
+          e.currentTarget.style.top = "1rem";
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.top = "-100px";
+        }}
+      >
+        Skip to content
+      </a>
       {/* Prismatic background - cyan light refracting through a prism */}
       <div
         style={{
@@ -320,7 +349,9 @@ function YuuKayCeeLayoutInner() {
       {/* Page content */}
       <div style={{ paddingTop: `${HEADER_HEIGHT + 8}px`, position: "relative", zIndex: 1 }}>
         <RouteTransition persona="yuukaycee">
-          <Outlet />
+          <main id="main-content" tabIndex={-1} style={{ outline: "none" }}>
+            <Outlet />
+          </main>
         </RouteTransition>
       </div>
     </div>

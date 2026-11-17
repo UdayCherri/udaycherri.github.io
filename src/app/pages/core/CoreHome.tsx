@@ -143,9 +143,13 @@ export default function CoreHome() {
                   style={{ margin: "2.25rem 0 0", maxWidth: "420px" }}
                 >
                   <img
-                    src="/images/core-profile-mobile.png"
+                    src="/images/core-profile-mobile.webp"
                     alt="Portrait of Uday Cherri"
                     loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                    width={840}
+                    height={525}
                     style={{
                       width: "100%",
                       aspectRatio: "16 / 10",
@@ -197,9 +201,13 @@ export default function CoreHome() {
                 }}
               >
                 <img
-                  src="/images/core-profile.png"
+                  src="/images/core-profile.webp"
                   alt="Portrait of Uday Cherri"
                   loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
+                  width={800}
+                  height={1000}
                   style={{
                     width: "100%",
                     height: "100%",

@@ -71,7 +71,7 @@ export default function CyberContact() {
           }}
         >
           Vulnerability disclosures, security research collaboration, CTF team inquiries.
-          All communications encrypted where possible.
+          For sensitive disclosures, PGP encryption can be arranged on request.
         </motion.p>
 
         <motion.div

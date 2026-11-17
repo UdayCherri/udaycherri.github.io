@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
+/* eslint-disable react-refresh/only-export-components -- ThemeContext conventionally co-locates the provider, hook, and types. */
+
 export type ThemeIdentity = "core" | "yuukaycee" | "spy" | "cyb3r";
 export type ThemeMode = "dark" | "light";
 
@@ -31,7 +33,9 @@ export function ThemeProvider({
     try {
       const saved = localStorage.getItem(`theme-${identity}`);
       if (saved === "light" || saved === "dark") return saved as ThemeMode;
-    } catch {}
+    } catch {
+      // localStorage unavailable; fall through to per-identity default.
+    }
     return defaults[identity];
   });
 
@@ -40,7 +44,9 @@ export function ThemeProvider({
       const next = prev === "dark" ? "light" : "dark";
       try {
         localStorage.setItem(`theme-${identity}`, next);
-      } catch {}
+      } catch {
+        // localStorage unavailable; mode still updates in memory for this session.
+      }
       return next;
     });
   };

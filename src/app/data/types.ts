@@ -16,7 +16,7 @@ export interface Project {
   lessons: string;
   featured: boolean;
   coverColor: string;
-  /** Optional cover image, e.g. "/images/my-project.png" (file lives in public/images/). */
+  /** Optional cover image, e.g. "/images/my-project.webp" (file lives in public/images/). */
   cover?: string;
   /** Optional additional images shown in the project body. */
   gallery?: string[];

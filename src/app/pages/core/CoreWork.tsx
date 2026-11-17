@@ -6,6 +6,7 @@ import { getIdentityTheme } from "../../data/identityThemes";
 import { CORE_EYEBROW, CORE_FONTS, CORE_LAYOUT } from "../../components/core/coreDesign";
 import { RouteTransition } from "../../components/shared/PageTransition";
 import { usePrefersReducedMotion } from "../../components/shared/useMediaQuery";
+import { EmptySection } from "../../components/shared/EmptySection";
 
 export default function CoreWork() {
   const { mode } = useTheme();
@@ -65,8 +66,19 @@ export default function CoreWork() {
                 lineHeight: 1.75,
               }}
             >
-              Three disciplines. One body of work. Each piece selected as evidence of capability, not promise.
+              Each piece selected as evidence of capability, not promise.
             </motion.p>
+            <div style={{ marginTop: "1.25rem" }}>
+              <EmptySection
+                title="In progress"
+                body="Selected pieces from design, development, and security will appear here once published."
+                contactPath="/contact"
+                fontFamily={CORE_FONTS.body}
+                monoFamily={CORE_FONTS.body}
+                accent={theme.accent}
+                muted={theme.fgMuted}
+              />
+            </div>
           </div>
         </div>
         <FeaturedWork />

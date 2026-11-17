@@ -1,13 +1,13 @@
 import { motion } from "motion/react";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 import { spyProjects } from "../../data/content";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { EmptySection } from "../../components/shared/EmptySection";
 import { useIsDesktop } from "../../components/shared/useMediaQuery";
 
 export default function SpyProjects() {
-  const navigate = useNavigate();
   const { mode } = useTheme();
   const theme = getIdentityTheme("spy", mode);
   const isDesktop = useIsDesktop();
@@ -48,23 +48,26 @@ export default function SpyProjects() {
         </motion.div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
+          {spyProjects.length === 0 && (
+            <EmptySection
+              title="In progress"
+              body="Documented software projects with architecture, repos, and setup steps will appear here once published."
+              contactPath="/development/contact"
+              contactLabel="Contact Spy D. Veloper"
+              fontFamily="'Space Grotesk', sans-serif"
+              monoFamily="'JetBrains Mono', monospace"
+              accent={theme.accent}
+              muted={theme.fgMuted}
+            />
+          )}
           {spyProjects.map((project, i) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, x: -12 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.25, delay: i * 0.05 }}
-                onClick={() => navigate(`/project/${project.id}`)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    navigate(`/project/${project.id}`);
-                  }
-                }}
-                tabIndex={0}
-                role="link"
-                aria-label={`Open ${project.title}`}
-                style={{
+              style={{
+                position: "relative",
                 display: isDesktop ? "grid" : "flex",
                 gridTemplateColumns: isDesktop ? "60px 1fr 200px 40px" : undefined,
                 flexDirection: isDesktop ? undefined : "column",
@@ -131,7 +134,21 @@ export default function SpyProjects() {
                   </span>
                 ))}
               </div>
-              <ArrowRight size={14} strokeWidth={1.5} color={theme.fgMuted} />
+              <ArrowRight size={14} strokeWidth={1.5} color={theme.fgMuted} aria-hidden="true" />
+              <Link
+                to={`/project/${project.id}`}
+                aria-label={`Open ${project.title}`}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "block",
+                  textDecoration: "none",
+                }}
+              >
+                <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap" }}>
+                  Open {project.title}
+                </span>
+              </Link>
             </motion.div>
           ))}
         </div>

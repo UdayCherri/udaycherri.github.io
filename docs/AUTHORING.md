@@ -13,6 +13,16 @@ not `content.ts` (that's just a barrel that re-exports everything).
 
 After any edit, run `npm run dev` to preview or `npm run build` to verify.
 
+Quality gates (also enforced in CI on every push):
+
+| Command | What it does |
+|---|---|
+| `npm run typecheck` | `tsc --noEmit` — strict TypeScript over `src`, configs |
+| `npm run lint` | `eslint src --max-warnings 0` |
+| `npm run test` | `vitest run` — content-model + URL-validation tests |
+| `npm run build` | Production Vite build with route-level code splitting |
+| `npm audit --omit=dev` | Production dependency vulnerability check (must be 0) |
+
 ---
 
 ## Images
@@ -23,6 +33,18 @@ After any edit, run `npm run dev` to preview or `npm run build` to verify.
 That's it — no imports. Files in `public/` are copied to the site root on build,
 so the same path works locally and on GitHub Pages. Keep files reasonably small
 (compress large photos) so the site stays fast.
+
+Portraits are the largest assets on the site (~6 MB of PNGs). Before adding new
+photography, convert to WebP and keep a PNG fallback, e.g.:
+
+```bash
+# one-time: npm install -g sharp-cli (or use Squoosh: https://squoosh.app)
+sharp -i public/images/my-photo.png -o public/images/my-photo.webp --quality 80
+```
+
+Reference both via `<picture>` (see `CyberHome.tsx` `ProfileArea` for the pattern),
+add `width`/`height` to avoid layout shift, `decoding="async"`, and `loading="lazy"`
+for anything below the fold (`loading="eager"` + `fetchPriority="high"` only for heroes).
 
 ---
 
@@ -61,6 +83,13 @@ matching data file. All fields are required except the four optional ones at the
 `lessons` as `""` (or `process` as `[]`), that section simply won't render on the
 project page. Fill in only what you have.
 
+**Empty collections stay out of navigation.** `src/app/data/availability.ts`
+derives per-section flags from the data arrays; the three discipline layouts
+filter their nav links against it, and `App.tsx` emits `noindex` for routes
+without published entries. A section becomes navigable and indexable the moment
+you add its first real entry — no layout changes needed. Never add invented
+projects to make navigation appear.
+
 ---
 
 ## Add an open-source repo (Development → Open Source)
@@ -71,8 +100,9 @@ Add to `openSourceRepos` in `data/development.ts`:
 { name: "deaddrop", description: "Encrypted secrets CLI", language: "Go", stars: 0, url: "https://github.com/you/deaddrop" }
 ```
 
-Leave `url` as `"#"` for a placeholder — the card won't be clickable until it's a
-real link.
+Only add entries with a real `https://` URL. Drafts without a destination
+stay out of the data file — `"#"` is never a valid URL and unlinked cards
+are filtered out at render time (see `isValidExternalUrl` in `src/app/lib/seo.ts`).
 
 ---
 

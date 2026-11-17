@@ -2,47 +2,15 @@
 
 import type { Project } from "./types";
 
-export const spyProjects: Project[] = [
-  {
-    id: "vaultchain",
-    identity: "spy",
-    title: "VaultChain",
-    subtitle: "Distributed Secret Management System",
-    category: "Systems",
-    year: "2024",
-    tags: ["Distributed Systems", "Security", "Rust", "gRPC"],
-    overview:
-      "A distributed secret management system designed for multi-tenant environments. Handles key rotation, access auditing, and zero-trust distribution at scale.",
-    problem:
-      "Most secret management solutions either sacrifice security for usability or usability for security. VaultChain attempts to eliminate the tradeoff.",
-    approach:
-      "Built on a Merkle-based audit log with cryptographic proof chains. Each access event is verifiable without revealing the secret content.",
-    process: [
-      "Threat modeling and attack surface analysis",
-      "Cryptographic protocol design",
-      "Rust implementation of core storage engine",
-      "gRPC API layer with mTLS",
-      "Kubernetes operator for deployment",
-    ],
-    outcome:
-      "System handles 50k+ secret operations per second. Sub-10ms p99 latency on secret retrieval.",
-    lessons:
-      "Security and performance are not opposites. The design constraint that forced both led to a better architecture than either alone would have.",
-    featured: true,
-    coverColor: "#CC1234",
-  },
-];
+export const spyProjects: Project[] = [];
 
-export const spySystems = [
-  {
-    id: "s1",
-    title: "Zero-Trust Service Mesh",
-    description:
-      "Architecture for inter-service communication where no service is implicitly trusted. Every request authenticated, every connection encrypted.",
-    components: ["mTLS", "Service Identity", "Policy Engine", "Audit Log"],
-    status: "Production",
-  },
-];
+export const spySystems: {
+  id: string;
+  title: string;
+  description: string;
+  components: string[];
+  status: string;
+}[] = [];
 
 export const openSourceRepos: {
   name: string;

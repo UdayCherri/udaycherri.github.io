@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { devBlogPosts } from "../../data/development";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { EmptySection } from "../../components/shared/EmptySection";
 
 export default function SpyBlog() {
   const { mode } = useTheme();
@@ -49,18 +50,16 @@ style={{ marginBottom: "4rem" }}
         {/* Article list */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
           {devBlogPosts.length === 0 ? (
-            <p
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "0.95rem",
-                color: theme.fgMuted,
-                lineHeight: 1.7,
-                padding: "2rem 0",
-                borderBottom: `1px solid ${theme.borderSubtle}`,
-              }}
-            >
-              First entries landing soon.
-            </p>
+            <EmptySection
+              title="In progress"
+              body="Technical posts will appear here once published."
+              contactPath="/development/contact"
+              contactLabel="Contact Spy D. Veloper"
+              fontFamily="'Space Grotesk', sans-serif"
+              monoFamily="'JetBrains Mono', monospace"
+              accent={theme.accent}
+              muted={theme.fgMuted}
+            />
           ) : (
           devBlogPosts.map((post, i) => (
 <motion.div

@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { ctfArchive } from "../../data/content";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { EmptySection } from "../../components/shared/EmptySection";
 import { usePrefersReducedMotion, useIsMd } from "../../components/shared/useMediaQuery";
 
 const PAGE_SIZE = 6;
@@ -70,6 +71,18 @@ export default function CyberCTF() {
         </motion.div>
 
         <div ref={listRef} style={{ display: "grid", gridTemplateColumns: isMd ? "repeat(2, 1fr)" : "1fr", gap: "1.25rem", scrollMarginTop: "88px" }}>
+          {ctfArchive.length === 0 && (
+            <EmptySection
+              title="In progress"
+              body="Competition history with events, placements, and write-ups will appear here once published."
+              contactPath="/security/contact"
+              contactLabel="Contact CYB3R-BO1"
+              fontFamily="'IBM Plex Sans', sans-serif"
+              monoFamily="'IBM Plex Mono', monospace"
+              accent={theme.accent}
+              muted={theme.fgMuted}
+            />
+          )}
           {visible.map((event, i) => (
             <motion.div
               key={event.id}

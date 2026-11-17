@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { CORE_FONTS } from "./coreDesign";
 
@@ -14,6 +14,7 @@ interface ArrivalScreenProps {
  */
 export function ArrivalScreen({ onComplete }: ArrivalScreenProps) {
   const [exiting, setExiting] = useState(false);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
   const reduceMotion =
     typeof window !== "undefined" &&
     typeof window.matchMedia === "function" &&
@@ -30,12 +31,16 @@ export function ArrivalScreen({ onComplete }: ArrivalScreenProps) {
       if (e.key === "Escape") onComplete();
     };
     window.addEventListener("keydown", onKey);
+    // Move focus into the dialog so screen readers announce it; it is
+    // click/Escape-dismissible and auto-dismisses, so no trap is needed.
+    const t = setTimeout(() => dialogRef.current?.focus({ preventScroll: true }), 50);
     return () => {
       clearTimeout(dismiss);
       clearTimeout(done);
+      clearTimeout(t);
       window.removeEventListener("keydown", onKey);
     };
-  }, [onComplete, reduceMotion]);
+  }, [onComplete, reduceMotion, dialogRef]);
 
   if (reduceMotion) return null;
 
@@ -44,6 +49,10 @@ export function ArrivalScreen({ onComplete }: ArrivalScreenProps) {
       {!exiting ? (
         <motion.div
           key="arrival"
+          ref={(el) => {
+            dialogRef.current = el;
+          }}
+          tabIndex={-1}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

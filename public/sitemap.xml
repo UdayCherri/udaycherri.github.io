@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://udaycherri.github.io/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://udaycherri.github.io/profile</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://udaycherri.github.io/contact</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://udaycherri.github.io/design</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://udaycherri.github.io/design/nyx-bureau</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://udaycherri.github.io/design/contact</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://udaycherri.github.io/development</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://udaycherri.github.io/development/contact</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://udaycherri.github.io/security</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://udaycherri.github.io/security/blog</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://udaycherri.github.io/security/contact</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+</urlset>

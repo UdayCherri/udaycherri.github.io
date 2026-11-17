@@ -1,14 +1,14 @@
 import { motion } from "motion/react";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 import { yuukayceeProjects } from "../../data/content";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { EmptySection } from "../../components/shared/EmptySection";
 
 const caseStudies = yuukayceeProjects.filter((p) => p.featured);
 
 export default function YuuKayCeeCaseStudies() {
-  const navigate = useNavigate();
   const { mode } = useTheme();
   const theme = getIdentityTheme("yuukaycee", mode);
 
@@ -59,23 +59,25 @@ export default function YuuKayCeeCaseStudies() {
         </motion.div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
+          {caseStudies.length === 0 && (
+            <EmptySection
+              title="In progress"
+              body="Published design work with constraints, iterations, and deliverables will appear here once ready."
+              contactPath="/design/contact"
+              fontFamily="'DM Sans', sans-serif"
+              monoFamily="'DM Sans', sans-serif"
+              accent={theme.accent}
+              muted={theme.fgMuted}
+            />
+          )}
           {caseStudies.map((project, i) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                onClick={() => navigate(`/project/${project.id}`)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    navigate(`/project/${project.id}`);
-                  }
-                }}
-                tabIndex={0}
-                role="link"
-                aria-label={`Open ${project.title}`}
-                style={{
+              style={{
+                position: "relative",
                 display: "grid",
                 gridTemplateColumns: "1fr auto",
                 gap: "2rem",
@@ -185,7 +187,16 @@ export default function YuuKayCeeCaseStudies() {
                   </div>
                 </div>
               </div>
-              <ArrowRight size={16} strokeWidth={1.5} color={theme.fgMuted} />
+              <ArrowRight size={16} strokeWidth={1.5} color={theme.fgMuted} aria-hidden="true" />
+              <Link
+                to={`/project/${project.id}`}
+                aria-label={`Open ${project.title}`}
+                style={{ position: "absolute", inset: 0, display: "block", textDecoration: "none" }}
+              >
+                <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap" }}>
+                  Open {project.title}
+                </span>
+              </Link>
             </motion.div>
           ))}
         </div>

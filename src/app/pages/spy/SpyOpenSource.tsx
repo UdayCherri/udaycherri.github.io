@@ -1,5 +1,7 @@
 import { motion } from "motion/react";
 import { openSourceRepos } from "../../data/content";
+import { isValidExternalUrl } from "../../lib/seo";
+import { EmptySection } from "../../components/shared/EmptySection";
 import { Star, ArrowUpRight } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
@@ -45,24 +47,22 @@ export default function SpyOpenSource() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
           {openSourceRepos.length === 0 ? (
-            <p
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "0.95rem",
-                color: theme.fgMuted,
-                lineHeight: 1.7,
-                padding: "2rem 1.5rem",
-                border: `1px solid ${theme.borderSubtle}`,
-              }}
-            >
-              The open-source index is being updated. Full list landing soon.
-            </p>
+            <EmptySection
+              title="In progress"
+              body="Published repositories will be listed here with descriptions, languages, and links once they are ready to share."
+              contactPath="/development/contact"
+              contactLabel="Contact Spy D. Veloper"
+              fontFamily="'Space Grotesk', sans-serif"
+              monoFamily="'JetBrains Mono', monospace"
+              accent={theme.accent}
+              muted={theme.fgMuted}
+            />
           ) : (
-          openSourceRepos.map((repo, i) => (
+          openSourceRepos.filter((repo) => isValidExternalUrl(repo.url)).map((repo, i) => (
             <motion.a
               key={repo.name}
-              href={repo.url === "#" ? undefined : repo.url}
-              target={repo.url === "#" ? undefined : "_blank"}
+              href={repo.url}
+              target="_blank"
               rel="noopener noreferrer"
 initial={{ opacity: 0, x: -12 }}
 animate={{ opacity: 1, x: 0 }}

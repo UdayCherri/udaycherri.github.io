@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { securityProjects } from "../../data/content";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { EmptySection } from "../../components/shared/EmptySection";
 import { useIsMd } from "../../components/shared/useMediaQuery";
 
 export default function CyberSecurityProjects() {
@@ -48,13 +49,23 @@ export default function CyberSecurityProjects() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isMd
-              ? `repeat(${Math.min(securityProjects.length, 2)}, 1fr)`
-              : "1fr",
+            gridTemplateColumns: isMd ? "repeat(2, 1fr)" : "1fr",
             gap: "1px",
             background: theme.borderSubtle,
           }}
         >
+          {securityProjects.length === 0 && (
+            <EmptySection
+              title="In progress"
+              body="Security tools with source code and usage notes will appear here once published."
+              contactPath="/security/contact"
+              contactLabel="Contact CYB3R-BO1"
+              fontFamily="'IBM Plex Sans', sans-serif"
+              monoFamily="'IBM Plex Mono', monospace"
+              accent={theme.accent}
+              muted={theme.fgMuted}
+            />
+          )}
           {securityProjects.map((project, i) => (
             <motion.div
               key={project.id}

@@ -4,6 +4,7 @@ import { useIsMd, usePrefersReducedMotion } from "../shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 import { CORE_EYEBROW, CORE_FONTS, CORE_LAYOUT } from "./coreDesign";
+import { EmptySection } from "../shared/EmptySection";
 
 export function CurrentFocus() {
   const isMd = useIsMd();
@@ -87,6 +88,19 @@ export function CurrentFocus() {
           </div>
 
           <ul style={{ listStyle: "none", margin: 0, padding: 0, borderTop: `1px solid ${theme.borderSubtle}` }}>
+            {currentFocus.length === 0 && (
+              <li style={{ padding: "1.5rem 0", borderBottom: `1px solid ${theme.borderSubtle}`, listStyle: "none" }}>
+                <EmptySection
+                  title="In progress"
+                  body="Current priorities will be listed here once published."
+                  contactPath="/contact"
+                  fontFamily={CORE_FONTS.body}
+                  monoFamily={CORE_FONTS.body}
+                  accent={theme.accent}
+                  muted={theme.fgMuted}
+                />
+              </li>
+            )}
             {currentFocus.map((item, i) => (
               <motion.li
                 key={item.id}

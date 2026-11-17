@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router";
 import { motion } from "motion/react";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { yuukayceeProjects, spyProjects, cyberResearch, securityProjects } from "../../data/content";
 import type { Project } from "../../data/content";
 import { useIsDesktop } from "../../components/shared/useMediaQuery";
@@ -147,6 +147,32 @@ export default function ProjectPage() {
   return (
     <RouteTransition persona={project.identity === "core" ? "core" : project.identity}>
     <div style={{ background: theme.bg, minHeight: "100vh", color: theme.fg }}>
+      <a
+        href="#main-content"
+        style={{
+          position: "absolute",
+          left: "1rem",
+          top: "-100px",
+          zIndex: 100,
+          background: theme.accent,
+          color: theme.bg,
+          padding: "0.75rem 1.25rem",
+          fontFamily: theme.bodyFont,
+          fontSize: "0.75rem",
+          fontWeight: 600,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          textDecoration: "none",
+        }}
+        onFocus={(e) => {
+          e.currentTarget.style.top = "1rem";
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.top = "-100px";
+        }}
+      >
+        Skip to content
+      </a>
       {/* Top bar */}
       <div
         style={{
@@ -183,7 +209,7 @@ export default function ProjectPage() {
           onMouseEnter={(e) => (e.currentTarget.style.color = theme.accent)}
           onMouseLeave={(e) => (e.currentTarget.style.color = theme.muted)}
         >
-          <ArrowLeft size={12} strokeWidth={1.5} />
+          <ArrowLeft size={12} strokeWidth={1.5} aria-hidden="true" />
           {theme.label}
         </button>
         <p
@@ -219,11 +245,14 @@ export default function ProjectPage() {
         {project.cover && (
           <img
             src={project.cover}
-            alt=""
+            alt={`${project.title} cover image`}
+            loading="lazy"
+            decoding="async"
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.55 }}
           />
         )}
         <div
+          aria-hidden="true"
           style={{
             position: "absolute",
             inset: 0,
@@ -364,7 +393,7 @@ export default function ProjectPage() {
       </motion.div>
 
       {/* Content sections */}
-      <div style={{ padding: "0 clamp(2rem, 8vw, 8rem)", maxWidth: "900px", margin: "0 auto" }}>
+      <main id="main-content" tabIndex={-1} style={{ padding: "0 clamp(2rem, 8vw, 8rem)", maxWidth: "900px", margin: "0 auto", outline: "none" }}>
         {/* Overview */}
         <section style={{ padding: "6rem 0", borderBottom: `1px solid ${theme.border}` }}>
           <motion.p
@@ -694,11 +723,11 @@ export default function ProjectPage() {
               e.currentTarget.style.color = theme.muted;
             }}
           >
-            <ArrowLeft size={12} strokeWidth={1.5} />
+            <ArrowLeft size={12} strokeWidth={1.5} aria-hidden="true" />
             Back to {theme.label}
           </button>
         </div>
-      </div>
+      </main>
     </div>
     </RouteTransition>
   );

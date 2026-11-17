@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://udaycherri.github.io/sitemap.xml

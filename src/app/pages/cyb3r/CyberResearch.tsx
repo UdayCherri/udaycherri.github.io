@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { cyberResearch } from "../../data/content";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { EmptySection } from "../../components/shared/EmptySection";
 import { severityStyle } from "./cyberSeverity";
 
 export default function CyberResearch() {
@@ -51,11 +52,24 @@ export default function CyberResearch() {
               maxWidth: "520px",
             }}
           >
-            Original vulnerability research. Full disclosure policy: all findings responsibly disclosed before publication.
+            Security research notes and small investigations, published with
+            methodology and limitations as they are completed.
           </p>
         </motion.div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
+          {cyberResearch.length === 0 && (
+            <EmptySection
+              title="In progress"
+              body="Research notes with methodology, evidence, and limitations will appear here once published."
+              contactPath="/security/contact"
+              contactLabel="Contact CYB3R-BO1"
+              fontFamily="'IBM Plex Sans', sans-serif"
+              monoFamily="'IBM Plex Mono', monospace"
+              accent={theme.accent}
+              muted={theme.fgMuted}
+            />
+          )}
           {cyberResearch.map((item, i) => (
             <motion.div
               key={item.id}

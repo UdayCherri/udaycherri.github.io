@@ -45,7 +45,7 @@ export default function YuuKayCeeNYX() {
               marginBottom: "1.5rem",
             }}
           >
-            Creative Studio
+            Creative Studio — Concept
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}

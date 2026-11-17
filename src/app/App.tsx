@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Outlet, Navigate, useParams, useLocation } from "react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 
 // Content (for document titles on deep routes)
 import {
@@ -14,46 +14,61 @@ import {
 // Theme
 import { ThemeProvider } from "./contexts/ThemeContext";
 
-// Core
+// Core (eager: landing shell + nav; everything else lazy)
 import { ArrivalScreen } from "./components/core/ArrivalScreen";
 import { CoreNav } from "./components/core/CoreNav";
-import CoreHome from "./pages/core/CoreHome";
-import CoreJourney from "./pages/core/CoreJourney";
-import CoreWork from "./pages/core/CoreWork";
-import CoreProfile from "./pages/core/CoreProfile";
-import CoreContact from "./pages/core/CoreContact";
+
+const CoreHome = lazy(() => import("./pages/core/CoreHome"));
+const CoreJourney = lazy(() => import("./pages/core/CoreJourney"));
+const CoreWork = lazy(() => import("./pages/core/CoreWork"));
+const CoreProfile = lazy(() => import("./pages/core/CoreProfile"));
+const CoreContact = lazy(() => import("./pages/core/CoreContact"));
 
 // YuuKayCee
-import YuuKayCeeLayout from "./pages/yuukaycee/YuuKayCeeLayout";
-import YuuKayCeeHome from "./pages/yuukaycee/YuuKayCeeHome";
-import YuuKayCeeWork from "./pages/yuukaycee/YuuKayCeeWork";
-import YuuKayCeeCaseStudies from "./pages/yuukaycee/YuuKayCeeCaseStudies";
-import YuuKayCeeNYX from "./pages/yuukaycee/YuuKayCeeNYX";
-import YuuKayCeeArchive from "./pages/yuukaycee/YuuKayCeeArchive";
-import YuuKayCeeContact from "./pages/yuukaycee/YuuKayCeeContact";
+const YuuKayCeeLayout = lazy(() => import("./pages/yuukaycee/YuuKayCeeLayout"));
+const YuuKayCeeHome = lazy(() => import("./pages/yuukaycee/YuuKayCeeHome"));
+const YuuKayCeeWork = lazy(() => import("./pages/yuukaycee/YuuKayCeeWork"));
+const YuuKayCeeCaseStudies = lazy(() => import("./pages/yuukaycee/YuuKayCeeCaseStudies"));
+const YuuKayCeeNYX = lazy(() => import("./pages/yuukaycee/YuuKayCeeNYX"));
+const YuuKayCeeArchive = lazy(() => import("./pages/yuukaycee/YuuKayCeeArchive"));
+const YuuKayCeeContact = lazy(() => import("./pages/yuukaycee/YuuKayCeeContact"));
 
 // Spy D. Veloper
-import SpyLayout from "./pages/spy/SpyLayout";
-import SpyHome from "./pages/spy/SpyHome";
-import SpyProjects from "./pages/spy/SpyProjects";
-import SpySystems from "./pages/spy/SpySystems";
-import SpyExperiments from "./pages/spy/SpyExperiments";
-import SpyOpenSource from "./pages/spy/SpyOpenSource";
-import SpyBlog from "./pages/spy/SpyBlog";
-import SpyContact from "./pages/spy/SpyContact";
+const SpyLayout = lazy(() => import("./pages/spy/SpyLayout"));
+const SpyHome = lazy(() => import("./pages/spy/SpyHome"));
+const SpyProjects = lazy(() => import("./pages/spy/SpyProjects"));
+const SpySystems = lazy(() => import("./pages/spy/SpySystems"));
+const SpyExperiments = lazy(() => import("./pages/spy/SpyExperiments"));
+const SpyOpenSource = lazy(() => import("./pages/spy/SpyOpenSource"));
+const SpyBlog = lazy(() => import("./pages/spy/SpyBlog"));
+const SpyContact = lazy(() => import("./pages/spy/SpyContact"));
 
 // CYB3R-BO1
-import CyberLayout from "./pages/cyb3r/CyberLayout";
-import CyberHome from "./pages/cyb3r/CyberHome";
-import CyberResearch from "./pages/cyb3r/CyberResearch";
-import CyberSecurityProjects from "./pages/cyb3r/CyberSecurityProjects";
-import CyberCTF from "./pages/cyb3r/CyberCTF";
-import CyberBlog from "./pages/cyb3r/CyberBlog";
-import CyberContact from "./pages/cyb3r/CyberContact";
+const CyberLayout = lazy(() => import("./pages/cyb3r/CyberLayout"));
+const CyberHome = lazy(() => import("./pages/cyb3r/CyberHome"));
+const CyberResearch = lazy(() => import("./pages/cyb3r/CyberResearch"));
+const CyberSecurityProjects = lazy(() => import("./pages/cyb3r/CyberSecurityProjects"));
+const CyberCTF = lazy(() => import("./pages/cyb3r/CyberCTF"));
+const CyberBlog = lazy(() => import("./pages/cyb3r/CyberBlog"));
+const CyberContact = lazy(() => import("./pages/cyb3r/CyberContact"));
 
 // Shared
-import ProjectPage from "./pages/project/ProjectPage";
-import BlogPostPage from "./pages/blog/BlogPostPage";
+const ProjectPage = lazy(() => import("./pages/project/ProjectPage"));
+const BlogPostPage = lazy(() => import("./pages/blog/BlogPostPage"));
+
+function RouteFallback() {
+  return (
+    <div
+      aria-busy="true"
+      aria-label="Loading page"
+      style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}
+    >
+      <p style={{ fontSize: "0.75rem", letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.6 }}>
+        Loading
+      </p>
+    </div>
+  );
+}
 
 // Redirects legacy persona paths to their discipline path, preserving any subpath.
 // Child slugs are unchanged between old and new, so /spy/projects → /development/projects.
@@ -84,7 +99,9 @@ function CoreWrapper() {
   const handleArrivalComplete = () => {
     try {
       sessionStorage.setItem("arrival_seen", "1");
-    } catch {}
+    } catch {
+      // sessionStorage unavailable (private mode); arrival screen simply re-shows next visit.
+    }
     setShowArrival(false);
   };
 
@@ -96,7 +113,9 @@ function CoreWrapper() {
           Skip to content
         </a>
         <CoreNav />
-        <CoreHome />
+        <Suspense fallback={<RouteFallback />}>
+          <CoreHome />
+        </Suspense>
       </div>
     </>
   );
@@ -104,6 +123,7 @@ function CoreWrapper() {
 
 function AppRoutes() {
   return (
+    <Suspense fallback={<RouteFallback />}>
     <Routes>
       {/* Core - all wrapped in CoreLayout for ThemeContext */}
       <Route element={<CoreLayout />}>
@@ -143,6 +163,8 @@ function AppRoutes() {
         <Route path="security-projects" element={<CyberSecurityProjects />} />
         <Route path="ctf-archive" element={<CyberCTF />} />
         <Route path="blog" element={<CyberBlog />} />
+        {/* Retired native post — send old links to the off-site notebook */}
+        <Route path="blog/algorithm-confusion-deep-dive" element={<Navigate to="https://cyb3r-bo1.github.io/" />} />
         <Route path="blog/:slug" element={<BlogPostPage section="security" />} />
         <Route path="contact" element={<CyberContact />} />
       </Route>
@@ -155,6 +177,7 @@ function AppRoutes() {
       {/* Project deep-dive */}
       <Route path="/project/:id" element={<ProjectPage />} />
     </Routes>
+    </Suspense>
   );
 }
 
@@ -171,12 +194,31 @@ export default function App() {
  * Persona-specific document titles. Every tab names its page first, then
  * its identity - specific enough to tell tabs apart, plain enough to
  * stay professional. Middle dots only; no dashes of any kind.
+ * Also manages robots (noindex for empty/unpublished routes) and canonicals.
  */
+const SITE_ORIGIN = "https://udaycherri.github.io";
+
 function RouteTitles() {
   const { pathname } = useLocation();
 
   useEffect(() => {
     document.title = titleForPath(pathname);
+
+    let robots = document.head.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    if (!robots) {
+      robots = document.createElement("meta");
+      robots.setAttribute("name", "robots");
+      document.head.appendChild(robots);
+    }
+    robots.setAttribute("content", isIndexablePath(pathname) ? "index, follow" : "noindex, nofollow");
+
+    let canonical = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute("href", `${SITE_ORIGIN}${pathname === "/" ? "/" : pathname}`);
   }, [pathname]);
 
   return null;
@@ -187,6 +229,48 @@ const PERSONA_OF_IDENTITY: Record<string, string> = {
   spy: "Spy D. Veloper",
   cyb3r: "CYB3R-BO1",
 };
+
+/**
+ * Only routes with real content are indexable. Empty sections stay reachable
+ * by direct URL but ask crawlers to skip them until published work lands.
+ * Mirrors src/app/data/availability.ts without importing data (titles stay
+ * dependency-light for the document-head effect).
+ */
+function isIndexablePath(pathname: string): boolean {
+  if (
+    pathname === "/" ||
+    pathname === "/profile" ||
+    pathname === "/contact" ||
+    pathname === "/design" ||
+    pathname === "/design/nyx-bureau" ||
+    pathname === "/design/contact" ||
+    pathname === "/development" ||
+    pathname === "/development/contact" ||
+    pathname === "/security" ||
+    pathname === "/security/blog" ||
+    pathname === "/security/contact"
+  )
+    return true;
+  if (pathname === "/work" || pathname === "/journey") return false;
+  if (
+    pathname === "/design/work" ||
+    pathname === "/design/case-studies" ||
+    pathname === "/design/archive" ||
+    pathname === "/development/projects" ||
+    pathname === "/development/systems" ||
+    pathname === "/development/experiments" ||
+    pathname === "/development/open-source" ||
+    pathname === "/development/blog" ||
+    pathname.startsWith("/development/blog/") ||
+    pathname === "/security/research" ||
+    pathname === "/security/security-projects" ||
+    pathname === "/security/ctf-archive" ||
+    pathname.startsWith("/security/blog/") ||
+    pathname.startsWith("/project/")
+  )
+    return false;
+  return true;
+}
 
 function titleForPath(pathname: string): string {
   const FALLBACK = "Uday Cherri - Portfolio";

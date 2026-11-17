@@ -6,49 +6,10 @@ import { spyProjects } from "../../data/content";
 import { useIsDesktop, usePrefersReducedMotion } from "../../components/shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { EmptySection } from "../../components/shared/EmptySection";
 
-// VaultChain: Client → Vault → Store flow diagram
-function VaultChainDiagram({ accent }: { accent: string }) {
-  return (
-    <svg width="80" height="54" viewBox="0 0 80 54" fill="none" aria-hidden="true">
-      <rect x="1" y="16" width="20" height="22" rx="2" stroke={accent} strokeWidth="0.75" />
-      <text x="11" y="30" textAnchor="middle" fontFamily="monospace" fontSize="5" fill={accent} opacity={0.7}>Client</text>
-      <line x1="21" y1="27" x2="29" y2="27" stroke={accent} strokeWidth="0.75" />
-      <polygon points="29,24 34,27 29,30" fill={accent} opacity={0.8} />
-      <rect x="34" y="12" width="12" height="30" rx="2" stroke={accent} strokeWidth="1" />
-      <text x="40" y="29" textAnchor="middle" fontFamily="monospace" fontSize="4" fill={accent}>Vault</text>
-      <line x1="46" y1="27" x2="54" y2="27" stroke={accent} strokeWidth="0.75" />
-      <polygon points="54,24 59,27 54,30" fill={accent} opacity={0.8} />
-      <rect x="59" y="16" width="20" height="22" rx="2" stroke={accent} strokeWidth="0.75" opacity={0.7} />
-      <text x="69" y="30" textAnchor="middle" fontFamily="monospace" fontSize="5" fill={accent} opacity={0.6}>Store</text>
-    </svg>
-  );
-}
-
-// Conduit: Source → Transform → Sink pipeline
-function ConduitDiagram({ accent }: { accent: string }) {
-  return (
-    <svg width="80" height="54" viewBox="0 0 80 54" fill="none" aria-hidden="true">
-      <rect x="1" y="20" width="18" height="14" rx="2" stroke={accent} strokeWidth="0.75" opacity={0.7} />
-      <text x="10" y="30" textAnchor="middle" fontFamily="monospace" fontSize="4.5" fill={accent} opacity={0.65}>src</text>
-      <line x1="19" y1="27" x2="25" y2="27" stroke={accent} strokeWidth="0.75" />
-      <polygon points="25,24 30,27 25,30" fill={accent} opacity={0.8} />
-      <rect x="30" y="15" width="20" height="24" rx="3" stroke={accent} strokeWidth="1" />
-      <text x="40" y="26" textAnchor="middle" fontFamily="monospace" fontSize="4" fill={accent}>xform</text>
-      <line x1="50" y1="27" x2="56" y2="27" stroke={accent} strokeWidth="0.75" />
-      <polygon points="56,24 61,27 56,30" fill={accent} opacity={0.8} />
-      <rect x="61" y="20" width="18" height="14" rx="2" stroke={accent} strokeWidth="0.75" opacity={0.7} />
-      <text x="70" y="30" textAnchor="middle" fontFamily="monospace" fontSize="4.5" fill={accent} opacity={0.65}>sink</text>
-    </svg>
-  );
-}
-
-const diagrams: Record<string, (accent: string) => React.ReactNode> = {
-  vaultchain: (accent) => <VaultChainDiagram accent={accent} />,
-  conduit: (accent) => <ConduitDiagram accent={accent} />,
-};
-
-// Generic schematic - blueprint module used when a project has no dedicated diagram
+// Generic schematic - blueprint module used for project cards.
+// Per-project diagrams are added only alongside real published projects.
 function GenericDiagram({ accent }: { accent: string }) {
   return (
     <svg width="80" height="54" viewBox="0 0 80 54" fill="none" aria-hidden="true">
@@ -87,11 +48,15 @@ function ProfileArea({
     >
       {/* Workspace photograph - mobile crop served on small screens */}
       <picture style={{ display: "contents" }}>
-        <source media="(max-width: 1023px)" srcSet="/images/spy-profile-mobile.png" />
+        <source media="(max-width: 1023px)" srcSet="/images/spy-profile-mobile.webp" />
         <img
-          src="/images/spy-profile.png"
+          src="/images/spy-profile.webp"
           alt="Spy D. Veloper engineering workspace"
           loading="eager"
+          decoding="async"
+          fetchPriority="high"
+          width={920}
+          height={1150}
           style={{
             width: "100%",
             height: "100%",
@@ -168,7 +133,7 @@ function ProfileArea({
             margin: "0 0 0.35rem",
           }}
         >
-          Systems Engineer
+          Software Developer
         </p>
         <p
           style={{
@@ -460,6 +425,18 @@ export default function SpyHome() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            {featured.length === 0 && (
+              <EmptySection
+                title="In progress"
+                body="Selected software projects will appear here once published."
+                contactPath="/development/contact"
+                contactLabel="Contact Spy D. Veloper"
+                fontFamily="'Space Grotesk', sans-serif"
+                monoFamily="'JetBrains Mono', monospace"
+                accent={theme.accent}
+                muted={theme.fgMuted}
+              />
+            )}
             {featured.map((project, i) => {
               const active = activeId === project.id;
               return (
@@ -500,11 +477,7 @@ export default function SpyHome() {
                       alignItems: "center",
                     }}
                   >
-                    {diagrams[project.id]
-                      ? diagrams[project.id](project.coverColor)
-                      : (
-                        <GenericDiagram accent={project.coverColor} />
-                      )}
+                    <GenericDiagram accent={project.coverColor} />
                   </div>
                   <div style={{ minWidth: 0 }}>
                     <h3

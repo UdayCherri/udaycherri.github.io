@@ -7,19 +7,22 @@ import { RouteTransition } from "../../components/shared/PageTransition";
 import { ThemeProvider, useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 import { usePrefersReducedMotion } from "../../components/shared/useMediaQuery";
+import { availability } from "../../data/availability";
 import { Menu, X } from "lucide-react";
 
 const HEADER_HEIGHT = 68;
 
-const navLinks = [
-  { to: "/development", label: "Home" },
-  { to: "/development/projects", label: "Projects" },
-  { to: "/development/systems", label: "Systems" },
-  { to: "/development/experiments", label: "Experiments" },
-  { to: "/development/open-source", label: "Open Source" },
-  { to: "/development/blog", label: "Blog" },
-  { to: "/development/contact", label: "Contact" },
+const allNavLinks = [
+  { to: "/development", label: "Home", key: null as null },
+  { to: "/development/projects", label: "Projects", key: "spyProjects" as const },
+  { to: "/development/systems", label: "Systems", key: "spySystems" as const },
+  { to: "/development/open-source", label: "Open Source", key: "spyOpenSource" as const },
+  { to: "/development/blog", label: "Blog", key: "spyBlog" as const },
+  { to: "/development/contact", label: "Contact", key: null as null },
 ];
+
+// Experiments has no content model yet; hidden until defined.
+const navLinks = allNavLinks.filter((l) => l.key === null || availability[l.key]);
 
 function SpyLayoutInner() {
   const location = useLocation();
@@ -58,6 +61,32 @@ function SpyLayoutInner() {
         transition: "background 0.3s ease, color 0.3s ease",
       }}
     >
+      <a
+        href="#main-content"
+        style={{
+          position: "absolute",
+          left: "1rem",
+          top: "-100px",
+          zIndex: 100,
+          background: theme.accent,
+          color: "#fff",
+          padding: "0.75rem 1.25rem",
+          fontFamily: "'Space Grotesk', sans-serif",
+          fontSize: "0.75rem",
+          fontWeight: 600,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          textDecoration: "none",
+        }}
+        onFocus={(e) => {
+          e.currentTarget.style.top = "1rem";
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.top = "-100px";
+        }}
+      >
+        Skip to content
+      </a>
       {/* Subtle grid overlay */}
       <div
         aria-hidden="true"
@@ -289,7 +318,9 @@ function SpyLayoutInner() {
       {/* Content */}
       <div style={{ paddingTop: `${HEADER_HEIGHT + 4}px`, position: "relative", zIndex: 1 }}>
         <RouteTransition persona="spy">
-          <Outlet />
+          <main id="main-content" tabIndex={-1} style={{ outline: "none" }}>
+            <Outlet />
+          </main>
         </RouteTransition>
       </div>
     </div>

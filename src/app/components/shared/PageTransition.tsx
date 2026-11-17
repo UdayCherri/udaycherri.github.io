@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "motion/react";
+import type { Easing } from "motion/react";
 import { useLocation } from "react-router";
 import type { ReactNode } from "react";
 
@@ -18,11 +19,16 @@ function useReducedMotion(): boolean {
 /**
  * Scrolls to top once, when the incoming page instance mounts.
  * Mount-only (not pathname-keyed) so it can never re-fire.
+ * Also moves focus to the main landmark for keyboard/screen-reader users.
  */
 function ScrollTopOnMount() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const main = document.getElementById("main-content");
+    if (main) {
+      if (!main.hasAttribute("tabindex")) main.setAttribute("tabindex", "-1");
+      main.focus({ preventScroll: true });
+    }
   }, []);
   return null;
 }
@@ -30,7 +36,7 @@ function ScrollTopOnMount() {
 interface PersonaConfig {
   initial: Record<string, number | string>;
   animate: Record<string, number | string>;
-  transition: { duration: number; ease: number[] | string };
+  transition: { duration: number; ease: Easing };
 }
 
 /**

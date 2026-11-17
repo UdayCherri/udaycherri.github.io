@@ -6,8 +6,9 @@ import { yuukayceeProjects } from "../../data/content";
 import { useIsDesktop, useIsMd, usePrefersReducedMotion } from "../../components/shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { EmptySection } from "../../components/shared/EmptySection";
 
-// Portrait hero - creative director editorial portrait with prismatic color treatment
+// Portrait hero - designer editorial portrait with prismatic color treatment
 function PortraitHero({
   theme,
   mode,
@@ -34,11 +35,15 @@ function PortraitHero({
     >
       {/* Portrait photograph - mobile crop served on small screens */}
       <picture style={{ display: "contents" }}>
-        <source media="(max-width: 1023px)" srcSet="/images/yuukaycee-profile-mobile.png" />
+        <source media="(max-width: 1023px)" srcSet="/images/yuukaycee-profile-mobile.webp" />
         <img
-          src="/images/yuukaycee-profile.png"
-          alt="Portrait of YuuKayCee, creative director"
+          src="/images/yuukaycee-profile.webp"
+          alt="Portrait of YuuKayCee, designer"
           loading="eager"
+          decoding="async"
+          fetchPriority="high"
+          width={920}
+          height={1150}
           style={{
             width: "100%",
             height: "100%",
@@ -119,7 +124,7 @@ function PortraitHero({
             margin: "0 0 0.35rem",
           }}
         >
-          Creative Director
+          Designer
         </p>
         <p
           style={{
@@ -276,7 +281,7 @@ export default function YuuKayCeeHome() {
             )}
           </div>
 
-          {/* Right: Creative director portrait - desktop only */}
+          {/* Right: designer portrait - desktop only */}
           {isDesktop && (
             <motion.div
               {...(reduceMotion
@@ -391,6 +396,17 @@ export default function YuuKayCeeHome() {
               gap: isMd ? "2rem" : "2.5rem",
             }}
           >
+            {featured.length === 0 && (
+              <EmptySection
+                title="In progress"
+                body="Published design work with constraints, iterations, and deliverables will appear here once ready."
+                contactPath="/design/contact"
+                fontFamily="'DM Sans', sans-serif"
+                monoFamily="'DM Sans', sans-serif"
+                accent={theme.accent}
+                muted={theme.fgMuted}
+              />
+            )}
             {featured.map((project, i) => {
               const active = activeId === project.id;
               return (

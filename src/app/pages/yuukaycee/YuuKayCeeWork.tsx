@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 import { Layers, Monitor, Type, Image, Lightbulb, Grid3X3 } from "lucide-react";
 import { yuukayceeProjects } from "../../data/content";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
 import { useIsDesktop, useIsMd } from "../../components/shared/useMediaQuery";
+import { EmptySection } from "../../components/shared/EmptySection";
 
 const filters = [
   { label: "All", icon: <Grid3X3 size={11} strokeWidth={1.5} /> },
@@ -215,7 +216,6 @@ function CategoryCover({ category, coverColor }: { category: string; coverColor:
 
 export default function YuuKayCeeWork() {
   const [active, setActive] = useState("All");
-  const navigate = useNavigate();
   const { mode } = useTheme();
   const theme = getIdentityTheme("yuukaycee", mode);
   const isDesktop = useIsDesktop();
@@ -319,6 +319,17 @@ export default function YuuKayCeeWork() {
             gap: "2rem",
           }}
         >
+          {filtered.length === 0 && (
+            <EmptySection
+              title="In progress"
+              body="No published work in this category. Published design work with constraints, iterations, and deliverables will appear here once ready."
+              contactPath="/design/contact"
+              fontFamily="'DM Sans', sans-serif"
+              monoFamily="'DM Sans', sans-serif"
+              accent={theme.accent}
+              muted={theme.fgMuted}
+            />
+          )}
           {filtered.map((project, i) => (
             <motion.div
               key={project.id}
@@ -326,17 +337,8 @@ export default function YuuKayCeeWork() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: i * 0.06 }}
-              onClick={() => navigate(`/project/${project.id}`)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  navigate(`/project/${project.id}`);
-                }
-              }}
-              tabIndex={0}
-              role="link"
-              aria-label={`Open ${project.title}`}
               style={{
+                position: "relative",
                 cursor: "pointer",
                 overflow: "hidden",
               }}
@@ -386,22 +388,28 @@ export default function YuuKayCeeWork() {
                   {project.subtitle}
                 </p>
               </div>
+              <Link
+                to={`/project/${project.id}`}
+                aria-label={`Open ${project.title}`}
+                style={{ position: "absolute", inset: 0, display: "block", textDecoration: "none" }}
+              >
+                <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap" }}>
+                  Open {project.title}
+                </span>
+              </Link>
             </motion.div>
           ))}
         </div>
 
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "0.85rem",
-            color: theme.fgMuted,
-            marginTop: "3rem",
-            maxWidth: "32rem",
-            lineHeight: 1.7,
-          }}
-        >
-          More selected work is being prepared. Check back soon.
-        </p>
+        <EmptySection
+          title="In progress"
+          body="Published design work with constraints, iterations, and deliverables will appear here once ready."
+          contactPath="/design/contact"
+          fontFamily="'DM Sans', sans-serif"
+          monoFamily="'DM Sans', sans-serif"
+          accent={theme.accent}
+          muted={theme.fgMuted}
+        />
       </div>
     </div>
   );

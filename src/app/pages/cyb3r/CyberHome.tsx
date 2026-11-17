@@ -1,16 +1,13 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { useNavigate, Link } from "react-router";
-import { ArrowRight, ArrowUpRight, Shield, Key } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Shield } from "lucide-react";
 import { cyberResearch, securityProjects } from "../../data/content";
 import { useIsDesktop, useIsMd, usePrefersReducedMotion } from "../../components/shared/useMediaQuery";
 import { useTheme } from "../../contexts/ThemeContext";
 import { getIdentityTheme } from "../../data/identityThemes";
+import { EmptySection } from "../../components/shared/EmptySection";
 import { severityStyle, severityWidth } from "./cyberSeverity";
-
-const researchIcons: Record<string, React.ReactNode> = {
-  "jwt-confusion": <Key size={16} strokeWidth={1.5} />,
-};
 
 function ProfileArea({
   theme,
@@ -37,11 +34,15 @@ function ProfileArea({
     >
       {/* Security researcher photograph - mobile crop served on small screens */}
       <picture style={{ display: "contents" }}>
-        <source media="(max-width: 1023px)" srcSet="/images/cyb3r-profile-mobile.png" />
+        <source media="(max-width: 1023px)" srcSet="/images/cyb3r-profile-mobile.webp" />
         <img
-          src="/images/cyb3r-profile.png"
+          src="/images/cyb3r-profile.webp"
           alt="CYB3R-BO1 security researcher portrait"
           loading="eager"
+          decoding="async"
+          fetchPriority="high"
+          width={920}
+          height={1150}
           style={{
             width: "100%",
             height: "100%",
@@ -83,14 +84,14 @@ function ProfileArea({
       {/* Identity classification - top */}
       <div style={{ position: "absolute", top: "1.25rem", left: "1.25rem" }}>
         <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.65rem", color: mode === "dark" ? theme.accent : "#34D399", letterSpacing: "0.12em", margin: 0 }}>
-          CLASS: RESEARCHER
+          FOCUS: APPSEC + AI SECURITY
         </p>
       </div>
 
       {/* Identity label - bottom */}
       <figcaption style={{ position: "absolute", bottom: "1.75rem", left: "1.75rem", right: "1.75rem" }}>
         <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.65rem", letterSpacing: "0.22em", color: mode === "dark" ? theme.accent : "#34D399", margin: "0 0 0.35rem" }}>
-          SECURITY RESEARCHER
+          SECURITY STUDENT
         </p>
         <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "1.1rem", fontWeight: 600, color: "#EAFBF3", letterSpacing: "0.05em", margin: 0 }}>
           CYB3R-BO1
@@ -185,8 +186,8 @@ export default function CyberHome() {
                 margin: "0 0 1.25rem",
               }}
             >
-              AI security and application security. Understanding systems
-              deeply enough to secure them, proven in CTF competition.
+              AI security and application security. Learning how systems
+              behave under pressure through coursework, labs, and CTF practice.
             </motion.p>
 
             <motion.p
@@ -314,6 +315,18 @@ export default function CyberHome() {
               border: `1px solid ${theme.borderSubtle}`,
             }}
           >
+            {cyberResearch.length === 0 && (
+              <EmptySection
+                title="In progress"
+                body="Research notes with methodology, evidence, and limitations will appear here once published."
+                contactPath="/security/contact"
+                contactLabel="Contact CYB3R-BO1"
+                fontFamily="'IBM Plex Sans', sans-serif"
+                monoFamily="'IBM Plex Mono', monospace"
+                accent={theme.accent}
+                muted={theme.fgMuted}
+              />
+            )}
             {cyberResearch.map((item, i) => {
               const sev = severityStyle(item.severity, mode);
               const active = activeId === item.id;
@@ -350,7 +363,7 @@ export default function CyberHome() {
                     }}
                   >
                     <span aria-hidden="true" style={{ color: theme.accent, display: "inline-flex" }}>
-                      {researchIcons[item.id] ?? <Shield size={16} strokeWidth={1.5} />}
+                      <Shield size={16} strokeWidth={1.5} />
                     </span>
                     <span
                       style={{
@@ -563,6 +576,18 @@ export default function CyberHome() {
               border: `1px solid ${theme.borderSubtle}`,
             }}
           >
+            {securityProjects.length === 0 && (
+              <EmptySection
+                title="In progress"
+                body="Security tools with source code and usage notes will appear here once published."
+                contactPath="/security/contact"
+                contactLabel="Contact CYB3R-BO1"
+                fontFamily="'IBM Plex Sans', sans-serif"
+                monoFamily="'IBM Plex Mono', monospace"
+                accent={theme.accent}
+                muted={theme.fgMuted}
+              />
+            )}
             {securityProjects.slice(0, 2).map((project, i) => {
               const active = activeId === project.id;
               return (
