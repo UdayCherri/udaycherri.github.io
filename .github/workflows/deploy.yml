@@ -1,12 +1,14 @@
 name: Deploy to GitHub Pages
 
-# Builds the Vite site and publishes it to GitHub Pages.
-# To use: push this repo to a repo named "udaycherri.github.io", then in
-# Settings → Pages set "Source" to "GitHub Actions". Every push to the default
-# branch will build and deploy automatically.
+# Verifies every pull request and every push on the supported Node lines
+# (24 and 26), then publishes the Node 26 build to GitHub Pages.
+# Pages is only written from main, either by a push or by a manual run
+# started on main.
 
 on:
   push:
+    branches: [main, master]
+  pull_request:
     branches: [main, master]
   workflow_dispatch:
 
@@ -16,41 +18,38 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   verify:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['24', '26']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node }}
           cache: npm
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run test
-      - run: npm audit --audit-level=moderate
-
-  build:
-    needs: verify
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci
+      - run: npm run audit
       - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
+      # One canonical Pages artifact: the Node 26 build, main only.
+      - name: Upload Pages artifact
+        if: matrix.node == '26' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
   deploy:
-    needs: build
+    needs: verify
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     environment:
       name: github-pages
