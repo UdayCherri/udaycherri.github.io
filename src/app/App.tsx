@@ -194,7 +194,7 @@ export default function App() {
  * Persona-specific document titles. Every tab names its page first, then
  * its identity - specific enough to tell tabs apart, plain enough to
  * stay professional. Middle dots only; no dashes of any kind.
- * Also manages robots (noindex for empty/unpublished routes) and canonicals.
+ * Also manages canonicals.
  */
 const SITE_ORIGIN = "https://udaycherri.github.io";
 
@@ -203,14 +203,6 @@ function RouteTitles() {
 
   useEffect(() => {
     document.title = titleForPath(pathname);
-
-    let robots = document.head.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
-    if (!robots) {
-      robots = document.createElement("meta");
-      robots.setAttribute("name", "robots");
-      document.head.appendChild(robots);
-    }
-    robots.setAttribute("content", isIndexablePath(pathname) ? "index, follow" : "noindex, nofollow");
 
     let canonical = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) {
@@ -229,48 +221,6 @@ const PERSONA_OF_IDENTITY: Record<string, string> = {
   spy: "Spy D. Veloper",
   cyb3r: "CYB3R-BO1",
 };
-
-/**
- * Only routes with real content are indexable. Empty sections stay reachable
- * by direct URL but ask crawlers to skip them until published work lands.
- * Mirrors src/app/data/availability.ts without importing data (titles stay
- * dependency-light for the document-head effect).
- */
-function isIndexablePath(pathname: string): boolean {
-  if (
-    pathname === "/" ||
-    pathname === "/profile" ||
-    pathname === "/contact" ||
-    pathname === "/design" ||
-    pathname === "/design/nyx-bureau" ||
-    pathname === "/design/contact" ||
-    pathname === "/development" ||
-    pathname === "/development/contact" ||
-    pathname === "/security" ||
-    pathname === "/security/blog" ||
-    pathname === "/security/contact"
-  )
-    return true;
-  if (pathname === "/work" || pathname === "/journey") return false;
-  if (
-    pathname === "/design/work" ||
-    pathname === "/design/case-studies" ||
-    pathname === "/design/archive" ||
-    pathname === "/development/projects" ||
-    pathname === "/development/systems" ||
-    pathname === "/development/experiments" ||
-    pathname === "/development/open-source" ||
-    pathname === "/development/blog" ||
-    pathname.startsWith("/development/blog/") ||
-    pathname === "/security/research" ||
-    pathname === "/security/security-projects" ||
-    pathname === "/security/ctf-archive" ||
-    pathname.startsWith("/security/blog/") ||
-    pathname.startsWith("/project/")
-  )
-    return false;
-  return true;
-}
 
 function titleForPath(pathname: string): string {
   const FALLBACK = "Uday Cherri - Portfolio";
