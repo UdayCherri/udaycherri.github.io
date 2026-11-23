@@ -18,6 +18,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { ArrivalScreen } from "./components/core/ArrivalScreen";
 import { CoreNav } from "./components/core/CoreNav";
 
+const CoreInDevelopment = lazy(() => import("./pages/core/CoreInDevelopment"));
 const CoreHome = lazy(() => import("./pages/core/CoreHome"));
 const CoreJourney = lazy(() => import("./pages/core/CoreJourney"));
 const CoreWork = lazy(() => import("./pages/core/CoreWork"));
@@ -127,7 +128,10 @@ function AppRoutes() {
     <Routes>
       {/* Core - all wrapped in CoreLayout for ThemeContext */}
       <Route element={<CoreLayout />}>
-        <Route path="/" element={<CoreWrapper />} />
+        {/* Public root is the in-development page. The full homepage is
+            preserved at /home for preview. Swap these two routes to launch. */}
+        <Route path="/" element={<CoreInDevelopment />} />
+        <Route path="/home" element={<CoreWrapper />} />
         <Route path="/journey" element={<CoreJourney />} />
         <Route path="/work" element={<CoreWork />} />
         <Route path="/profile" element={<CoreProfile />} />
@@ -225,7 +229,8 @@ const PERSONA_OF_IDENTITY: Record<string, string> = {
 function titleForPath(pathname: string): string {
   const FALLBACK = "Uday Cherri - Portfolio";
 
-  if (pathname === "/") return FALLBACK;
+  if (pathname === "/") return "Uday Cherri - Portfolio in development";
+  if (pathname === "/home") return "Uday Cherri - Portfolio";
   if (pathname === "/journey") return "Journey - Uday Cherri";
   if (pathname === "/work") return "Work - Uday Cherri";
   if (pathname === "/profile") return "Profile - Uday Cherri";
